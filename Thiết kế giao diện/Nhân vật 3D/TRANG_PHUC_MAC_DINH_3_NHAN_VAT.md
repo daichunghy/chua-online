@@ -9,11 +9,11 @@ không dùng hằng số gõ tay. Kiểm chứng bằng render mặt trước v�
 | Hạng mục | Công thức |
 |---|---|
 | Nón — bán kính vành | R = 0,126 × H (đường kính vành = 0,252 × H ≈ tỉ lệ nón thật 41,6 cm / người 1,65 m) |
-| Nón — cao vành (rim) | z = zmin + 0,895 × H, tâm nón tại x/y của xương Head |
-| Nón — chiều sâu chóp | 0,105 × H |
+| Nón — cao vành (rim) | z = zmin + 0,895 × H (nữ, bản v1) / zmin + 0,885 × H (nam + trẻ em, bản v2); tâm nón: x/y của xương Head (v1) / centroid dải đầu đo từ posed mesh (v2) |
+| Nón — chiều sâu chóp | 0,105 × H (v1) / 0,125 × H (v2); bán kính đỉnh chóp: 0,012 (v1, đỉnh nhọn) / 0,055 × H (v2, chóp cụt — tóc nam xuyên đỉnh nhọn, xem mục 2) |
 | Túi — tâm thân túi | x = bề_rộng_hông/2 + 0,055 × H (ngoài hông trái), z = zmin + 0,47 × H |
 | Túi — kích thước | 0,155 H × 0,05 H × 0,165 H |
-| Quai đeo | Từ miệng túi lên vai ĐỐI DIỆN (xương upper arm phía ngược), chạy sát mặt trước thân; mặt trước thân (FRONT_Y) đo ở pose **Đứng** — KHÔNG đo ở pose Chắp tay vì hai tay chắp chắn trước ngực làm sai số đo |
+| Quai đeo | Từ miệng túi lên vai ĐỐI DIỆN (xương upper arm phía ngược), chạy sát mặt trước thân; mặt trước thân (FRONT_Y) đo ở pose **Đứng** — KHÔNG đo ở pose Chắp tay vì hai tay chắp chắn trước ngực làm sai số đo. Bản v2 (nam + trẻ em): quai 3 đoạn ôm bề mặt thân (mẫu bề mặt lấy ở pose Đứng theo từng độ cao) vì quai thẳng 1 đoạn bị chìm vào bụng/ngực model nam |
 | Màu model | Model không có material/UV — màu nằm ở vertex color tên `Color`; phải tạo material Vertex Color → Principled Base Color mới render đúng màu |
 
 ---
@@ -55,53 +55,77 @@ không dùng hằng số gõ tay. Kiểm chứng bằng render mặt trước v�
 
 ---
 
-## 2. ĐÀN ÔNG — ⛔ CHƯA LÀM ĐƯỢC: THIẾU FILE MODEL THẬT
+## 2. ĐÀN ÔNG — ✅ ĐÃ XONG, ĐẠT (2026-11-05, sau khi Logan tải file lên)
 
-### Đã thử tải (2026-11-05) — đều bị chặn bởi giới hạn connector GitHub
+- **Model nguồn:** file Logan tải lên `~/workspace/user/files/nam-chuyen-dong.glb` (4.356.216 byte — trùng kích thước với bản `Chuyển động/nam-chuyen-dong.glb` trên repo).
+- **Cấu trúc (kiểm kê):** 1 skinned mesh `geometry_0` (71.464 đỉnh), armature `world`, 15 xương cùng tên như bản nữ, **đủ 8 action, không khác biệt**: Chắp tay, Di bo, Dung, Quỳ, Thắp nhang, Vái, Lên cầu thang, Xuống cầu thang (hậu tố `_world`). Có 1 mesh thừa `Icosphere` (42 đỉnh) giống file nữ — đã loại khi fit. Không material/UV, màu ở vertex color `Color`.
+- **Script:** `fit_nam.py` (cùng thư mục). Render kiểm chứng bằng Cycles 32 mẫu, 960×540 (Eevee không dùng được trên máy này — thiếu libEGL).
 
-Connector GitHub MCP chỉ trả nội dung file ≤ ~1 MB; file lớn hơn chỉ trả "too large to display" + URL tải có token bị che (không dùng được). Đã thử cả đường vòng theo blob SHA — API yêu cầu SHA của commit/tree, không nhận blob SHA. Kết quả:
+### Số đo (pose Chắp tay, frame 15)
 
-| File trên repo | Dung lượng | Kết quả |
-|---|---|---|
-| `Thiết kế giao diện/Nhân vật 3D/Hunyuan3D/nam-chua-co-mau.glb` | 2.573.924 byte (SHA 74df75a0bdd6a825b78d247e47c81f34cab10bcc) | ❌ Quá giới hạn |
-| `Thiết kế giao diện/Nhân vật 3D/Chuyển động/nam-chuyen-dong.glb` | 4.356.216 byte (SHA 674144fe2b47240fe80b2197378bad65c07c4bc7) | ❌ Quá giới hạn |
+| Số đo | Giá trị |
+|---|---|
+| Chiều cao posed H (z −1,020 … 0,966) | 1,985 |
+| Bề rộng đầu (dải z trên cùng 16% H) | 0,252 |
+| Bề rộng hông (dải z = zmin + 0,52 H) | 0,460 |
+| Centroid dải đầu (tâm nón) | (0,001; −0,008) |
+| Vai trái / phải (xương upper arm, world) | (0,22; 0,03; 0,51) / (−0,22; 0,03; 0,51) |
+| Xương Head (world) | head (0,0; 0,02; 0,64), tail (0,0; 0,01; 1,04) |
+| Mặt trước thân FRONT_Y (đo ở pose Đứng) | −0,132 |
 
-### File cần Logan tải lên (đúng 1 file)
+### Hằng số fit đã áp (công thức v2, suy từ số đo trên)
 
-> **`Thiết kế giao diện/Nhân vật 3D/Chuyển động/nam-chuyen-dong.glb`** — 4.356.216 byte (~4,16 MB)
->
-> Đây là bản có chuyển động cùng dòng với file nữ Logan đã cấp (đã kiểm chứng: file nữ tải lên trùng kích thước với `nu-chuyen-dong.glb` trên repo). Bản Hunyuan3D tĩnh (`nam-chua-co-mau.glb`, 2.573.924 byte) chỉ cần khi bản chuyển động có vấn đề — phương pháp fit cần armature + action Chắp tay/Đứng để đo, nên ưu tiên bản Chuyển động.
+| Hạng mục | Giá trị |
+|---|---|
+| Nón: R vành / Ø vành | 0,250 / 0,500 |
+| Nón: rim_z / sâu chóp / bán kính đỉnh | 0,737 / 0,248 / 0,109 |
+| Túi: tâm (x, z) | (0,34; −0,09) |
+| Túi: kích thước | 0,308 × 0,099 × 0,327 |
+| Quai | 3 đoạn ôm bề mặt thân: (0,32; −0,10; 0,08) → vai phải (−0,21; −0,13; 0,50) |
 
-### KHÔNG dùng model thay thế
+### Kiểm chứng bằng render — `fit-nam.png`
 
-Các file `nam-di-chua.glb` (233 KB) trong Thư mục Nhân vật 3D là model khối hộp lắp ghép — Logan đã xác nhận "model đâu phải này đâu". Số đo của chúng (cao 1,76; đầu 0,29; vai 0,56) KHÔNG áp được cho model thật, nên không fit thay thế.
-
-### Việc sẽ làm ngay khi có file (đo giống hệt quy trình nữ)
-
-1. Kiểm kê: tên mesh chính, armature, danh sách xương, danh sách action (kỳ vọng cùng khung 15 xương / 8 action như bản nữ).
-2. Đo ở pose Đứng: FRONT_Y (mặt trước thân tại 0,78 H, dải |x| < 0,16 H).
-3. Đo ở pose Chắp tay (frame giữa): H (zmin…zmax), bề rộng đầu (16% H trên cùng), bề rộng hông (zmin + 0,52 H), vị trí world của xương Head và 2 xương upper arm.
-4. Áp công thức fit ở bảng đầu tài liệu → render kiểm chứng `fit-nam.png` → soi 4 tiêu chí: nón ngồi đúng đầu/tỉ lệ; quai chéo sát thân lên vai đối diện; túi ở hông không lơ lửng/không chìm; màu đúng qua vertex color. Sai tiêu chí nào thì sửa và render lại.
+- ✅ Nón ngồi trên đầu, vành ngang trán trên tai, phủ hết tóc (đã phóng to soi vùng đầu)
+- ✅ Quai chạy chéo qua thân lên vai đối diện, nằm trên bề mặt thân
+- ✅ Túi ở hông trái, không lơ lửng, không chìm
+- ✅ Màu render đúng: áo tràng nâu, quần nâu sẫm, da ấm (vertex color)
+- 🔧 Quá trình sửa (3 vòng render): vòng 1 quai thẳng bị **chìm vào bụng/ngực** → đổi quai 3 đoạn ôm bề mặt; tóc **xuyên đỉnh nón nhọn** (đo bằng script: 24 đỉnh, lệch tối đa +7 mm ở chỏm tóc trán z≈0,914) và búi tóc lòi trên chóp → tâm nón theo centroid dải đầu, rim hạ 0,885 H, chóp sâu 0,125 H, đỉnh cụt 0,055 H → đạt
 
 ---
 
-## 3. TRẺ EM — ⛔ CHƯA LÀM ĐƯỢC: THIẾU FILE MODEL THẬT
+## 3. TRẺ EM — ✅ ĐÃ XONG, ĐẠT (2026-11-05, sau khi Logan tải file lên)
 
-### Đã thử tải (2026-11-05) — cùng giới hạn như trên
+- **Model nguồn:** file Logan tải lên `~/workspace/user/files/tre-em-chuyen-dong.glb` (4.365.804 byte — trùng kích thước với bản `Chuyển động/tre-em-chuyen-dong.glb` trên repo).
+- **Cấu trúc (kiểm kê):** 1 skinned mesh `geometry_0` (71.617 đỉnh), armature `world`, 15 xương cùng tên, **đủ 8 action, không khác biệt** so với bản nữ/nam. Có mesh thừa `Icosphere` — đã loại khi fit. Màu ở vertex color `Color`.
+- **Script:** `fit_tre_em.py`. Render Cycles 32 mẫu, 960×540. Áp ngay công thức v2 đã sửa ở nhân vật nam — đạt từ vòng render đầu tiên.
 
-| File trên repo | Dung lượng | Kết quả |
-|---|---|---|
-| `Thiết kế giao diện/Nhân vật 3D/Hunyuan3D/tre-em-chua-co-mau.glb` | 2.579.764 byte | ❌ Quá giới hạn |
-| `Thiết kế giao diện/Nhân vật 3D/Chuyển động/tre-em-chuyen-dong.glb` | 4.365.804 byte (SHA 968219ff28ff123d361cf6c02ad403de13f48564) | ❌ Quá giới hạn |
+### Số đo (pose Chắp tay, frame 15)
 
-### File cần Logan tải lên (đúng 1 file)
+| Số đo | Giá trị |
+|---|---|
+| Chiều cao posed H (z −1,019 … 0,965) | 1,984 |
+| Bề rộng đầu (dải z trên cùng 16% H) | 0,300 (lớn hơn hẳn người lớn — đúng tỉ lệ trẻ em) |
+| Bề rộng hông (dải z = zmin + 0,52 H) | 0,460 |
+| Vai trái / phải (xương upper arm, world) | (0,19; 0,03; 0,43) / (−0,19; 0,03; 0,43) |
+| Xương Head (world) | head (0,0; 0,02; 0,56), tail (0,0; 0,01; 0,87) |
+| Mặt trước thân FRONT_Y (đo ở pose Đứng) | −0,104 |
 
-> **`Thiết kế giao diện/Nhân vật 3D/Chuyển động/tre-em-chuyen-dong.glb`** — 4.365.804 byte (~4,16 MB)
->
-> (Dự phòng: `Thiết kế giao diện/Nhân vật 3D/Hunyuan3D/tre-em-chua-co-mau.glb` — 2.579.764 byte.)
+### Hằng số fit đã áp (công thức v2)
 
-Không dùng `tre-em-di-chua.glb` (234 KB, model khối hộp) thay thế — cùng lý do như nhân vật nam.
-Quy trình đo + fit + render kiểm chứng `fit-tre-em.png` giống hệt mục 2 sau khi có file. Lưu ý riêng cho trẻ em: tỉ lệ đầu/thân lớn hơn người lớn, nên bề rộng đầu và vị trí rim nón PHẢI đo từ mesh của chính model trẻ em — công thức theo H tự co giãn theo tỉ lệ đó, không mượn hằng số của người lớn.
+| Hạng mục | Giá trị |
+|---|---|
+| Nón: R vành / Ø vành | 0,250 / 0,500 |
+| Nón: rim_z / sâu chóp / bán kính đỉnh | 0,737 / 0,248 / 0,109 |
+| Túi: tâm (x, z) | (0,34; −0,09) |
+| Túi: kích thước | 0,308 × 0,099 × 0,327 |
+| Quai | 3 đoạn ôm bề mặt thân: (0,32; −0,07; 0,08) → vai phải (−0,18; −0,10; 0,42) |
+
+### Kiểm chứng bằng render — `fit-tre-em.png`
+
+- ✅ Nón ngồi trên đầu, không tóc xuyên nón (đã phóng to soi); tóc mai xõa dưới vành là tóc thật của model, tự nhiên
+- ✅ Quai chạy chéo qua thân lên vai đối diện, nằm trên bề mặt thân
+- ✅ Túi ở hông trái, treo bằng quai đúng vị trí hông (áo trẻ em suông thẳng nên túi có khe hở nhỏ với đùi — chấp nhận được, không lơ lửng/không chìm)
+- ✅ Màu render đúng: áo lam xám–tím nhạt, da ấm (vertex color)
 
 ---
 
@@ -110,7 +134,7 @@ Quy trình đo + fit + render kiểm chứng `fit-tre-em.png` giống hệt mụ
 | Nhân vật | Trạng thái | Render kiểm chứng |
 |---|---|---|
 | Phụ nữ | ✅ Đạt (1 ghi chú thẩm mỹ nhỏ về búi tóc) | `fit_real_nu4.png` + JPG trên repo |
-| Đàn ông | ⛔ Chờ Logan tải lên `nam-chuyen-dong.glb` (4.356.216 byte) | — |
-| Trẻ em | ⛔ Chờ Logan tải lên `tre-em-chuyen-dong.glb` (4.365.804 byte) | — |
+| Đàn ông | ✅ Đạt (sau 3 vòng sửa: quai ôm bề mặt + nón chóp cụt) | `fit-nam.png` |
+| Trẻ em | ✅ Đạt (áp công thức v2, đạt ngay vòng đầu) | `fit-tre-em.png` |
 
-Chặn duy nhất: connector GitHub không tải được file > ~1 MB. Chỉ cần Logan tải lên 2 file trên (như đã làm với file nữ) là fit + render kiểm chứng cho cả hai nhân vật còn lại làm được ngay bằng đúng quy trình đã đạt ở nhân vật nữ.
+Cả 3 nhân vật đã fit xong trang phục mặc định trên đúng model thật của từng nhân vật, mọi hằng số đều suy từ số đo posed mesh của chính model đó. Script: `fit_real.py` (nữ), `fit_nam.py`, `fit_tre_em.py`.
