@@ -4,6 +4,43 @@
 
 ---
 
+## 📸 Thư Viện Hình Ảnh Mô Hình 3D (Gallery)
+
+### 🏛️ Không Gian Kiến Trúc Chùa Vĩnh Tràng
+<p align="center">
+  <img src="./Mô%20hình%203D%20Vĩnh%20Tràng/render_vinh_trang_facade.png" width="49%" alt="Mặt tiền Chùa Vĩnh Tràng" />
+  <img src="./Mô%20hình%203D%20Vĩnh%20Tràng/render_vinh_trang_altar.png" width="49%" alt="Nội điện Tam Bảo" />
+</p>
+<p align="center">
+  <img src="./Mô%20hình%203D%20Vĩnh%20Tràng/Bản%20dựng%20mới/khuon-vien-chanh-dien-moi.png" width="49%" alt="Khuôn viên chánh điện mới" />
+  <img src="./Mô%20hình%203D%20Vĩnh%20Tràng/Bản%20dựng%20mới/chanh-dien-cua-vom.png" width="49%" alt="Chi tiết cửa vòm La Mã" />
+</p>
+
+### 🧘 Hệ Thống Nhân Vật Phật Tử 3D & Hoạt Ảnh
+<p align="center">
+  <img src="./Thiết%20kế%20giao%20diện/Nhân%20vật%203D/anh-xem-truoc-3d-all.png" width="49%" alt="Ba nhân vật Phật tử" />
+  <img src="./Thiết%20kế%20giao%20diện/Nhân%20vật%203D/Chuyển%20động/render-nu-that-doi-non-front.png" width="49%" alt="Nữ Phật tử đội nón lá" />
+</p>
+<p align="center">
+  <img src="./Thiết%20kế%20giao%20diện/Nhân%20vật%203D/Chuyển%20động/render-nu-deo-tui-chap-tay.png" width="49%" alt="Chắp tay niệm Phật" />
+  <img src="./Thiết%20kế%20giao%20diện/Nhân%20vật%203D/Chuyển%20động/san-chua-xem-truoc.png" width="49%" alt="Thiền hành sân chùa" />
+</p>
+
+### 🪷 Vật Phẩm 3D & Chuẩn Xuất Coohom
+<p align="center">
+  <img src="./Thiết%20kế%20giao%20diện/Vật%20phẩm%203D/render-ao-trang-mannequin.png" width="32%" alt="Áo tràng Phật tử" />
+  <img src="./Thiết%20kế%20giao%20diện/Vật%20phẩm%203D/render-tui-vai-theu-sen-34.png" width="32%" alt="Túi vải thêu hoa sen" />
+  <img src="./Thiết%20kế%20giao%20diện/Vật%20phẩm%203D/blender-render-non-la.png" width="32%" alt="Nón lá thêu sen PBR" />
+</p>
+
+### 📖 Giảng Đường Phật Pháp 3D
+<p align="center">
+  <img src="./Thiết%20kế%20giao%20diện/Giảng%20đường%203D/giang-duong-phat-phap.png" width="49%" alt="Không gian giảng đường Phật pháp" />
+  <img src="./Thiết%20kế%20giao%20diện/Giảng%20đường%203D/giang-duong-co-canh-quan.png" width="49%" alt="Cảnh quan ngoài giảng đường" />
+</p>
+
+---
+
 ## 🏛️ Tổng Quan Dự Án
 
 Dự án **Chùa Online** được xây dựng nhằm mang lại trải nghiệm chiêm bái, tu học và tiếp cận giáo lý Phật giáo một cách trực quan, khoa học và chánh niệm trên nền tảng kỹ thuật số:
