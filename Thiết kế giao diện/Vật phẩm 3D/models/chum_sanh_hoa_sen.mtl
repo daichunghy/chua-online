@@ -1,0 +1,25 @@
+# Coohom & WebGL Material Library for chum_sanh_hoa_sen
+newmtl GomSanhDatNung
+Kd 0.5800 0.3200 0.2200
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 25
+d 1.0
+illum 2
+
+newmtl MatNuocXanhLam
+Kd 0.2800 0.5500 0.6500
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 90
+d 1.0
+illum 2
+
+newmtl HoaSenNoiHong
+Kd 0.9500 0.5200 0.6500
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 60
+d 1.0
+illum 2
+

@@ -1,0 +1,17 @@
+# Coohom & WebGL Material Library for bo_doan_tron
+newmtl VaiBoNauSong
+Kd 0.4200 0.3000 0.2400
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 9
+d 1.0
+illum 2
+
+newmtl GanChiBaoViền
+Kd 0.3200 0.2200 0.1800
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 5
+d 1.0
+illum 2
+

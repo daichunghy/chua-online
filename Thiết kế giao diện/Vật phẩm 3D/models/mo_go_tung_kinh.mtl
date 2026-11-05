@@ -1,0 +1,41 @@
+# Coohom & WebGL Material Library for mo_go_tung_kinh
+newmtl GoCanhGian
+Kd 0.5200 0.2700 0.1700
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 65
+d 1.0
+illum 2
+
+newmtl KheMiengMo
+Kd 0.1800 0.1000 0.0600
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 9
+d 1.0
+illum 2
+
+newmtl GoiDemGamVang
+Kd 0.8500 0.6500 0.2000
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 30
+d 1.0
+illum 2
+
+newmtl CanGoDui
+Kd 0.6000 0.4000 0.2500
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 50
+d 1.0
+illum 2
+
+newmtl DauBocVaiNi
+Kd 0.7000 0.1500 0.1500
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 9
+d 1.0
+illum 2
+

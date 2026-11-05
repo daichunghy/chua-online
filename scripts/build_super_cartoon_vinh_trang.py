@@ -1,0 +1,2037 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Script xây dựng hoàn chỉnh không gian Chùa Vĩnh Tràng 3D CARTOON / CHIBI:
+- Nghệ thuật: Cartoon Stylized, rực rỡ, ấm cúng, thân thiện, vô cùng dễ thương (Chibi).
+- Kim Thân Đức Phật: Tượng Phật Thích Ca Chibi dát vàng 24K, nụ cười từ bi, nhục kế Ushnisha, tai dài phúc hậu, ấn thiền định trên đài sen nhiều cánh hồng tươi.
+- 18 Vị Thập Bát La Hán Chibi: Mỗi tượng to rõ, vàng óng, mặt cười má hồng, cưỡi 18 linh thú hoạt hình siêu ngộ nghĩnh (voi con tai to, hổ béo tròn sọc vằn, rồng ngọc uốn lượn, hươu sao đốm xinh, sư tử bông, túi vải may mắn...).
+- Hai Khám Bồ Tát Chibi: Bồ Tát Quán Thế Âm Chuẩn Đề nghìn mắt nghìn tay & Bồ Tát Địa Tạng Vương tích trượng vàng.
+- Avatars Chibi: Phật tử và chú tiểu đầu to má hồng mắt cười, hai tay chắp búp sen, lắc lư theo nhịp mõ tụng kinh.
+- Tương tác: Lạy Phật gập mình chắp tay tỏa hào quang hoa sen, tràng hạt 108 biến, thả đèn nguyện trôi bồng bềnh, camera góc nhìn linh hoạt (Toàn cảnh, Kim thân Phật, Dãy La Hán Tả, Dãy La Hán Hữu, Sân chùa).
+- Chuyển đổi mua hàng: Thả Đèn Nguyện 20k/50k/100k, Thỉnh Tượng Gỗ Mini Chibi, Vòng Trầm Hương, Chuỗi Bồ Đề 108 hạt.
+- Quy chuẩn: Font Calibri 100%, bố cục tinh gọn, không nhãn phụ rườm rà.
+"""
+
+import os
+
+html_code = """<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Chùa Vĩnh Tràng 3D Cartoon — Không Gian Chiêm Bái & Tu Tập Chibi</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Calibri, 'Segoe UI', -apple-system, sans-serif;
+      font-size: 11pt;
+      line-height: 1.5;
+      background: #240c06;
+      color: #fff8f0;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      user-select: none;
+    }
+    #canvas-container {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+    #three-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* 3D FLOATING NAMETAGS OVERLAY */
+    #nametags-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 8;
+      overflow: hidden;
+    }
+    .nametag {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+    .nametag-badge {
+      background: rgba(48, 18, 9, 0.9);
+      border: 2px solid #ffb703;
+      border-radius: 16px;
+      padding: 3px 12px;
+      font-size: 9.5pt;
+      font-weight: bold;
+      color: #ffe699;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nametag-level {
+      background: #e63946;
+      color: #ffffff;
+      font-size: 8pt;
+      font-weight: bold;
+      padding: 1px 7px;
+      border-radius: 10px;
+    }
+    .nametag.is-user .nametag-badge {
+      background: linear-gradient(135deg, #d90429, #9d0208);
+      border: 2.5px solid #ffe066;
+      color: #ffffff;
+      font-size: 10.5pt;
+      padding: 4px 14px;
+      box-shadow: 0 0 22px rgba(255, 224, 102, 0.9);
+    }
+    .nametag-pointer {
+      width: 0;
+      height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 9px solid #ffe066;
+      animation: bouncePointer 1.2s ease-in-out infinite alternate;
+    }
+    @keyframes bouncePointer {
+      from { transform: translateY(0); }
+      to { transform: translateY(-6px); }
+    }
+
+    /* FLOATING POPUP BLESSING TEXT */
+    .floating-blessing {
+      position: absolute;
+      color: #ffd166;
+      font-weight: bold;
+      font-size: 15pt;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.85), 0 0 14px #ffb703;
+      pointer-events: none;
+      animation: floatUpFade 1.6s ease-out forwards;
+      z-index: 25;
+      white-space: nowrap;
+    }
+    @keyframes floatUpFade {
+      0% { opacity: 0; transform: translate(-50%, 0) scale(0.6); }
+      20% { opacity: 1; transform: translate(-50%, -20px) scale(1.15); }
+      80% { opacity: 1; transform: translate(-50%, -60px) scale(1.0); }
+      100% { opacity: 0; transform: translate(-50%, -90px) scale(0.9); }
+    }
+
+    /* TOP BAR */
+    header {
+      position: absolute;
+      top: 14px;
+      left: 18px;
+      right: 18px;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      pointer-events: none;
+    }
+    .user-profile-badge {
+      pointer-events: auto;
+      background: rgba(48, 18, 9, 0.94);
+      backdrop-filter: blur(14px);
+      border: 2px solid #ffcc44;
+      border-radius: 18px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    }
+    .avatar-circle {
+      width: 46px;
+      height: 46px;
+      background: radial-gradient(circle, #ffea79, #f48c06);
+      border: 2.5px solid #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22pt;
+      box-shadow: 0 0 16px rgba(255, 204, 68, 0.85);
+      animation: gentleRotate 9s linear infinite;
+    }
+    @keyframes gentleRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .profile-info h1 {
+      font-size: 13.5pt;
+      font-weight: bold;
+      color: #ffe699;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .level-tag {
+      background: #d62828;
+      color: #ffffff;
+      font-size: 9pt;
+      font-weight: bold;
+      padding: 2px 8px;
+      border-radius: 12px;
+      border: 1px solid #ff7b00;
+    }
+    .temple-location {
+      font-size: 10.5pt;
+      color: #ffeedb;
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .online-count {
+      color: #55ff99;
+      font-size: 10pt;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .online-dot {
+      width: 8px;
+      height: 8px;
+      background: #55ff99;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #55ff99;
+      animation: pulseDot 1.4s ease-in-out infinite;
+    }
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.6; }
+    }
+
+    /* CAMERA QUICK NAVIGATION (VIEW SELECTOR) */
+    .view-selector {
+      pointer-events: auto;
+      display: flex;
+      gap: 6px;
+      background: rgba(38, 14, 7, 0.9);
+      backdrop-filter: blur(12px);
+      padding: 5px 8px;
+      border: 1.5px solid #ffb703;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    .view-btn {
+      background: transparent;
+      border: none;
+      color: #ffe8d6;
+      font-family: Calibri, sans-serif;
+      font-size: 9.5pt;
+      font-weight: bold;
+      padding: 5px 11px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .view-btn:hover {
+      background: rgba(255, 209, 102, 0.2);
+      color: #ffd166;
+    }
+    .view-btn.active {
+      background: linear-gradient(135deg, #e63946, #c1121f);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(230, 57, 70, 0.5);
+    }
+
+    /* TOP RIGHT BUTTONS */
+    .top-right-group {
+      pointer-events: auto;
+      display: flex;
+      gap: 8px;
+    }
+    .btn-nav-top {
+      background: rgba(48, 18, 9, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1.5px solid #ffb703;
+      color: #fff3db;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-family: Calibri, sans-serif;
+      font-size: 11pt;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+    .btn-nav-top:hover {
+      background: #8b2b10;
+      transform: translateY(-2px);
+      color: #fff;
+    }
+
+    /* RIGHT SIDEBAR: ĐÈN NGUYỆN */
+    .prayer-lamp-sidebar {
+      position: absolute;
+      top: 76px;
+      right: 18px;
+      width: 315px;
+      max-height: calc(100vh - 180px);
+      background: rgba(42, 15, 7, 0.96);
+      backdrop-filter: blur(18px);
+      border: 2px solid #ffb703;
+      border-radius: 20px;
+      z-index: 12;
+      display: flex;
+      flex-direction: column;
+      box-shadow: -6px 10px 35px rgba(0,0,0,0.7);
+      transition: transform 0.3s ease;
+    }
+    .prayer-header {
+      padding: 12px 18px;
+      border-bottom: 1.5px solid rgba(255, 183, 3, 0.35);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .prayer-title {
+      font-size: 12.5pt;
+      font-weight: bold;
+      color: #ffd166;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .prayer-tabs {
+      display: flex;
+      gap: 4px;
+      background: rgba(20, 8, 4, 0.7);
+      padding: 3px;
+      border-radius: 14px;
+      font-size: 9pt;
+    }
+    .prayer-tab {
+      padding: 4px 10px;
+      border-radius: 12px;
+      color: #dfcdbd;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .prayer-tab.active {
+      background: #d62828;
+      color: #fff;
+    }
+    .prayer-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 330px;
+    }
+    .prayer-card {
+      background: rgba(74, 28, 14, 0.82);
+      border: 1px solid rgba(255, 183, 3, 0.35);
+      border-radius: 12px;
+      padding: 10px 14px;
+      transition: all 0.2s;
+    }
+    .prayer-card:hover {
+      border-color: #ffd166;
+      transform: translateX(-2px);
+    }
+    .prayer-text {
+      font-size: 10.5pt;
+      color: #fff6eb;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+    .prayer-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 9pt;
+      color: #f0caa3;
+    }
+    .prayer-user {
+      color: #ffd166;
+      font-weight: bold;
+    }
+    .prayer-bottom-action {
+      padding: 14px 18px;
+      border-top: 1.5px solid rgba(255, 183, 3, 0.35);
+      background: rgba(26, 9, 4, 0.96);
+      border-radius: 0 0 20px 20px;
+    }
+    .btn-release-lamp {
+      width: 100%;
+      background: linear-gradient(135deg, #ffb703, #fb8500);
+      border: 1.5px solid #fff;
+      color: #2b1100;
+      font-family: Calibri, sans-serif;
+      font-size: 12pt;
+      font-weight: bold;
+      padding: 11px;
+      border-radius: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 20px rgba(251, 133, 0, 0.6);
+      transition: all 0.2s;
+    }
+    .btn-release-lamp:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 25px rgba(251, 133, 0, 0.85);
+    }
+
+    /* BOTTOM RIGHT RITUAL TOOLBAR */
+    .ritual-toolbar {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      z-index: 12;
+      display: flex;
+      gap: 10px;
+    }
+    .ritual-btn {
+      background: rgba(48, 18, 9, 0.94);
+      backdrop-filter: blur(14px);
+      border: 2px solid #ffb703;
+      border-radius: 20px;
+      color: #fff8eb;
+      padding: 9px 15px;
+      font-family: Calibri, sans-serif;
+      font-size: 11pt;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      min-width: 72px;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.6);
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .ritual-btn .r-icon {
+      font-size: 20pt;
+      transition: transform 0.2s;
+    }
+    .ritual-btn:hover {
+      background: #8b2b10;
+      border-color: #ffe699;
+      transform: translateY(-4px) scale(1.05);
+      color: #fff;
+    }
+    .ritual-btn:hover .r-icon {
+      transform: scale(1.2);
+    }
+    .ritual-btn:active {
+      transform: translateY(1px) scale(0.96);
+    }
+    .ritual-btn.highlight {
+      background: linear-gradient(135deg, #e63946, #c1121f);
+      border-color: #ff99c8;
+      box-shadow: 0 6px 25px rgba(230, 57, 70, 0.6);
+    }
+    .ritual-btn.highlight:hover {
+      background: #f72585;
+      box-shadow: 0 8px 30px rgba(247, 37, 133, 0.8);
+    }
+
+    /* BOTTOM LEFT MENU BAR */
+    .bottom-menu {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      z-index: 12;
+      background: rgba(42, 15, 7, 0.92);
+      backdrop-filter: blur(14px);
+      border: 1.5px solid #ffb703;
+      border-radius: 20px;
+      padding: 6px 14px;
+      display: flex;
+      gap: 12px;
+    }
+    .menu-item {
+      color: #ffeedb;
+      font-size: 10pt;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 12px;
+      transition: all 0.2s;
+    }
+    .menu-item:hover {
+      color: #ffe066;
+      background: rgba(255,255,255,0.12);
+      transform: translateY(-2px);
+    }
+
+    /* MODAL SYSTEM */
+    .modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.78);
+      backdrop-filter: blur(12px);
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .modal-box {
+      background: linear-gradient(145deg, #38150a, #200b05);
+      border: 2.5px solid #ffb703;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 500px;
+      padding: 26px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.85);
+      position: relative;
+    }
+    .modal-title {
+      font-size: 16pt;
+      font-weight: bold;
+      color: #ffd166;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+    .modal-desc {
+      font-size: 11pt;
+      color: #ffeedb;
+      margin-bottom: 18px;
+      text-align: center;
+      line-height: 1.5;
+    }
+    .form-group {
+      margin-bottom: 14px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 10.5pt;
+      font-weight: bold;
+      color: #ffd8a8;
+      margin-bottom: 5px;
+    }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      background: #170703;
+      border: 1.5px solid #8c4a28;
+      border-radius: 12px;
+      padding: 10px 14px;
+      color: #fff;
+      font-family: Calibri, sans-serif;
+      font-size: 11.5pt;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      outline: none;
+      border-color: #ffd166;
+      box-shadow: 0 0 12px rgba(255, 209, 102, 0.4);
+    }
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #ffb703, #fb8500);
+      border: 1.5px solid #fff;
+      color: #2b1100;
+      font-family: Calibri, sans-serif;
+      font-size: 12.5pt;
+      font-weight: bold;
+      padding: 12px;
+      border-radius: 14px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 18px rgba(251, 133, 0, 0.5);
+    }
+    .btn-submit:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 24px rgba(251, 133, 0, 0.8);
+    }
+
+    /* TOAST */
+    .toast-msg {
+      position: absolute;
+      top: 90px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: linear-gradient(135deg, #d62828, #9d0208);
+      border: 2px solid #ffd166;
+      color: #ffffff;
+      padding: 11px 28px;
+      border-radius: 30px;
+      font-size: 11.5pt;
+      font-weight: bold;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.7);
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .toast-msg.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 3D Canvas -->
+  <div id="canvas-container">
+    <canvas id="three-canvas"></canvas>
+  </div>
+
+  <!-- 3D Nametags Overlay -->
+  <div id="nametags-container"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="user-profile-badge">
+      <div class="avatar-circle">☸</div>
+      <div class="profile-info">
+        <h1>
+          <span>Tự Phong Hiếu Hạnh</span>
+          <span class="level-tag">Đồng Tu · Cấp 4</span>
+        </h1>
+        <div class="temple-location">
+          <span>🏛 Chùa Vĩnh Tràng 3D</span>
+          <div class="online-count">
+            <span class="online-dot"></span>
+            <span>28 đang tu tập</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center Camera Quick View Switcher -->
+    <div class="view-selector">
+      <button class="view-btn active" id="view-altar">🏛 Toàn Cảnh</button>
+      <button class="view-btn" id="view-buddha">🙏 Kim Thân Phật</button>
+      <button class="view-btn" id="view-left-arhats">🐅 Vách Tả La Hán</button>
+      <button class="view-btn" id="view-right-arhats">🐉 Vách Hữu La Hán</button>
+      <button class="view-btn" id="view-yard">🌳 Ra Sân Chùa</button>
+    </div>
+
+    <!-- Top Right Group -->
+    <div class="top-right-group">
+      <button class="btn-nav-top" id="btn-audio-toggle">🔔 Chuông Mõ: Bật</button>
+      <button class="btn-nav-top" id="btn-open-so" style="background:#b7094c; border-color:#ff758f;">📜 Sớ Cầu An</button>
+    </div>
+  </header>
+
+  <!-- Right Sidebar: Đèn Nguyện -->
+  <aside class="prayer-lamp-sidebar" id="prayer-sidebar">
+    <div class="prayer-header">
+      <div class="prayer-title">
+        <span>🏮 Đèn Nguyện</span>
+        <span style="font-size:10pt; color:#ffd166; font-weight:normal;">(32 ngọn đèn)</span>
+      </div>
+      <div class="prayer-tabs">
+        <span class="prayer-tab active">Chùa này</span>
+        <span class="prayer-tab">Tất cả</span>
+      </div>
+    </div>
+
+    <div class="prayer-list" id="prayer-list">
+      <div class="prayer-card">
+        <div class="prayer-text">"Nguyện cho Gia đình luôn luôn bình An, cha mẹ sống đời với con cháu."</div>
+        <div class="prayer-meta">
+          <span class="prayer-user">Quý Lĩnh Như Trầm</span>
+          <span>5 phút trước · 8 kính bái</span>
+        </div>
+      </div>
+      <div class="prayer-card">
+        <div class="prayer-text">"Nguyện cầu công việc thuận lợi, tai qua nạn khỏi, lòng được thanh tịnh an yên."</div>
+        <div class="prayer-meta">
+          <span class="prayer-user">Ngưng Ái Kim</span>
+          <span>12 phút trước · 14 kính bái</span>
+        </div>
+      </div>
+      <div class="prayer-card">
+        <div class="prayer-text">"Chúc bách gia trăm họ vạn sự an khang, tai ương tiêu trừ, phúc thọ tăng long."</div>
+        <div class="prayer-meta">
+          <span class="prayer-user">Nhãn Vạn Linh</span>
+          <span>35 phút trước · 21 kính bái</span>
+        </div>
+      </div>
+      <div class="prayer-card">
+        <div class="prayer-text">"Cầu xin Đức Phật chứng minh cho tâm thành hướng thiện, sớm trả hết nợ đời."</div>
+        <div class="prayer-meta">
+          <span class="prayer-user">Thích Từ Quang</span>
+          <span>47 phút trước · 30 kính bái</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="prayer-bottom-action">
+      <button class="btn-release-lamp" id="btn-release-lamp">
+        <span>🏮</span>
+        <span>Thả Đèn Nguyện Cầu An</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Bottom Left Menu -->
+  <div class="bottom-menu">
+    <div class="menu-item" onclick="showToast('Nhiệm vụ: Lạy Phật 3 lạy & chiêm bái các vị La Hán để tích lũy công đức!')">📋 Nhiệm vụ</div>
+    <div class="menu-item" onclick="openModal('shop-modal')">🎁 Cửa hàng</div>
+    <div class="menu-item" onclick="showToast('Đạo tràng Vĩnh Tràng: 28 đồng tu đang cùng niệm Phật.')">👥 Đạo tràng</div>
+    <div class="menu-item" onclick="openModal('so-modal')">📜 Tấm Sớ</div>
+  </div>
+
+  <!-- Bottom Right Ritual Toolbar -->
+  <div class="ritual-toolbar">
+    <button class="ritual-btn" id="btn-bow">
+      <span class="r-icon">🙏</span>
+      <span>Lạy Phật</span>
+    </button>
+    <button class="ritual-btn" id="btn-beads">
+      <span class="r-icon">📿</span>
+      <span>Tràng Hạt</span>
+    </button>
+    <button class="ritual-btn" id="btn-chant">
+      <span class="r-icon">📖</span>
+      <span>Tụng Kinh</span>
+    </button>
+    <button class="ritual-btn" id="btn-meditate">
+      <span class="r-icon">🧘</span>
+      <span>Thiền Định</span>
+    </button>
+    <button class="ritual-btn" id="btn-offering">
+      <span class="r-icon">🌸</span>
+      <span>Dâng Lễ</span>
+    </button>
+    <button class="ritual-btn highlight" id="btn-open-shop">
+      <span class="r-icon">🏮</span>
+      <span>Thỉnh Pháp Bảo</span>
+    </button>
+  </div>
+
+  <!-- Toast Message -->
+  <div class="toast-msg" id="toast">Thành tâm kính Phật</div>
+
+  <!-- Modal: Thả Đèn Nguyện Cầu An -->
+  <div class="modal-overlay" id="lamp-modal">
+    <div class="modal-box">
+      <div class="modal-title">🏮 Thả Đèn Nguyện Cầu An</div>
+      <div class="modal-desc">Đèn Dược Sư bản mệnh tượng trưng cho ánh sáng trí tuệ xua tan u tối, cầu bình an cho gia đạo và người thân tại Chùa Vĩnh Tràng.</div>
+
+      <div class="form-group">
+        <label>Tên người được cầu an</label>
+        <input type="text" id="lamp-user-name" placeholder="Ví dụ: Cầu an cho Mẹ: Trần Thị Mai (Năm sinh 1958)">
+      </div>
+      <div class="form-group">
+        <label>Lời khấn nguyện thành tâm</label>
+        <textarea id="lamp-prayer-text" rows="3" placeholder="Nguyện cầu chư Phật mười phương gia hộ cho cha mẹ thân tâm an lạc, tai qua nạn khỏi..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Thời gian thắp sáng ngọn đèn trên Chánh Điện</label>
+        <select id="lamp-duration">
+          <option value="7">Thắp sáng 7 ngày (Gieo duyên tùy tâm 20.000 đ)</option>
+          <option value="49">Thắp sáng 49 ngày (Gieo duyên cúng dường 50.000 đ)</option>
+          <option value="100">Thắp sáng trọn năm (Cầu an niên biểu 100.000 đ)</option>
+        </select>
+      </div>
+
+      <button class="btn-submit" id="btn-confirm-lamp">Dâng Đèn Lên Bàn Tam Bảo</button>
+      <button style="width:100%; background:transparent; border:none; color:#deb785; margin-top:10px; cursor:pointer;" onclick="closeModal('lamp-modal')">Đóng</button>
+    </div>
+  </div>
+
+  <!-- Modal: Chiêm Bái Tôn Giả La Hán / Bồ Tát Chibi -->
+  <div class="modal-overlay" id="arhat-modal">
+    <div class="modal-box" style="max-width:500px;">
+      <div class="modal-title" id="arhat-modal-title">🙏 Chiêm Bái Tôn Giả</div>
+      <div style="text-align:center; margin:12px 0;">
+        <span id="arhat-modal-mount" style="background:#d62828; color:#fff; padding:4px 14px; border-radius:14px; font-size:10.5pt; font-weight:bold; border:1px solid #ffd166;"></span>
+      </div>
+      <div class="modal-desc" id="arhat-modal-desc" style="text-align:justify; line-height:1.6; background:rgba(52,20,10,0.7); padding:14px; border-radius:14px; border:1.5px solid rgba(255,183,3,0.4);">
+      </div>
+      <div style="display:flex; gap:10px; margin-top:16px;">
+        <button class="btn-submit" id="btn-arhat-lamp" style="margin-top:0; flex:1; background:linear-gradient(135deg, #e63946, #c1121f);">🏮 Dâng Đèn (20k)</button>
+        <button class="btn-submit" id="btn-arhat-statue" style="margin-top:0; flex:1;">🎁 Thỉnh Tượng Gỗ (220k)</button>
+      </div>
+      <button style="width:100%; background:transparent; border:none; color:#deb785; margin-top:12px; cursor:pointer;" onclick="closeModal('arhat-modal')">Thoát</button>
+    </div>
+  </div>
+
+  <!-- Modal: Cửa Hàng Thỉnh Pháp Bảo Thật Ship Tận Nhà -->
+  <div class="modal-overlay" id="shop-modal">
+    <div class="modal-box" style="max-width:520px;">
+      <div class="modal-title">🎁 Thỉnh Pháp Bảo Chùa Vĩnh Tràng</div>
+      <div class="modal-desc">Vật phẩm tâm linh đã được chú nguyện bình an tại Chùa Vĩnh Tràng, đóng gói cẩn thận giao tận tư gia toàn quốc.</div>
+
+      <div style="max-height:360px; overflow-y:auto; display:flex; flex-direction:column; gap:12px; margin-bottom:14px;">
+        <div style="background:rgba(60,24,12,0.8); border:1.5px solid #ffb703; border-radius:14px; padding:12px; display:flex; gap:14px; align-items:center;">
+          <div style="font-size:32pt;">📿</div>
+          <div style="flex:1;">
+            <div style="font-size:12pt; font-weight:bold; color:#ffe699;">Vòng Tay Trầm Hương Tự Nhiên Vĩnh Tràng</div>
+            <div style="font-size:10pt; color:#ffeedb;">Gỗ trầm hương thơm dịu, trừ tà khí, an thần dưỡng khí.</div>
+            <div style="font-size:11.5pt; color:#ffb703; font-weight:bold; margin-top:2px;">290.000 đ</div>
+          </div>
+          <button onclick="orderItem('Vòng Tay Trầm Hương', '290.000 đ')" style="background:#e63946; border:1px solid #ff99c8; color:#fff; padding:8px 16px; border-radius:10px; cursor:pointer; font-weight:bold;">Thỉnh</button>
+        </div>
+
+        <div style="background:rgba(60,24,12,0.8); border:1.5px solid #ffb703; border-radius:14px; padding:12px; display:flex; gap:14px; align-items:center;">
+          <div style="font-size:32pt;">🪷</div>
+          <div style="flex:1;">
+            <div style="font-size:12pt; font-weight:bold; color:#ffe699;">Chuỗi Hạt Bồ Đề 108 Hạt Niệm Phật</div>
+            <div style="font-size:10pt; color:#ffeedb;">Chất gỗ Bồ Đề kim cang, bóng đẹp, thích hợp tu trì công phu.</div>
+            <div style="font-size:11.5pt; color:#ffb703; font-weight:bold; margin-top:2px;">150.000 đ</div>
+          </div>
+          <button onclick="orderItem('Chuỗi Hạt Bồ Đề 108', '150.000 đ')" style="background:#e63946; border:1px solid #ff99c8; color:#fff; padding:8px 16px; border-radius:10px; cursor:pointer; font-weight:bold;">Thỉnh</button>
+        </div>
+
+        <div style="background:rgba(60,24,12,0.8); border:1.5px solid #ffb703; border-radius:14px; padding:12px; display:flex; gap:14px; align-items:center;">
+          <div style="font-size:32pt;">🏮</div>
+          <div style="flex:1;">
+            <div style="font-size:12pt; font-weight:bold; color:#ffe699;">Đèn Sen Pha Lê Đổi Màu Dược Sư</div>
+            <div style="font-size:10pt; color:#ffeedb;">Đèn hoa sen sạc điện, ánh sáng ấm cúng thờ Tam Bảo tại tư gia.</div>
+            <div style="font-size:11.5pt; color:#ffb703; font-weight:bold; margin-top:2px;">180.000 đ</div>
+          </div>
+          <button onclick="orderItem('Đèn Sen Pha Lê', '180.000 đ')" style="background:#e63946; border:1px solid #ff99c8; color:#fff; padding:8px 16px; border-radius:10px; cursor:pointer; font-weight:bold;">Thỉnh</button>
+        </div>
+
+        <div style="background:rgba(60,24,12,0.8); border:1.5px solid #ffb703; border-radius:14px; padding:12px; display:flex; gap:14px; align-items:center;">
+          <div style="font-size:32pt;">🪵</div>
+          <div style="flex:1;">
+            <div style="font-size:12pt; font-weight:bold; color:#ffe699;">Tượng La Hán Hộ Mệnh Gỗ Bách Xanh</div>
+            <div style="font-size:10pt; color:#ffeedb;">Tạc thủ công theo diện tượng 18 La Hán Vĩnh Tràng, bỏ túi hộ thân.</div>
+            <div style="font-size:11.5pt; color:#ffb703; font-weight:bold; margin-top:2px;">220.000 đ</div>
+          </div>
+          <button onclick="orderItem('Tượng La Hán Gỗ Bách Xanh', '220.000 đ')" style="background:#e63946; border:1px solid #ff99c8; color:#fff; padding:8px 16px; border-radius:10px; cursor:pointer; font-weight:bold;">Thỉnh</button>
+        </div>
+      </div>
+
+      <button style="width:100%; background:transparent; border:none; color:#deb785; cursor:pointer;" onclick="closeModal('shop-modal')">Đóng Cửa Hàng</button>
+    </div>
+  </div>
+
+  <!-- Modal: Đặt Hàng Thỉnh Vật Phẩm -->
+  <div class="modal-overlay" id="order-modal">
+    <div class="modal-box">
+      <div class="modal-title" id="order-item-title">Thỉnh Pháp Bảo</div>
+      <div class="modal-desc" id="order-item-desc">Vui lòng để lại địa chỉ để nhà chùa gửi chuyển phát tận nhà (Kiểm tra hàng rồi thanh toán COD).</div>
+
+      <div class="form-group">
+        <label>Họ và tên người nhận</label>
+        <input type="text" id="order-name" placeholder="Nguyễn Văn A">
+      </div>
+      <div class="form-group">
+        <label>Số điện thoại nhận hàng</label>
+        <input type="tel" id="order-phone" placeholder="0908 123 456">
+      </div>
+      <div class="form-group">
+        <label>Địa chỉ nhận bưu phẩm</label>
+        <input type="text" id="order-address" placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành">
+      </div>
+      <div class="form-group">
+        <label>Ghi chú cầu an</label>
+        <input type="text" id="order-note" placeholder="Cầu an cho gia đình mạnh khỏe">
+      </div>
+
+      <button class="btn-submit" id="btn-submit-order">Xác Nhận Đặt Thỉnh (Giao Tận Nơi)</button>
+      <button style="width:100%; background:transparent; border:none; color:#deb785; margin-top:10px; cursor:pointer;" onclick="closeModal('order-modal')">Quay Lại</button>
+    </div>
+  </div>
+
+  <!-- Modal: Sớ Cầu An Thư Pháp Mạ Vàng -->
+  <div class="modal-overlay" id="so-modal">
+    <div class="modal-box" style="max-width:540px; background:#4a150c; border:2.5px solid #ffd166; color:#ffe8cb;">
+      <div style="border:1.5px dashed #ffd166; padding:20px; border-radius:16px; text-align:center;">
+        <div style="font-size:10.5pt; letter-spacing:3px; color:#ffd166; font-weight:bold;">TIỀN GIANG TỈNH · MỸ THO THÀNH PHỐ</div>
+        <div style="font-size:18pt; font-weight:bold; color:#fff; margin:8px 0 16px 0;">SẮC TỨ VĨNH TRÀNG CỔ TỰ CẦU AN SỚ</div>
+        <div style="font-size:11.5pt; line-height:1.8; text-align:justify; margin-bottom:16px;">
+          Phục dĩ: Nam mô Thập phương Thường trụ Tam Bảo tác đại chứng minh. Nay có đệ tử Phật môn hiệu là: <b id="so-user" style="color:#ffd166;">Tự Phong Hiếu Hạnh</b>, phát tâm bồ đề, dâng hương hoa đăng trà quả, kính lễ Tam Bảo Chùa Vĩnh Tràng.<br><br>
+          Cúi xin Đức Phật Từ Bi, Chư Tôn Bồ Tát, Thập Bát La Hán phóng ngọc hào quang gia trì: Thân tâm an lạc, tai tiêu nạn tán, tật bệnh tiêu trừ, sở cầu như ý, gia đạo hưng long, vạn niên phúc đức.
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:10.5pt; color:#ffd166; font-weight:bold; margin-top:20px;">
+          <div>Chứng Minh Sư: Hòa Thượng Viện Chủ</div>
+          <div>Bính Ngọ Niên · Cát Nhật</div>
+        </div>
+      </div>
+      <button class="btn-submit" style="margin-top:16px;" onclick="closeModal('so-modal'); showToast('🙏 Đã ghi nhận tấm sớ thành tâm của quý Phật tử!')">Lưu Giữ Phước Điền</button>
+    </div>
+  </div>
+
+  <!-- Three.js Cartoon Engine -->
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    // 1. AUDIO SYNTHESIZER
+    let audioCtx = null;
+    let isAudioOn = true;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function playBell() {
+      if (!isAudioOn) return;
+      initAudio();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+      osc.frequency.exponentialRampToValueAtTime(293.66, audioCtx.currentTime + 3.5);
+      gain.gain.setValueAtTime(0.55, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 3.8);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 3.8);
+    }
+
+    function playMokugyo() {
+      if (!isAudioOn) return;
+      initAudio();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(340, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(140, audioCtx.currentTime + 0.12);
+      gain.gain.setValueAtTime(0.85, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.14);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.15);
+    }
+
+    document.getElementById('btn-audio-toggle').onclick = () => {
+      isAudioOn = !isAudioOn;
+      document.getElementById('btn-audio-toggle').textContent = isAudioOn ? '🔔 Chuông Mõ: Bật' : '🔕 Chuông Mõ: Tắt';
+      if (isAudioOn) playBell();
+    };
+
+    // 2. THREE.JS CARTOON SCENE SETUP
+    const canvas = document.getElementById('three-canvas');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x35140b);
+    scene.fog = new THREE.FogExp2(0x35140b, 0.009);
+
+    const camera = new THREE.PerspectiveCamera(46, window.innerWidth / window.innerHeight, 0.1, 150);
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.45;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.maxPolarAngle = Math.PI / 2 - 0.02;
+    controls.minDistance = 2.5;
+    controls.maxDistance = 65;
+
+    // Camera Views
+    const views = {
+      altar: { pos: new THREE.Vector3(0, 3.8, 16.5), target: new THREE.Vector3(0, 4.8, -14.0) },
+      buddha: { pos: new THREE.Vector3(0, 6.8, -8.5), target: new THREE.Vector3(0, 7.8, -18.7) },
+      leftArhats: { pos: new THREE.Vector3(-7.5, 3.5, 2.0), target: new THREE.Vector3(-12.8, 3.2, -4.0) },
+      rightArhats: { pos: new THREE.Vector3(7.5, 3.5, 2.0), target: new THREE.Vector3(12.8, 3.2, -4.0) },
+      yard: { pos: new THREE.Vector3(0, 6.5, 33.0), target: new THREE.Vector3(0, 5.0, 4.0) }
+    };
+
+    let currentViewMode = 'altar';
+    camera.position.copy(views.altar.pos);
+    controls.target.copy(views.altar.target);
+    controls.update();
+
+    let isTransitioning = false;
+    let transitionProgress = 0;
+    const startPos = new THREE.Vector3(), startTarget = new THREE.Vector3();
+    const endPos = new THREE.Vector3(), endTarget = new THREE.Vector3();
+
+    function setView(mode) {
+      currentViewMode = mode;
+      isTransitioning = true;
+      transitionProgress = 0;
+      startPos.copy(camera.position);
+      startTarget.copy(controls.target);
+      endPos.copy(views[mode].pos);
+      endTarget.copy(views[mode].target);
+
+      // Cập nhật nút active
+      document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById(`view-${mode === 'leftArhats' ? 'left-arhats' : mode === 'rightArhats' ? 'right-arhats' : mode}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      document.getElementById('prayer-sidebar').style.display = (mode === 'yard') ? 'none' : 'flex';
+    }
+
+    document.getElementById('view-altar').onclick = () => setView('altar');
+    document.getElementById('view-buddha').onclick = () => setView('buddha');
+    document.getElementById('view-left-arhats').onclick = () => setView('leftArhats');
+    document.getElementById('view-right-arhats').onclick = () => setView('rightArhats');
+    document.getElementById('view-yard').onclick = () => setView('yard');
+
+    // 3. PROCEDURAL CARTOON TEXTURES
+    // Mặt Chibi cười tươi má hồng
+    function createChibiFaceTexture(type = 'happy') {
+      const cv = document.createElement('canvas');
+      cv.width = 512;
+      cv.height = 512;
+      const ctx = cv.getContext('2d');
+
+      // Nền da hồng đào mềm mại
+      ctx.fillStyle = '#ffdfba';
+      ctx.fillRect(0, 0, 512, 512);
+
+      if (type === 'happy' || type === 'user') {
+        // Đôi mắt cười hình trăng lưỡi liềm cong dễ thương
+        ctx.strokeStyle = '#381607';
+        ctx.lineWidth = 18;
+        ctx.lineCap = 'round';
+
+        ctx.beginPath();
+        ctx.arc(160, 230, 52, Math.PI * 1.15, Math.PI * 1.85, false);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(352, 230, 52, Math.PI * 1.15, Math.PI * 1.85, false);
+        ctx.stroke();
+
+        // Má hồng đào phúng phính (Blush)
+        ctx.fillStyle = 'rgba(255, 99, 132, 0.6)';
+        ctx.beginPath();
+        ctx.arc(120, 285, 45, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(392, 285, 45, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Nụ cười hoan hỷ
+        ctx.beginPath();
+        ctx.arc(256, 290, 32, 0.2, Math.PI - 0.2, false);
+        ctx.stroke();
+
+        // Chấm đỏ bindi giữa trán
+        ctx.fillStyle = '#d62828';
+        ctx.beginPath();
+        ctx.arc(256, 140, 14, 0, Math.PI * 2);
+        ctx.fill();
+      } else if (type === 'buddha') {
+        // Mặt Đức Phật Chibi từ bi
+        ctx.fillStyle = '#ffe699';
+        ctx.fillRect(0, 0, 512, 512);
+
+        ctx.strokeStyle = '#5c3300';
+        ctx.lineWidth = 14;
+        ctx.lineCap = 'round';
+
+        // Đôi mắt khép hờ tĩnh lặng
+        ctx.beginPath();
+        ctx.arc(165, 235, 55, Math.PI * 0.1, Math.PI * 0.9, false);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(347, 235, 55, Math.PI * 0.1, Math.PI * 0.9, false);
+        ctx.stroke();
+
+        // Nụ cười từ bi
+        ctx.beginPath();
+        ctx.arc(256, 305, 36, 0.2, Math.PI - 0.2, false);
+        ctx.stroke();
+
+        // Bạch hào ngọc trắng
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(256, 150, 18, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#ffb703';
+        ctx.lineWidth = 6;
+        ctx.stroke();
+      }
+
+      const tex = new THREE.CanvasTexture(cv);
+      return tex;
+    }
+
+    const faceUserTex = createChibiFaceTexture('user');
+    const faceMonkTex = createChibiFaceTexture('happy');
+    const faceBuddhaTex = createChibiFaceTexture('buddha');
+
+    // Sàn gạch đỏ men nung Cartoon bóng bẩy
+    function createCartoonFloorTexture() {
+      const cv = document.createElement('canvas');
+      cv.width = 512;
+      cv.height = 512;
+      const ctx = cv.getContext('2d');
+      const size = 128;
+      for (let y = 0; y < 4; y++) {
+        for (let x = 0; x < 4; x++) {
+          const px = x * size;
+          const py = y * size;
+          ctx.fillStyle = '#3a1106';
+          ctx.fillRect(px, py, size, size);
+
+          ctx.fillStyle = '#b8381d';
+          ctx.beginPath();
+          ctx.roundRect(px + 4, py + 4, size - 8, size - 8, 14);
+          ctx.fill();
+
+          const grad = ctx.createRadialGradient(px + size/2, py + size/2, 5, px + size/2, py + size/2, size/2);
+          grad.addColorStop(0, '#f2542d');
+          grad.addColorStop(0.7, '#cc3b1b');
+          grad.addColorStop(1, '#94260f');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.roundRect(px + 8, py + 8, size - 16, size - 16, 10);
+          ctx.fill();
+
+          ctx.strokeStyle = 'rgba(255, 209, 102, 0.55)';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.roundRect(px + 10, py + 10, size - 20, size - 20, 8);
+          ctx.stroke();
+        }
+      }
+      const tex = new THREE.CanvasTexture(cv);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(16, 26);
+      return tex;
+    }
+
+    const floorTexture = createCartoonFloorTexture();
+
+    // 4. CARTOON VIBRANT MATERIALS
+    const mat = (c, r=0.45, m=0.0, e=0, ei=0) => new THREE.MeshStandardMaterial({
+      color: c, roughness: r, metalness: m,
+      emissive: e ? c : 0, emissiveIntensity: ei
+    });
+
+    const floorMat = new THREE.MeshStandardMaterial({
+      map: floorTexture,
+      roughness: 0.2,
+      metalness: 0.15,
+    });
+
+    const pillarMat = mat(0xd90429, 0.3, 0.05); // Cột sơn son đỏ tươi bóng
+    const wallMat = mat(0xfff3bf, 0.65, 0.0); // Tường vàng kem ấm
+    const goldMat = mat(0xffd166, 0.22, 0.88); // Vàng hoàng kim tươi sáng
+    const buddhaMat = mat(0xffb703, 0.2, 0.9); // Kim thân Phật dát vàng óng ánh
+    const arhatMat = mat(0xffc300, 0.22, 0.88); // 18 La Hán Chibi vàng óng
+    const lotusPinkMat = mat(0xff5d8f, 0.4); // Cánh hoa sen hồng tươi
+    const lotusWhiteMat = mat(0xffffff, 0.35); // Đầu cánh sen trắng
+    const woodDark = mat(0x4a1e13, 0.6); // Gỗ mun ấm
+    const matRug = mat(0x9d0208, 0.65); // Thảm đỏ tươi
+    const cushionMat = mat(0x7209b7, 0.55); // Bồ đoàn tím sen
+    const haloMat = mat(0xffe066, 0.1, 0, 1, 2.2);
+
+    // Materials cho các chú thú cưng Chibi
+    const deerMat = mat(0xddb892, 0.45, 0.1);
+    const tigerMat = mat(0xf77f00, 0.35, 0.15);
+    const dragonMat = mat(0x06d6a0, 0.3, 0.25);
+    const elephantMat = mat(0xfdf0d5, 0.35, 0.1);
+    const lionMat = mat(0xffb703, 0.4, 0.2);
+
+    // 5. CARTOON LIGHTING SYSTEM (BRIGHT & WARM)
+    const ambient = new THREE.HemisphereLight(0xfffaed, 0x5e2b17, 3.4);
+    scene.add(ambient);
+
+    const sunLight = new THREE.DirectionalLight(0xffea9f, 2.4);
+    sunLight.position.set(5, 18, 12);
+    sunLight.castShadow = true;
+    sunLight.shadow.mapSize.width = 1024;
+    sunLight.shadow.mapSize.height = 1024;
+    scene.add(sunLight);
+
+    // Spotlight rực rỡ chiếu vào Kim Thân Đức Phật
+    const buddhaSpot = new THREE.SpotLight(0xffdf78, 14.0, 40, Math.PI / 3.5, 0.4);
+    buddhaSpot.position.set(0, 10, -8);
+    buddhaSpot.target.position.set(0, 7.5, -18.7);
+    scene.add(buddhaSpot);
+    scene.add(buddhaSpot.target);
+
+    const buddhaPoint = new THREE.PointLight(0xffd166, 6.0, 18);
+    buddhaPoint.position.set(0, 8.5, -16.5);
+    scene.add(buddhaPoint);
+
+    // Đèn màu chiếu hai bên vách La Hán
+    const leftWallLight = new THREE.PointLight(0xffaa00, 4.5, 38);
+    leftWallLight.position.set(-10, 6.0, 0);
+    scene.add(leftWallLight);
+
+    const rightWallLight = new THREE.PointLight(0xffaa00, 4.5, 38);
+    rightWallLight.position.set(10, 6.0, 0);
+    scene.add(rightWallLight);
+
+    // 6. BUILD CHÁNH ĐIỆN CHÙA VĨNH TRÀNG 3D CARTOON
+    const temple = new THREE.Group();
+    scene.add(temple);
+
+    function addBox(x, y, z, w, h, d, m, parent=temple) {
+      const o = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m);
+      o.position.set(x, y, z);
+      o.castShadow = true; o.receiveShadow = true;
+      parent.add(o);
+      return o;
+    }
+
+    function addCyl(x, y, z, r, h, m, parent=temple, r2=r) {
+      const o = new THREE.Mesh(new THREE.CylinderGeometry(r2, r, h, 24), m);
+      o.position.set(x, y, z);
+      o.castShadow = true; o.receiveShadow = true;
+      parent.add(o);
+      return o;
+    }
+
+    function addBall(x, y, z, r, m, parent=temple) {
+      const o = new THREE.Mesh(new THREE.SphereGeometry(r, 24, 20), m);
+      o.position.set(x, y, z);
+      o.castShadow = true; o.receiveShadow = true;
+      parent.add(o);
+      return o;
+    }
+
+    // Không gian Chánh Điện (Rộng 28m, Dài 46m, Cao 10m)
+    addBox(0, 0, 0, 28, 0.2, 46, floorMat);
+    addBox(0, 5, -23, 28, 10, 0.8, wallMat);
+    addBox(-14, 5, 0, 0.8, 10, 46, wallMat);
+    addBox(14, 5, 0, 0.8, 10, 46, wallMat);
+    addBox(0, 10, 0, 28, 0.4, 46, woodDark);
+
+    // Hàng cột tròn sơn son đỏ tươi bo tròn bóng mịn
+    const pillarZ = [-18, -10, -2, 6, 14, 20];
+    pillarZ.forEach(pz => {
+      [-8.5, 8.5].forEach(px => {
+        addCyl(px, 0.35, pz, 1.2, 0.5, mat(0xffb703, 0.3, 0.5));
+        addCyl(px, 5.2, pz, 0.48, 9.4, pillarMat);
+        addCyl(px, 9.8, pz, 0.9, 0.4, goldMat);
+      });
+    });
+
+    // Hai Cột Rồng Thếp Vàng Chibi uốn lượn hai bên Tam Bảo
+    [-8.5, 8.5].forEach(px => {
+      for (let y = 1.8; y <= 8.5; y += 1.4) {
+        addCyl(px, y, -10, 0.62, 0.35, goldMat);
+      }
+      addBox(px + (px > 0 ? -0.45 : 0.45), 5.2, -10, 0.12, 6.2, 0.55, goldMat);
+    });
+
+    // 3 ĐÈN CHÙM PHA LÊ KIỂU PHÁP CARTOON (Bóng lấp lánh như kẹo ngọc)
+    [-10, 0, 10].forEach(cz => {
+      const chGroup = new THREE.Group();
+      temple.add(chGroup);
+      const c1 = addCyl(0, 9.2, cz, 0.04, 1.6, goldMat, chGroup); c1.castShadow = false;
+      const c2 = addCyl(0, 8.2, cz, 1.3, 0.15, goldMat, chGroup); c2.castShadow = false;
+      const c3 = addCyl(0, 7.8, cz, 0.9, 0.15, goldMat, chGroup); c3.castShadow = false;
+      const c4 = addCyl(0, 7.4, cz, 0.5, 0.15, goldMat, chGroup); c4.castShadow = false;
+
+      for (let a = 0; a < Math.PI * 2; a += Math.PI / 4) {
+        const cx = Math.cos(a) * 1.15;
+        const cy = Math.sin(a) * 1.15;
+        const b = addBall(cx, 8.1, cz + cy, 0.12, mat(0xfff3bf, 0.1, 0, 1, 3.5), chGroup);
+        b.castShadow = false;
+      }
+      const clight = new THREE.PointLight(0xffd166, 2.5, 20);
+      clight.position.set(0, 7.6, cz);
+      scene.add(clight);
+    });
+
+    // HOÀNH PHI 「黃金寶殿」 (HOÀNG KIM BỬU ĐIỆN) & 「勅賜 永長寺」
+    addBox(0, 9.0, -13, 8.8, 1.4, 0.25, goldMat);
+    addBox(0, 9.0, -12.85, 8.2, 1.0, 0.1, pillarMat);
+
+    // BÀN THỜ TAM BẢO ĐỒ SỘ 3 CẤP
+    const altarZ = -16.5;
+    addBox(0, 1.2, altarZ, 14.0, 2.2, 5.0, mat(0x6b1d16, 0.4));
+    addBox(0, 2.35, altarZ, 14.2, 0.15, 5.2, goldMat);
+    addBox(0, 3.0, altarZ - 1.2, 11.0, 1.6, 3.2, mat(0x6b1d16, 0.4));
+    addBox(0, 3.85, altarZ - 1.2, 11.2, 0.12, 3.4, goldMat);
+    addBox(0, 4.5, altarZ - 2.2, 8.0, 1.4, 2.4, goldMat);
+
+    // =========================================================================
+    // ĐẠI TƯỢNG PHẬT THÍCH CA CHIBI VÀNG 24K TRÊN ĐÀI SEN HOẠT HÌNH
+    // =========================================================================
+    const bZ = altarZ - 2.2;
+    const buddhaGroup = new THREE.Group();
+    buddhaGroup.position.set(0, 0, bZ);
+    temple.add(buddhaGroup);
+
+    // Tòa sen hoạt hình 3 tầng với 16 cánh sen 3D bo tròn xung quanh
+    addCyl(0, 5.4, 0, 2.6, 0.6, goldMat, buddhaGroup);
+    addCyl(0, 5.9, 0, 2.2, 0.5, mat(0xffffff), buddhaGroup);
+
+    // 16 cánh hoa sen 3D cánh hồng đầu trắng vươn lên
+    for (let i = 0; i < 16; i++) {
+      const ang = (i / 16) * Math.PI * 2;
+      const px = Math.cos(ang) * 2.1;
+      const pz = Math.sin(ang) * 2.1;
+      const petal = addBall(px, 6.2, pz, 0.38, lotusPinkMat, buddhaGroup);
+      petal.scale.set(0.8, 1.4, 0.4);
+      petal.rotation.y = -ang + Math.PI / 2;
+      petal.rotation.z = Math.PI / 8;
+    }
+
+    // Chân xếp kiết già (Lotus posture base)
+    const legBase = addCyl(0, 6.3, 0, 1.6, 0.5, buddhaMat, buddhaGroup);
+    legBase.scale.set(1.4, 1.0, 1.0);
+
+    // Thân Phật Chibi ngồi trang nghiêm
+    const bBody = addBall(0, 7.3, 0, 1.35, buddhaMat, buddhaGroup);
+    bBody.scale.set(1.2, 1.25, 0.95);
+
+    // Y cà sa vàng vắt qua vai
+    const sash = addBox(0.25, 7.4, 0.15, 0.35, 1.4, 0.9, mat(0xf77f00, 0.4), buddhaGroup);
+
+    // Hai cánh tay & Hai bàn tay chắp ấn Thiền Định (Dhyana Mudra)
+    const leftArm = addCyl(-1.0, 6.9, 0.1, 0.28, 1.0, buddhaMat, buddhaGroup);
+    leftArm.rotation.z = Math.PI / 4;
+    const rightArm = addCyl(1.0, 6.9, 0.1, 0.28, 1.0, buddhaMat, buddhaGroup);
+    rightArm.rotation.z = -Math.PI / 4;
+
+    // Hai bàn tay Chibi tròn đặt ngửa lên nhau nâng đóa sen vàng
+    addBall(0, 6.45, 0.65, 0.26, buddhaMat, buddhaGroup);
+    const jewel = addBall(0, 6.65, 0.65, 0.18, mat(0xffe066, 0.1, 0, 1, 3.0), buddhaGroup);
+
+    // Đầu Phật Chibi - QUAN TRỌNG: xoay rotation.y = Math.PI để khuôn mặt hướng thẳng ra trước
+    const buddhaHead = new THREE.Mesh(
+      new THREE.SphereGeometry(0.78, 28, 24),
+      new THREE.MeshStandardMaterial({
+        map: faceBuddhaTex,
+        roughness: 0.2,
+        metalness: 0.25
+      })
+    );
+    buddhaHead.position.set(0, 9.05, 0);
+    buddhaHead.rotation.y = Math.PI; // Hướng khuôn mặt từ bi ra ngoài về phía Phật tử
+    buddhaGroup.add(buddhaHead);
+
+    // Nhục kế tròn Ushnisha trên đỉnh đầu
+    addBall(0, 9.85, 0, 0.32, buddhaMat, buddhaGroup);
+    addBall(0, 10.15, 0, 0.12, mat(0xffffff, 0.1, 0, 1, 4.0), buddhaGroup);
+
+    // Đôi tai Phật dài bo tròn phúc hậu
+    const leftEar = addCyl(-0.8, 9.0, 0, 0.1, 0.45, buddhaMat, buddhaGroup);
+    const rightEar = addCyl(0.8, 9.0, 0, 0.1, 0.45, buddhaMat, buddhaGroup);
+
+    // ĐẠI HÀO QUANG CẦU VỒNG HOẠT HÌNH
+    const haloGroup = new THREE.Group();
+    haloGroup.position.set(0, 8.9, -0.4);
+    buddhaGroup.add(haloGroup);
+
+    const haloRing1 = addCyl(0, 0, 0, 2.6, 0.05, mat(0xffffff, 0.1, 0, 1, 3.2), haloGroup);
+    haloRing1.rotation.x = Math.PI / 2;
+    const haloRing2 = addCyl(0, 0, -0.04, 3.3, 0.04, mat(0xffd166, 0.1, 0, 1, 2.6), haloGroup);
+    haloRing2.rotation.x = Math.PI / 2;
+    const haloRing3 = addCyl(0, 0, -0.08, 4.0, 0.04, mat(0x06d6a0, 0.1, 0, 1, 2.2), haloGroup);
+    haloRing3.rotation.x = Math.PI / 2;
+    const haloRing4 = addCyl(0, 0, -0.12, 4.8, 0.03, mat(0xef476f, 0.1, 0, 1, 2.0), haloGroup);
+    haloRing4.rotation.x = Math.PI / 2;
+
+    // Hai vị thị giả A Nan - Ca Diếp Chibi chắp tay
+    [-4.5, 4.5].forEach((ax) => {
+      addCyl(ax, 3.8, altarZ - 1.2, 0.8, 0.6, goldMat);
+      addCyl(ax, 5.1, altarZ - 1.2, 0.45, 2.0, goldMat);
+      const dHead = addBall(ax, 6.4, altarZ - 1.2, 0.4, new THREE.MeshStandardMaterial({ map: faceMonkTex, roughness: 0.3 }));
+      dHead.rotation.y = Math.PI;
+    });
+
+    // Bát hương đồng tròn mập & Khói mây hoạt hình
+    addCyl(0, 2.8, altarZ + 1.8, 0.65, 0.7, mat(0x8c5e32, 0.35, 0.8));
+    for (let h = -0.12; h <= 0.12; h += 0.12) {
+      addCyl(h, 3.7, altarZ + 1.8, 0.02, 1.2, mat(0xe63946, 0.6));
+      addBall(h, 4.35, altarZ + 1.8, 0.05, mat(0xffaa00, 0.1, 0, 1, 5.0));
+    }
+
+    // Đèn Dược Sư hoa sen phát sáng
+    [-4.8, 4.8].forEach(dx => {
+      addCyl(dx, 3.2, altarZ + 1.5, 0.25, 1.4, goldMat);
+      addBall(dx, 4.1, altarZ + 1.5, 0.38, lotusPinkMat);
+      addBall(dx, 4.28, altarZ + 1.5, 0.14, mat(0xffaa00, 0.1, 0, 1, 6.0));
+    });
+
+    // Cặp Lộc Bình men hoa lam cắm sen hồng
+    addCyl(-2.4, 2.8, altarZ + 1.6, 0.25, 0.7, mat(0x48cae4, 0.3, 0.4));
+    addBall(-2.4, 3.4, altarZ + 1.6, 0.38, lotusPinkMat);
+    addCyl(2.4, 2.8, altarZ + 1.6, 0.25, 0.7, mat(0x48cae4, 0.3, 0.4));
+    addBall(2.4, 3.4, altarZ + 1.6, 0.38, lotusPinkMat);
+
+    // =========================================================================
+    // 7. BỘ TƯỢNG 18 VỊ LA HÁN CHIBI CƯỠI LINH THÚ HOẠT HÌNH
+    // =========================================================================
+    const interactiveObjects = [];
+
+    const arhatsLeft = [
+      { id: 1, name: "Tọa Lộc La Hán (Tân Đầu Lô Tôn Giả)", mount: "Cưỡi Hươu Sao Chibi", beastType: "deer", desc: "Ngài Tân-đầu-lô cưỡi chú hươu sao mắt tròn đốm trắng, mang năng lượng an nhiên, trường thọ và thanh khiết." },
+      { id: 2, name: "Hoan Hỷ La Hán (Ca Nặc Ca Phạt Tha)", mount: "Tọa Sen Vàng", beastType: "lotus", desc: "Tôn giả mang nụ cười Chibi rạng rỡ, đem niềm vui hoan hỷ và tiếng cười an lạc đến cho mọi nhà." },
+      { id: 3, name: "Cử Bát La Hán (Ca Nặc Ca Bạt Ly Đọa)", mount: "Nâng Bát Vàng", beastType: "bowl", desc: "Giơ cao bình bát khất thực giáo hóa chúng sinh, trừ bỏ tham xan, huân tu lòng hào phóng bố thí." },
+      { id: 4, name: "Thác Tháp La Hán (Tô Tần Đà Tôn Giả)", mount: "Cầm Bảo Tháp", beastType: "pagoda", desc: "Nâng ngọn bảo tháp xá lợi Phật xoay phát sáng, bảo vệ gia quyến khỏi mọi điều xui xẻo u ám." },
+      { id: 5, name: "Tĩnh Tọa La Hán (Nặc Cự La Tôn Giả)", mount: "Tọa Phiến Thạch", beastType: "rock", desc: "Thiền định bất động như núi cao, giúp lòng người lắng đọng bớt âu lo, tinh tấn vượt qua khó khăn." },
+      { id: 6, name: "Quá Giang La Hán (Bạt Đà La Tôn Giả)", mount: "Cưỡi Cá Kình Con", beastType: "fish", desc: "Cưỡi chú cá kình vượt biển sinh tử, mang lời chúc công việc thuận buồm xuôi gió, tai qua nạn khỏi." },
+      { id: 7, name: "Kỵ Tượng La Hán (Ca Lý Ca Tôn Giả)", mount: "Cưỡi Voi Trắng Chibi", beastType: "elephant", desc: "Ngự trên lưng chú voi con trắng ngọc vòi uốn cong giơ hoa sen, biểu thị cho đại phúc đại đức." },
+      { id: 8, name: "Tiếu Sư La Hán (Phạt Xà La Phất Đa)", mount: "Cưỡi Sư Tử Bông", beastType: "lion", desc: "Cưỡi chú sư tử bông bờm vàng xù lông ngộ nghĩnh, trừ ma chướng và đem lại dũng khí kiên cường." },
+      { id: 9, name: "Khai Tâm La Hán (Tuất Bác Ca Tôn Giả)", mount: "Vạch Ngực Thấy Phật", beastType: "heart", desc: "Mở vạt áo hiện trái tim hoa sen rực sáng, nhắn nhủ Phật tính luôn ngự trong tâm mỗi con người." }
+    ];
+
+    const arhatsRight = [
+      { id: 10, name: "Thám Thủ La Hán (Bán Thác Ca Tôn Giả)", mount: "Vươn Tay Thư Thái", beastType: "relax", desc: "Vươn hai tay đón lấy ánh bình minh giác ngộ, tâm trí hanh thông, học hành thi cử đỗ đạt." },
+      { id: 11, name: "Trầm Tư La Hán (La Hầu La Tôn Giả)", mount: "Tọa Đài Trầm Mặc", beastType: "think", desc: "Con của Đức Phật Thích Ca, mật hạnh đệ nhất, nêu gương hiếu thảo và kiên trì không lùi bước." },
+      { id: 12, name: "Trầm Tĩnh La Hán (Na Già Tư Na Tôn Giả)", mount: "Thủ Ấn Tĩnh Tâm", beastType: "calm", desc: "Tâm hồn trong sáng như trăng rằm, hóa giải mọi bất hòa thị phi, gia đạo hòa thuận ấm êm." },
+      { id: 13, name: "Phục Hổ La Hán (Phục Hổ Tôn Giả)", mount: "Cưỡi Bạch Hổ Tròn Xoe", beastType: "tiger", desc: "Cưỡi chú cọp béo tròn sọc vằn ngộ nghĩnh bằng lòng từ bi vô lượng, chế ngự nóng giận, đón tài lộc." },
+      { id: 14, name: "Hàng Long La Hán (Hàng Long Tôn Giả)", mount: "Cưỡi Kim Long Chibi", beastType: "dragon", desc: "Cưỡi chú rồng vàng nhỏ nhắn mắt to uốn lượn, bảo vệ kinh điển, chiêu tài tiến bảo, may mắn hanh thông." },
+      { id: 15, name: "Bố Đại La Hán (Nhân Yết Đà Tôn Giả)", mount: "Mang Túi Vải Thần", beastType: "bag", desc: "Bụng tròn xoe cười toe toét, túi vải may mắn ban phát niềm vui, tiền tài và sức khỏe dồi dào." },
+      { id: 16, name: "Ba Tiêu La Hán (Phạt Na Bà Tư Tôn Giả)", mount: "Tọa Lá Ba Tiêu", beastType: "banana", desc: "Ngồi trên tàu lá chuối xanh mát thanh thản, tâm không vướng bận ưu phiền, đời sống an nhiên." },
+      { id: 17, name: "Trường Mi La Hán (A Thị Đa Tôn Giả)", mount: "Lông Mày Mây Trắng", beastType: "eyebrow", desc: "Lông mày rủ dài như mây bông bồng bềnh, ban lời chúc thọ khang ninh cho ông bà, cha mẹ." },
+      { id: 18, name: "Khán Môn La Hán (Chú Đồ Bán Thác Ca)", mount: "Cầm Tích Trượng", beastType: "staff", desc: "Tay rung trượng đồng có vòng chuông kêu leng keng vui tai, giữ gìn mái ấm bình yên, an vui." }
+    ];
+
+    addBox(-13.0, 0.7, 0, 1.8, 1.4, 34, mat(0x7f1d1d, 0.4));
+    addBox(-13.0, 1.45, 0, 1.9, 0.12, 34.2, goldMat);
+
+    addBox(13.0, 0.7, 0, 1.8, 1.4, 34, mat(0x7f1d1d, 0.4));
+    addBox(13.0, 1.45, 0, 1.9, 0.12, 34.2, goldMat);
+
+    function createCartoonArhat(x, z, data, isLeft) {
+      const g = new THREE.Group();
+      g.position.set(x, 1.5, z);
+      g.rotation.y = isLeft ? Math.PI / 2 : -Math.PI / 2;
+      temple.add(g);
+
+      // Bệ sen vàng
+      addCyl(0, 0.15, 0, 0.7, 0.25, goldMat, g);
+
+      // Thú cưng Chibi
+      let bMat = goldMat;
+      if (data.beastType === 'tiger') bMat = tigerMat;
+      else if (data.beastType === 'dragon') bMat = dragonMat;
+      else if (data.beastType === 'elephant') bMat = elephantMat;
+      else if (data.beastType === 'deer') bMat = deerMat;
+      else if (data.beastType === 'lion') bMat = lionMat;
+
+      const beast = addBall(0, 0.52, 0, 0.42, bMat, g);
+      beast.scale.set(1.25, 0.95, 0.95);
+      const beastHead = addBall(0.42, 0.7, 0, 0.3, bMat, g);
+
+      if (data.beastType === 'elephant') {
+        const trunk = addCyl(0.62, 0.8, 0, 0.09, 0.4, elephantMat, g);
+        trunk.rotation.z = Math.PI / 4;
+        addCyl(0.55, 0.65, 0.14, 0.03, 0.25, mat(0xffffff), g);
+        addCyl(0.55, 0.65, -0.14, 0.03, 0.25, mat(0xffffff), g);
+        // Tai voi to tròn
+        const earL = addBall(0.35, 0.85, 0.3, 0.22, elephantMat, g); earL.scale.set(0.2, 1, 1);
+        const earR = addBall(0.35, 0.85, -0.3, 0.22, elephantMat, g); earR.scale.set(0.2, 1, 1);
+      } else if (data.beastType === 'deer') {
+        addCyl(0.42, 1.05, 0.12, 0.02, 0.3, goldMat, g);
+        addCyl(0.42, 1.05, -0.12, 0.02, 0.3, goldMat, g);
+      } else if (data.beastType === 'lion') {
+        addBall(0.4, 0.7, 0, 0.4, mat(0xfb8500, 0.5), g);
+      }
+
+      // Thân La Hán Chibi
+      addBall(0, 1.15, 0, 0.42, arhatMat, g);
+
+      // Đầu Chibi có mặt má hồng mắt cười
+      const aHead = new THREE.Mesh(
+        new THREE.SphereGeometry(0.34, 20, 18),
+        new THREE.MeshStandardMaterial({ map: faceMonkTex, roughness: 0.3 })
+      );
+      aHead.position.set(0, 1.7, 0);
+      aHead.rotation.y = Math.PI; // Hướng mặt ra
+      g.add(aHead);
+
+      // Hào quang thiên thần Chibi
+      const haloTorus = new THREE.Mesh(
+        new THREE.TorusGeometry(0.3, 0.045, 16, 24),
+        mat(0xffe066, 0.1, 0, 1, 2.2)
+      );
+      haloTorus.position.set(0, 1.7, -0.12);
+      g.add(haloTorus);
+
+      // Đèn hoa sen phát sáng
+      addBall(0, 0.35, 0.55, 0.14, lotusPinkMat, g);
+      addBall(0, 0.48, 0.55, 0.06, mat(0xffaa00, 0.1, 0, 1, 5.5), g);
+
+      const pt = new THREE.PointLight(0xffb703, 1.4, 6);
+      pt.position.set(0, 0.9, 0.55);
+      g.add(pt);
+
+      g.userData = {
+        isArhat: true,
+        data: data,
+        worldPos: new THREE.Vector3(x, 2.5, z),
+        halo: haloTorus,
+        beast: beastHead
+      };
+      interactiveObjects.push(g);
+      return g;
+    }
+
+    arhatsLeft.forEach((arh, idx) => {
+      const zPos = -15.0 + idx * 3.4;
+      createCartoonArhat(-12.8, zPos, arh, true);
+    });
+
+    arhatsRight.forEach((arh, idx) => {
+      const zPos = -15.0 + idx * 3.4;
+      createCartoonArhat(12.8, zPos, arh, false);
+    });
+
+    // HAI ĐẠI KHÁM THỜ BỒ TÁT Ở GIỮA HAI VÁCH (Z = 0)
+    // 1. Quán Thế Âm Chuẩn Đề Chibi (Vách Tả)
+    const qaGroup = new THREE.Group();
+    qaGroup.position.set(-13.1, 0, 0);
+    qaGroup.rotation.y = Math.PI / 2;
+    temple.add(qaGroup);
+
+    addBox(0, 3.2, -0.4, 3.2, 6.4, 0.6, goldMat, qaGroup);
+    addBox(0, 3.2, -0.2, 2.8, 5.8, 0.4, mat(0x9d0208), qaGroup);
+    addCyl(0, 1.8, 0, 1.2, 0.6, lotusPinkMat, qaGroup);
+    addBall(0, 2.8, 0, 0.7, buddhaMat, qaGroup);
+    const qaHead = new THREE.Mesh(
+      new THREE.SphereGeometry(0.48, 20, 18),
+      new THREE.MeshStandardMaterial({ map: faceBuddhaTex, roughness: 0.25 })
+    );
+    qaHead.position.set(0, 3.8, 0);
+    qaHead.rotation.y = Math.PI;
+    qaGroup.add(qaHead);
+
+    const qaHalo = addCyl(0, 3.8, -0.15, 1.5, 0.05, mat(0x48cae4, 0.1, 0, 1, 2.6), qaGroup);
+    qaHalo.rotation.x = Math.PI / 2;
+
+    qaGroup.userData = {
+      isArhat: true,
+      data: {
+        name: "Đại Bi Quán Thế Âm Bồ Tát (Chuẩn Đề)",
+        mount: "Tòa Sen Thất Bảo",
+        desc: "Đức Mẹ từ bi chở che cho vạn loài chúng sinh, lắng nghe tiếng cầu xin, ban sự an lành, bảo hộ gia đình và con trẻ."
+      },
+      worldPos: new THREE.Vector3(-12.0, 4.0, 0)
+    };
+    interactiveObjects.push(qaGroup);
+
+    // 2. Địa Tạng Vương Bồ Tát Chibi (Vách Hữu)
+    const dtGroup = new THREE.Group();
+    dtGroup.position.set(13.1, 0, 0);
+    dtGroup.rotation.y = -Math.PI / 2;
+    temple.add(dtGroup);
+
+    addBox(0, 3.2, -0.4, 3.2, 6.4, 0.6, goldMat, dtGroup);
+    addBox(0, 3.2, -0.2, 2.8, 5.8, 0.4, mat(0x9d0208), dtGroup);
+    addCyl(0, 1.8, 0, 1.2, 0.6, lotusPinkMat, dtGroup);
+    addBall(0, 2.8, 0, 0.7, buddhaMat, dtGroup);
+    const dtHead = new THREE.Mesh(
+      new THREE.SphereGeometry(0.48, 20, 18),
+      new THREE.MeshStandardMaterial({ map: faceBuddhaTex, roughness: 0.25 })
+    );
+    dtHead.position.set(0, 3.8, 0);
+    dtHead.rotation.y = Math.PI;
+    dtGroup.add(dtHead);
+
+    addCyl(0.55, 3.2, 0.2, 0.04, 2.4, goldMat, dtGroup);
+    const dtHalo = addCyl(0, 3.8, -0.15, 1.5, 0.05, mat(0xfb8500, 0.1, 0, 1, 2.6), dtGroup);
+    dtHalo.rotation.x = Math.PI / 2;
+
+    dtGroup.userData = {
+      isArhat: true,
+      data: {
+        name: "Đại Nguyện Địa Tạng Vương Bồ Tát",
+        mount: "Đế Thính Linh Thú",
+        desc: "Đại nguyện từ bi cứu vớt cửu huyền thất tổ, gia trì phúc lộc trường cửu, phù hộ gia đạo an khang thịnh vượng."
+      },
+      worldPos: new THREE.Vector3(12.0, 4.0, 0)
+    };
+    interactiveObjects.push(dtGroup);
+
+    // =========================================================================
+    // 8. ĐỒNG TU PHẬT TỬ CHIBI & NGƯỜI CHƠI
+    // =========================================================================
+    const avatars = [];
+    const avatarDataList = [
+      { name: "Thích Từ Quang", level: 20, col: -5.2, row: 0 },
+      { name: "Diệu Tâm", level: 8, col: -1.8, row: 0 },
+      { name: "Viên Thông", level: 12, col: 1.8, row: 0 },
+      { name: "Thiện Duyên", level: 6, col: 5.2, row: 0 },
+
+      { name: "Quý Lĩnh Như Trầm", level: 5, col: -5.2, row: 1 },
+      { name: "Hải Đăng", level: 9, col: -1.8, row: 1 },
+      { name: "Quảng Đức", level: 15, col: 1.8, row: 1 },
+      { name: "Tâm An", level: 4, col: 5.2, row: 1 },
+
+      { name: "An Nhiên", level: 7, col: -5.2, row: 2 },
+      { name: "Minh Triết", level: 11, col: -1.8, row: 2 },
+      { name: "Ngọc Liên", level: 5, col: 1.8, row: 2 },
+      { name: "Bảo Trân", level: 8, col: 5.2, row: 2 },
+
+      { name: "Tuệ Mẫn", level: 14, col: -5.2, row: 3 },
+      { name: "Điền Lực Thạch", level: 3, col: -1.8, row: 3 },
+      { name: "Giang Nghi Hạ", level: 14, col: 1.8, row: 3 },
+      { name: "Phúc Lộc", level: 6, col: 5.2, row: 3 },
+
+      { name: "Nhãn Vạn Linh", level: 8, col: -5.2, row: 4 },
+      { name: "Hinh Tài Hiên Bình", level: 5, col: 1.8, row: 4 },
+      { name: "Kim Cương", level: 10, col: 5.2, row: 4 }
+    ];
+
+    const nametagsContainer = document.getElementById('nametags-container');
+
+    avatarDataList.forEach(item => {
+      const zPos = -6.0 + item.row * 4.2;
+      const xPos = item.col;
+
+      addCyl(xPos, 0.12, zPos, 1.1, 0.05, matRug);
+      addCyl(xPos, 0.16, zPos, 1.0, 0.03, goldMat);
+      addCyl(xPos, 0.3, zPos, 0.75, 0.25, cushionMat);
+
+      const pGroup = new THREE.Group();
+      pGroup.position.set(xPos, 0.42, zPos);
+      temple.add(pGroup);
+
+      const robeColors = [0x543826, 0x8a552b, 0x1d3557, 0x6e4e37, 0xf4a261];
+      const rColor = robeColors[Math.floor(Math.random() * robeColors.length)];
+
+      const monkBody = addBall(0, 0.75, 0, 0.5, mat(rColor, 0.5), pGroup);
+      monkBody.scale.set(1.1, 1.0, 0.9);
+
+      // Hai bàn tay chắp búp sen Chibi
+      const mHands = addBall(0, 0.8, -0.42, 0.18, mat(0xffdfba), pGroup);
+
+      const mHead = new THREE.Mesh(
+        new THREE.SphereGeometry(0.42, 22, 18),
+        new THREE.MeshStandardMaterial({ map: faceMonkTex, roughness: 0.3 })
+      );
+      mHead.position.set(0, 1.5, 0);
+      // Xoay nhẹ góc nhìn tự nhiên
+      mHead.rotation.y = (Math.random() - 0.5) * 0.4;
+      pGroup.add(mHead);
+
+      const pHalo = new THREE.Mesh(
+        new THREE.TorusGeometry(0.38, 0.05, 16, 24),
+        mat(0xffe066, 0.1, 0, 1, 2.0)
+      );
+      pHalo.position.set(0, 1.5, -0.15);
+      pGroup.add(pHalo);
+
+      const tagDiv = document.createElement('div');
+      tagDiv.className = 'nametag';
+      tagDiv.innerHTML = `
+        <div class="nametag-badge">
+          <span>${item.name}</span>
+          <span class="nametag-level">Cấp ${item.level}</span>
+        </div>
+      `;
+      nametagsContainer.appendChild(tagDiv);
+
+      avatars.push({
+        group: pGroup,
+        head: mHead,
+        tagEl: tagDiv,
+        worldHeadPos: new THREE.Vector3(xPos, 2.45, zPos),
+        origY: 0.42,
+        seed: Math.random() * 10
+      });
+    });
+
+    // VỊ TRÍ CỦA CHÍNH NGƯỜI DÙNG: "Tự Phong Hiếu Hạnh" (Cấp 4)
+    const userZ = 9.2;
+    const userX = -1.5;
+    addCyl(userX, 0.12, userZ, 1.25, 0.05, matRug);
+    addCyl(userX, 0.16, userZ, 1.15, 0.03, goldMat);
+    addCyl(userX, 0.32, userZ, 0.85, 0.28, mat(0xd90429, 0.5));
+
+    const userGroup = new THREE.Group();
+    userGroup.position.set(userX, 0.45, userZ);
+    temple.add(userGroup);
+
+    const uBody = addBall(0, 0.8, 0, 0.55, mat(0x2a6f97, 0.5), userGroup);
+    uBody.scale.set(1.15, 1.05, 0.95);
+    addBox(0.12, 0.85, 0.15, 0.2, 1.1, 0.35, goldMat, userGroup);
+
+    // Hai bàn tay chắp sen
+    const uHands = addBall(0, 0.85, -0.45, 0.2, mat(0xffdfba), userGroup);
+
+    const userHead = new THREE.Mesh(
+      new THREE.SphereGeometry(0.46, 24, 20),
+      new THREE.MeshStandardMaterial({ map: faceUserTex, roughness: 0.25 })
+    );
+    userHead.position.set(0, 1.6, 0);
+    userHead.rotation.y = 0; // Hướng về phía trước bàn Tam Bảo
+    userGroup.add(userHead);
+
+    const uHalo = new THREE.Mesh(
+      new THREE.TorusGeometry(0.48, 0.06, 16, 28),
+      mat(0xffd166, 0.1, 0, 1, 2.5)
+    );
+    uHalo.position.set(0, 1.6, -0.18);
+    userGroup.add(uHalo);
+
+    const userTagDiv = document.createElement('div');
+    userTagDiv.className = 'nametag is-user';
+    userTagDiv.innerHTML = `
+      <div class="nametag-pointer"></div>
+      <div class="nametag-badge">
+        <span>Tự Phong Hiếu Hạnh</span>
+        <span class="nametag-level" style="background:#ffd166; color:#780000;">Cấp 4</span>
+      </div>
+    `;
+    nametagsContainer.appendChild(userTagDiv);
+
+    avatars.push({
+      group: userGroup,
+      head: userHead,
+      tagEl: userTagDiv,
+      worldHeadPos: new THREE.Vector3(userX, 2.65, userZ),
+      origY: 0.45,
+      seed: 0
+    });
+
+    // 9. CÁC HẠT HOA SEN BAY & KHÓI MÂY CARTOON
+    const petalCount = 50;
+    const petalGeo = new THREE.BufferGeometry();
+    const petalPos = new Float32Array(petalCount * 3);
+    for (let i = 0; i < petalCount; i++) {
+      petalPos[i*3] = (Math.random() - 0.5) * 24;
+      petalPos[i*3+1] = 1.0 + Math.random() * 8.0;
+      petalPos[i*3+2] = (Math.random() - 0.5) * 36;
+    }
+    petalGeo.setAttribute('position', new THREE.BufferAttribute(petalPos, 3));
+    const lotusPetals = new THREE.Points(petalGeo, new THREE.PointsMaterial({
+      color: 0xff758f,
+      size: 0.28,
+      transparent: true,
+      opacity: 0.85
+    }));
+    scene.add(lotusPetals);
+
+    const smokeCount = 55;
+    const sGeo = new THREE.BufferGeometry();
+    const sPos = new Float32Array(smokeCount * 3);
+    for (let i = 0; i < smokeCount; i++) {
+      sPos[i*3] = (Math.random() - 0.5) * 0.25;
+      sPos[i*3+1] = 3.6 + Math.random() * 4.0;
+      sPos[i*3+2] = altarZ + 1.8 + (Math.random() - 0.5) * 0.25;
+    }
+    sGeo.setAttribute('position', new THREE.BufferAttribute(sPos, 3));
+    const smokeParticles = new THREE.Points(sGeo, new THREE.PointsMaterial({
+      color: 0xffffff,
+      size: 0.25,
+      transparent: true,
+      opacity: 0.7
+    }));
+    scene.add(smokeParticles);
+
+    // =========================================================================
+    // 10. TƯƠNG TÁC CHIÊM BÁI & POPUP CARTOON
+    // =========================================================================
+    function spawnBlessingText(text, x, y) {
+      const el = document.createElement('div');
+      el.className = 'floating-blessing';
+      el.textContent = text;
+      el.style.left = `${x || window.innerWidth / 2}px`;
+      el.style.top = `${y || window.innerHeight / 2}px`;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1600);
+    }
+    window.spawnBlessingText = spawnBlessingText;
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    window.addEventListener('click', (e) => {
+      if (e.target.closest('header, aside, .ritual-toolbar, .bottom-menu, .modal-overlay, .nametag')) return;
+
+      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      raycaster.setFromCamera(mouse, camera);
+
+      const intersects = raycaster.intersectObjects(temple.children, true);
+      if (intersects.length > 0) {
+        let hit = intersects[0].object;
+        let root = null;
+        while (hit && hit !== temple) {
+          if (hit.userData && hit.userData.isArhat) {
+            root = hit;
+            break;
+          }
+          hit = hit.parent;
+        }
+
+        if (root && root.userData && root.userData.data) {
+          const d = root.userData.data;
+          playBell();
+          spawnBlessingText(`✨ ${d.name} ban phúc!`, e.clientX, e.clientY);
+
+          if (root.userData.beast) {
+            root.userData.beast.position.y += 0.2;
+            setTimeout(() => root.userData.beast.position.y -= 0.2, 300);
+          }
+
+          document.getElementById('arhat-modal-title').textContent = `🙏 ${d.name}`;
+          document.getElementById('arhat-modal-mount').textContent = d.mount;
+          document.getElementById('arhat-modal-desc').innerHTML = `
+            <p style="margin-bottom:8px;">${d.desc}</p>
+            <p style="color:#ffd166; font-size:10pt; font-weight:bold;">* Bộ tượng 18 vị Thập Bát La Hán gỗ mít thếp vàng độc nhất vô nhị chế tác năm 1907 tại Chùa Vĩnh Tràng.</p>
+          `;
+          document.getElementById('btn-arhat-lamp').onclick = () => {
+            closeModal('arhat-modal');
+            openModal('lamp-modal');
+            document.getElementById('lamp-prayer-text').value = `Con thành tâm đảnh lễ trước ${d.name}, cầu xin ngài gia hộ bình an, may mắn...`;
+          };
+          document.getElementById('btn-arhat-statue').onclick = () => {
+            closeModal('arhat-modal');
+            orderItem(`Tượng ${d.name} Gỗ Bách Xanh Chibi`, '220.000 đ');
+          };
+          setTimeout(() => openModal('arhat-modal'), 350);
+        }
+      }
+    });
+
+    // RITUALS (CÚNG BÁI HOẠT HÌNH DỄ THƯƠNG)
+    let toastTimer;
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+    }
+    window.showToast = showToast;
+
+    // Lạy Phật (Avatar Chibi gập mình chắp tay lạy)
+    document.getElementById('btn-bow').onclick = () => {
+      playBell();
+      showToast('🙏 Một lòng đảnh lễ Tam Bảo: Nam Mô A Di Đà Phật');
+      spawnBlessingText('🙏 +10 Công Đức · Tâm An Khang Lạc', window.innerWidth / 2, window.innerHeight * 0.65);
+
+      let bowTimes = 0;
+      const bInterval = setInterval(() => {
+        playMokugyo();
+        bowTimes++;
+        userHead.position.y -= 0.25;
+        userHead.rotation.x = Math.PI / 4;
+        setTimeout(() => {
+          userHead.position.y += 0.25;
+          userHead.rotation.x = 0;
+        }, 400);
+
+        if (bowTimes >= 3) clearInterval(bInterval);
+      }, 900);
+    };
+
+    // Tràng Hạt 108 biến Chibi
+    let beadCount = 0;
+    document.getElementById('btn-beads').onclick = () => {
+      playMokugyo();
+      beadCount++;
+      spawnBlessingText(`📿 Niệm Phật câu ${beadCount}/108: Nam Mô A Di Đà Phật`, window.innerWidth * 0.45, window.innerHeight * 0.7);
+
+      if (beadCount >= 108) {
+        playBell();
+        showToast('🌟 Công đức viên mãn! Bạn đã hoàn thành 1 tràng 108 hạt.');
+        beadCount = 0;
+      }
+    };
+
+    // Tụng Kinh Chibi
+    document.getElementById('btn-chant').onclick = () => {
+      playBell();
+      showToast('📖 Đang mở kinh nhật tụng: Chú Đại Bi & Bát Nhã Ba La Mật Đa Tâm Kinh...');
+      let beats = 0;
+      const chInterval = setInterval(() => {
+        playMokugyo();
+        beats++;
+        if (beats >= 8) clearInterval(chInterval);
+      }, 650);
+    };
+
+    // Thiền Định
+    document.getElementById('btn-meditate').onclick = () => {
+      playBell();
+      showToast('🧘 Bắt đầu thời khóa thiền định. Hít vào tâm tĩnh lặng, thở ra miệng mỉm cười.');
+      spawnBlessingText('🧘 Thân An Tâm Lạc', window.innerWidth / 2, window.innerHeight * 0.6);
+    };
+
+    // Dâng Lễ
+    document.getElementById('btn-offering').onclick = () => {
+      playBell();
+      showToast('🌸 Kính dâng hoa sen thơm và đăng trà quả phẩm thanh tịnh lên mười phương chư Phật.');
+      spawnBlessingText('🌸 Hoa Sen Công Đức Nở Rộ', window.innerWidth / 2, window.innerHeight * 0.55);
+    };
+
+    // MODAL HANDLERS
+    window.openModal = function(id) {
+      document.getElementById(id).classList.add('open');
+    };
+    window.closeModal = function(id) {
+      document.getElementById(id).classList.remove('open');
+    };
+
+    document.getElementById('btn-release-lamp').onclick = () => openModal('lamp-modal');
+    document.getElementById('btn-open-shop').onclick = () => openModal('shop-modal');
+    document.getElementById('btn-open-so').onclick = () => openModal('so-modal');
+
+    // Thả Đèn Nguyện Cầu An
+    document.getElementById('btn-confirm-lamp').onclick = () => {
+      const name = document.getElementById('lamp-user-name').value.trim() || 'Phật tử ẩn danh';
+      const text = document.getElementById('lamp-prayer-text').value.trim() || 'Nguyện cầu gia đạo an khang thịnh vượng, vạn sự hanh thông';
+
+      playBell();
+      closeModal('lamp-modal');
+
+      const list = document.getElementById('prayer-list');
+      const card = document.createElement('div');
+      card.className = 'prayer-card';
+      card.style.borderColor = '#ffd166';
+      card.innerHTML = `
+        <div class="prayer-text">"${text}"</div>
+        <div class="prayer-meta">
+          <span class="prayer-user">✨ ${name}</span>
+          <span>Vừa thắp · 1 kính bái</span>
+        </div>
+      `;
+      list.prepend(card);
+
+      spawnBlessingText('🏮 Đèn Nguyện Đã Thắp Sáng Bàn Tam Bảo!', window.innerWidth / 2, window.innerHeight * 0.4);
+      showToast(`🏮 Ngọn đèn cầu an của ${name} đã được thắp sáng trên Chánh Điện!`);
+    };
+
+    // Đặt Hàng Pháp Bảo Thật
+    window.orderItem = function(name, price) {
+      closeModal('shop-modal');
+      closeModal('arhat-modal');
+      document.getElementById('order-item-title').textContent = `Thỉnh: ${name}`;
+      document.getElementById('order-item-desc').textContent = `Giá gieo duyên: ${price} · Đóng gói cẩn thận, chuyển phát COD tận nhà.`;
+      openModal('order-modal');
+    };
+
+    document.getElementById('btn-submit-order').onclick = () => {
+      const name = document.getElementById('order-name').value.trim();
+      const phone = document.getElementById('order-phone').value.trim();
+      const addr = document.getElementById('order-address').value.trim();
+      if (!name || !phone || !addr) {
+        alert('Vui lòng điền đủ Họ tên, Số điện thoại và Địa chỉ nhận hàng.');
+        return;
+      }
+      playBell();
+      closeModal('order-modal');
+      showToast('🎉 Đã ghi nhận đơn thỉnh pháp bảo! Nhà chùa sẽ liên hệ sớm nhất.');
+      document.getElementById('so-user').textContent = name;
+      setTimeout(() => openModal('so-modal'), 1200);
+    };
+
+    // 11. ANIMATION LOOP
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    let clock = new THREE.Clock();
+    const tempVec = new THREE.Vector3();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const time = clock.getElapsedTime();
+
+      // Smooth camera transition
+      if (isTransitioning) {
+        transitionProgress += 0.035;
+        if (transitionProgress >= 1) {
+          transitionProgress = 1;
+          isTransitioning = false;
+        }
+        const t = transitionProgress < 0.5 ? 2 * transitionProgress * transitionProgress : -1 + (4 - 2 * transitionProgress) * transitionProgress;
+        camera.position.lerpVectors(startPos, endPos, t);
+        controls.target.lerpVectors(startTarget, endTarget, t);
+      }
+      controls.update();
+
+      // Hào quang ngũ sắc xoay tròn rực rỡ
+      haloRing1.rotation.z = time * 0.25;
+      haloRing2.rotation.z = -time * 0.2;
+      haloRing3.rotation.z = time * 0.15;
+      haloRing4.rotation.z = -time * 0.1;
+
+      // Chibi nhún nhảy nhẹ nhàng theo nhịp thở tu tập
+      avatars.forEach(av => {
+        av.group.position.y = av.origY + Math.sin(time * 2.5 + av.seed) * 0.035;
+
+        // Cập nhật thẻ tên trên màn hình
+        if (currentViewMode === 'altar') {
+          tempVec.copy(av.worldHeadPos);
+          tempVec.project(camera);
+          if (tempVec.z < 1) {
+            const x = (tempVec.x * 0.5 + 0.5) * window.innerWidth;
+            const y = (-(tempVec.y * 0.5) + 0.5) * window.innerHeight;
+            av.tagEl.style.transform = `translate(-50%, -100%) translate(${x}px, ${y}px)`;
+            av.tagEl.style.opacity = '1';
+          } else {
+            av.tagEl.style.opacity = '0';
+          }
+        } else {
+          av.tagEl.style.opacity = '0';
+        }
+      });
+
+      // Rơi cánh hoa sen hoạt hình
+      const pArr = lotusPetals.geometry.attributes.position.array;
+      for (let i = 0; i < petalCount; i++) {
+        pArr[i*3 + 1] -= 0.02;
+        pArr[i*3] += Math.sin(time + i) * 0.008;
+        if (pArr[i*3 + 1] < 0.2) {
+          pArr[i*3 + 1] = 8.5;
+        }
+      }
+      lotusPetals.geometry.attributes.position.needsUpdate = true;
+
+      // Khói mây bồng bềnh
+      const sArr = smokeParticles.geometry.attributes.position.array;
+      for (let i = 0; i < smokeCount; i++) {
+        sArr[i*3 + 1] += 0.012;
+        sArr[i*3] += Math.sin(time * 2 + i) * 0.004;
+        if (sArr[i*3 + 1] > 7.5) {
+          sArr[i*3 + 1] = 3.6;
+        }
+      }
+      smokeParticles.geometry.attributes.position.needsUpdate = true;
+
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+</body>
+</html>
+"""
+
+output_path = "/Users/macos/Desktop/Chùa online/Mô hình 3D Vĩnh Tràng/trai-nghiem-chua-vinh-trang-3d.html"
+with open(output_path, "w", encoding="utf-8") as f:
+    f.write(html_code)
+
+print(f"Đã xuất bản thành công bản 3D CARTOON CHIBI VĨNH TRÀNG: {output_path} ({len(html_code)} bytes)")

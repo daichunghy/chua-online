@@ -1,0 +1,57 @@
+# Coohom & WebGL Material Library for mam_ngu_qua
+newmtl DiaGomTrangSu
+Kd 0.9200 0.9000 0.8600
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 75
+d 1.0
+illum 2
+
+newmtl VienVangKim
+Kd 0.8800 0.7200 0.2500
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 70
+d 1.0
+illum 2
+
+newmtl MangCauXanh
+Kd 0.4200 0.5800 0.2800
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 19
+d 1.0
+illum 2
+
+newmtl DuaXiemXanh
+Kd 0.4600 0.6200 0.3200
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 30
+d 1.0
+illum 2
+
+newmtl DuDuVangCam
+Kd 0.9500 0.6000 0.1800
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 40
+d 1.0
+illum 2
+
+newmtl XoaiCatVang
+Kd 0.9800 0.8000 0.2000
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 55
+d 1.0
+illum 2
+
+newmtl ChumSungXanh
+Kd 0.3500 0.5200 0.2500
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 30
+d 1.0
+illum 2
+

@@ -1,0 +1,25 @@
+# Coohom & WebGL Material Library for nen_hoa_sen
+newmtl DaiSenSapHong
+Kd 0.9500 0.6000 0.7000
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 60
+d 1.0
+illum 2
+
+newmtl SapNenTrangDuc
+Kd 0.9500 0.9400 0.9000
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 70
+d 1.0
+illum 2
+
+newmtl NgonLuaVangCam
+Kd 1.0000 0.6500 0.1500
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 90
+d 1.0
+illum 2
+

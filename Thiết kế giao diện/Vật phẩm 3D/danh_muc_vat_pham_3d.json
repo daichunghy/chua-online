@@ -1,0 +1,430 @@
+[
+  {
+    "id": "ao_trang_phat_tu",
+    "group": "Bộ Trang Phục Mặc Định & Áo Lam",
+    "name": "Áo Tràng Phật Tử Vạt Chéo",
+    "dimensions_mm": {
+      "w": 680,
+      "d": 360,
+      "h": 1520
+    },
+    "glb_file": "./models/ao_trang_phat_tu.glb",
+    "obj_file": "./models/ao_trang_phat_tu.obj",
+    "mtl_file": "./models/ao_trang_phat_tu.mtl",
+    "coohom_zip": "./coohom_packages/coohom_ao_trang_phat_tu.zip",
+    "detail_page": "./chi-tiet-ao-trang-3d.html",
+    "vertex_count": 1640,
+    "face_count": 2180,
+    "materials": [
+      "LinenLamKhoi",
+      "NepCoVatCheo",
+      "NoThatEo",
+      "GoSoiTien"
+    ]
+  },
+  {
+    "id": "non_la_theu_sen",
+    "group": "Bộ Phụ Kiện Đội & Choàng",
+    "name": "Nón Lá Thêu Sen",
+    "dimensions_mm": {
+      "w": 420,
+      "d": 420,
+      "h": 220
+    },
+    "obj_file": "./models/non_la_theu_sen.obj",
+    "mtl_file": "./models/non_la_theu_sen.mtl",
+    "coohom_zip": "./coohom_packages/coohom_non_la_theu_sen.zip",
+    "vertex_count": 266,
+    "face_count": 516,
+    "materials": [
+      "LaDuaVangRom",
+      "VanhNonTre",
+      "TheuSenHong",
+      "QuaiLuaHong"
+    ]
+  },
+  {
+    "id": "khan_ran_nam_bo",
+    "group": "Bộ Phụ Kiện Đội & Choàng",
+    "name": "Khăn Rằn Nam Bộ",
+    "dimensions_mm": {
+      "w": 280,
+      "d": 240,
+      "h": 440
+    },
+    "obj_file": "./models/khan_ran_nam_bo.obj",
+    "mtl_file": "./models/khan_ran_nam_bo.mtl",
+    "coohom_zip": "./coohom_packages/coohom_khan_ran_nam_bo.zip",
+    "vertex_count": 232,
+    "face_count": 448,
+    "materials": [
+      "CaroDenTrang",
+      "TrangNga",
+      "TuaRuaTrang"
+    ]
+  },
+  {
+    "id": "trang_hat_bo_de",
+    "group": "Bộ Pháp Khí & Chuỗi Tràng",
+    "name": "Tràng Hạt Bồ Đề 108 Hạt",
+    "dimensions_mm": {
+      "w": 280,
+      "d": 400,
+      "h": 40
+    },
+    "obj_file": "./models/trang_hat_bo_de.obj",
+    "mtl_file": "./models/trang_hat_bo_de.mtl",
+    "coohom_zip": "./coohom_packages/coohom_trang_hat_bo_de.zip",
+    "vertex_count": 3192,
+    "face_count": 5480,
+    "materials": [
+      "HatBoDeNauGụ",
+      "HatMeHoLo",
+      "TuaRuaChiDo"
+    ]
+  },
+  {
+    "id": "mo_go_tung_kinh",
+    "group": "Bộ Pháp Khí & Chuỗi Tràng",
+    "name": "Bộ Mõ Gỗ & Dùi Tụng Kinh",
+    "dimensions_mm": {
+      "w": 240,
+      "d": 240,
+      "h": 200
+    },
+    "obj_file": "./models/mo_go_tung_kinh.obj",
+    "mtl_file": "./models/mo_go_tung_kinh.mtl",
+    "coohom_zip": "./coohom_packages/coohom_mo_go_tung_kinh.zip",
+    "vertex_count": 332,
+    "face_count": 600,
+    "materials": [
+      "GoCanhGian",
+      "KheMiengMo",
+      "GoiDemGamVang",
+      "CanGoDui",
+      "DauBocVaiNi"
+    ]
+  },
+  {
+    "id": "bat_nhang_tram",
+    "group": "Bộ Đồ Lễ & Cúng Dường",
+    "name": "Bát Nhang & Ba Nén Hương Trầm",
+    "dimensions_mm": {
+      "w": 180,
+      "d": 180,
+      "h": 320
+    },
+    "obj_file": "./models/bat_nhang_tram.obj",
+    "mtl_file": "./models/bat_nhang_tram.mtl",
+    "coohom_zip": "./coohom_packages/coohom_bat_nhang_tram.zip",
+    "vertex_count": 368,
+    "face_count": 680,
+    "materials": [
+      "DongCoHoaVan",
+      "TroNhangTrangXam",
+      "ChanHuongDo",
+      "DiemThanRuc"
+    ]
+  },
+  {
+    "id": "hoa_sen_tuoi",
+    "group": "Bộ Đồ Lễ & Cúng Dường",
+    "name": "Búp Sen Hồng & Lá Sen Tươi",
+    "dimensions_mm": {
+      "w": 280,
+      "d": 280,
+      "h": 340
+    },
+    "obj_file": "./models/hoa_sen_tuoi.obj",
+    "mtl_file": "./models/hoa_sen_tuoi.mtl",
+    "coohom_zip": "./coohom_packages/coohom_hoa_sen_tuoi.zip",
+    "vertex_count": 1090,
+    "face_count": 1880,
+    "materials": [
+      "CanhSenXanh",
+      "GuongSenVang",
+      "CanhSenHong",
+      "LaSenXanhNgoc"
+    ]
+  },
+  {
+    "id": "nen_hoa_sen",
+    "group": "Bộ Đồ Lễ & Cúng Dường",
+    "name": "Nến Hoa Sen Phát Sáng",
+    "dimensions_mm": {
+      "w": 140,
+      "d": 140,
+      "h": 100
+    },
+    "obj_file": "./models/nen_hoa_sen.obj",
+    "mtl_file": "./models/nen_hoa_sen.mtl",
+    "coohom_zip": "./coohom_packages/coohom_nen_hoa_sen.zip",
+    "vertex_count": 200,
+    "face_count": 344,
+    "materials": [
+      "DaiSenSapHong",
+      "SapNenTrangDuc",
+      "NgonLuaVangCam"
+    ]
+  },
+  {
+    "id": "den_hoa_dang",
+    "group": "Bộ Đồ Lễ & Cúng Dường",
+    "name": "Đèn Hoa Đăng Thả Nước",
+    "dimensions_mm": {
+      "w": 200,
+      "d": 200,
+      "h": 80
+    },
+    "obj_file": "./models/den_hoa_dang.obj",
+    "mtl_file": "./models/den_hoa_dang.mtl",
+    "coohom_zip": "./coohom_packages/coohom_den_hoa_dang.zip",
+    "vertex_count": 186,
+    "face_count": 300,
+    "materials": [
+      "BeLaSenXanh",
+      "CanhGiayHongSen",
+      "NenTrangTam",
+      "NgonLuaHoaDang"
+    ]
+  },
+  {
+    "id": "mam_ngu_qua",
+    "group": "Bộ Đồ Lễ & Cúng Dường",
+    "name": "Mâm Ngũ Quả Dâng Phật",
+    "dimensions_mm": {
+      "w": 360,
+      "d": 360,
+      "h": 160
+    },
+    "obj_file": "./models/mam_ngu_qua.obj",
+    "mtl_file": "./models/mam_ngu_qua.mtl",
+    "coohom_zip": "./coohom_packages/coohom_mam_ngu_qua.zip",
+    "vertex_count": 682,
+    "face_count": 1248,
+    "materials": [
+      "DiaGomTrangSu",
+      "VienVangKim",
+      "MangCauXanh",
+      "DuaXiemXanh",
+      "DuDuVangCam",
+      "XoaiCatVang",
+      "ChumSungXanh"
+    ]
+  },
+  {
+    "id": "bo_doan_dai_sen",
+    "group": "Bộ Tọa Cụ & Bồ Đoàn",
+    "name": "Bồ Đoàn Đài Sen 8 Cánh",
+    "dimensions_mm": {
+      "w": 450,
+      "d": 450,
+      "h": 120
+    },
+    "obj_file": "./models/bo_doan_dai_sen.obj",
+    "mtl_file": "./models/bo_doan_dai_sen.mtl",
+    "coohom_zip": "./coohom_packages/coohom_bo_doan_dai_sen.zip",
+    "vertex_count": 274,
+    "face_count": 512,
+    "materials": [
+      "GamLamTimSang",
+      "CanhSenGhiNau",
+      "ChiTheuVangKim"
+    ]
+  },
+  {
+    "id": "bo_doan_tron",
+    "group": "Bộ Tọa Cụ & Bồ Đoàn",
+    "name": "Bồ Đoàn Tròn Vải Bố Mộc",
+    "dimensions_mm": {
+      "w": 400,
+      "d": 400,
+      "h": 100
+    },
+    "obj_file": "./models/bo_doan_tron.obj",
+    "mtl_file": "./models/bo_doan_tron.mtl",
+    "coohom_zip": "./coohom_packages/coohom_bo_doan_tron.zip",
+    "vertex_count": 250,
+    "face_count": 492,
+    "materials": [
+      "VaiBoNauSong",
+      "GanChiBaoViền"
+    ]
+  },
+  {
+    "id": "chieu_coi_thien",
+    "group": "Bộ Tọa Cụ & Bồ Đoàn",
+    "name": "Chiếu Cói Thiền Tọa Nam Bộ",
+    "dimensions_mm": {
+      "w": 800,
+      "d": 1600,
+      "h": 14
+    },
+    "obj_file": "./models/chieu_coi_thien.obj",
+    "mtl_file": "./models/chieu_coi_thien.mtl",
+    "coohom_zip": "./coohom_packages/coohom_chieu_coi_thien.zip",
+    "vertex_count": 40,
+    "face_count": 60,
+    "materials": [
+      "CoiTuNhienVangRom",
+      "VienVaiNauGu"
+    ]
+  },
+  {
+    "id": "dia_banh_bo",
+    "group": "Bộ Ẩm Thực Chay & Thức Quà",
+    "name": "Đĩa Bánh Bò Thốt Nốt",
+    "dimensions_mm": {
+      "w": 280,
+      "d": 280,
+      "h": 70
+    },
+    "obj_file": "./models/dia_banh_bo.obj",
+    "mtl_file": "./models/dia_banh_bo.mtl",
+    "coohom_zip": "./coohom_packages/coohom_dia_banh_bo.zip",
+    "vertex_count": 492,
+    "face_count": 880,
+    "materials": [
+      "DiaSuTrangMen",
+      "BanhBoThotNotVang"
+    ]
+  },
+  {
+    "id": "dia_banh_da_lon",
+    "group": "Bộ Ẩm Thực Chay & Thức Quà",
+    "name": "Đĩa Bánh Da Lợn Ngũ Sắc",
+    "dimensions_mm": {
+      "w": 280,
+      "d": 280,
+      "h": 60
+    },
+    "obj_file": "./models/dia_banh_da_lon.obj",
+    "mtl_file": "./models/dia_banh_da_lon.mtl",
+    "coohom_zip": "./coohom_packages/coohom_dia_banh_da_lon.zip",
+    "vertex_count": 66,
+    "face_count": 116,
+    "materials": [
+      "DiaGomMocTrang",
+      "LopLaDuaXanh",
+      "LopDauXanhVang",
+      "LopLaDuaXanh2"
+    ]
+  },
+  {
+    "id": "trai_dua_xiem",
+    "group": "Bộ Ẩm Thực Chay & Thức Quà",
+    "name": "Trái Dừa Xiêm Ống Hút Tre",
+    "dimensions_mm": {
+      "w": 180,
+      "d": 180,
+      "h": 260
+    },
+    "obj_file": "./models/trai_dua_xiem.obj",
+    "mtl_file": "./models/trai_dua_xiem.mtl",
+    "coohom_zip": "./coohom_packages/coohom_trai_dua_xiem.zip",
+    "vertex_count": 252,
+    "face_count": 464,
+    "materials": [
+      "VoDuaXanhNon",
+      "ThitDuaTrangNga",
+      "OngHutTre"
+    ]
+  },
+  {
+    "id": "tui_vai_di_chua",
+    "group": "Bộ Cầm Tay & Hành Lý",
+    "name": "Túi Vải Đi Chùa Chữ Thư Pháp",
+    "dimensions_mm": {
+      "w": 320,
+      "d": 80,
+      "h": 480
+    },
+    "obj_file": "./models/tui_vai_di_chua.obj",
+    "mtl_file": "./models/tui_vai_di_chua.mtl",
+    "coohom_zip": "./coohom_packages/coohom_tui_vai_di_chua.zip",
+    "vertex_count": 32,
+    "face_count": 48,
+    "materials": [
+      "VaiCanvasMoc",
+      "QuaiTuiNauLam",
+      "SenInNauTram"
+    ]
+  },
+  {
+    "id": "quat_nan_la_dua",
+    "group": "Bộ Cầm Tay & Hành Lý",
+    "name": "Quạt Nan Lá Dừa Che Nắng",
+    "dimensions_mm": {
+      "w": 280,
+      "d": 20,
+      "h": 380
+    },
+    "obj_file": "./models/quat_nan_la_dua.obj",
+    "mtl_file": "./models/quat_nan_la_dua.mtl",
+    "coohom_zip": "./coohom_packages/coohom_quat_nan_la_dua.zip",
+    "vertex_count": 56,
+    "face_count": 104,
+    "materials": [
+      "NanLaDuaVangNhat",
+      "CanTreGia"
+    ]
+  },
+  {
+    "id": "gio_may_tre",
+    "group": "Bộ Cầm Tay & Hành Lý",
+    "name": "Giỏ Mây Tre Đan Nam Bộ",
+    "dimensions_mm": {
+      "w": 340,
+      "d": 280,
+      "h": 360
+    },
+    "obj_file": "./models/gio_may_tre.obj",
+    "mtl_file": "./models/gio_may_tre.mtl",
+    "coohom_zip": "./coohom_packages/coohom_gio_may_tre.zip",
+    "vertex_count": 198,
+    "face_count": 392,
+    "materials": [
+      "MayTreDanNauVang"
+    ]
+  },
+  {
+    "id": "chum_sanh_hoa_sen",
+    "group": "Bộ Cảnh Quan & Pháp Bảo",
+    "name": "Chum Sành Hoa Sen Thả Nước",
+    "dimensions_mm": {
+      "w": 480,
+      "d": 480,
+      "h": 500
+    },
+    "obj_file": "./models/chum_sanh_hoa_sen.obj",
+    "mtl_file": "./models/chum_sanh_hoa_sen.mtl",
+    "coohom_zip": "./coohom_packages/coohom_chum_sanh_hoa_sen.zip",
+    "vertex_count": 588,
+    "face_count": 1112,
+    "materials": [
+      "GomSanhDatNung",
+      "MatNuocXanhLam",
+      "HoaSenNoiHong"
+    ]
+  },
+  {
+    "id": "den_long_luc_giac",
+    "group": "Bộ Cảnh Quan & Pháp Bảo",
+    "name": "Đèn Lồng Lục Giác Treo Chùa",
+    "dimensions_mm": {
+      "w": 440,
+      "d": 440,
+      "h": 520
+    },
+    "obj_file": "./models/den_long_luc_giac.obj",
+    "mtl_file": "./models/den_long_luc_giac.mtl",
+    "coohom_zip": "./coohom_packages/coohom_den_long_luc_giac.zip",
+    "vertex_count": 60,
+    "face_count": 104,
+    "materials": [
+      "KhungGoNauDo",
+      "LuaVangTamLinh",
+      "TuaRuaDoChua"
+    ]
+  }
+]

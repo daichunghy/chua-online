@@ -1,0 +1,33 @@
+# Coohom & WebGL Material Library for dia_banh_da_lon
+newmtl DiaGomMocTrang
+Kd 0.9300 0.9200 0.8800
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 70
+d 1.0
+illum 2
+
+newmtl LopLaDuaXanh
+Kd 0.3200 0.6000 0.3600
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 60
+d 1.0
+illum 2
+
+newmtl LopDauXanhVang
+Kd 0.9000 0.8000 0.4000
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 55
+d 1.0
+illum 2
+
+newmtl LopLaDuaXanh2
+Kd 0.3200 0.6000 0.3600
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 60
+d 1.0
+illum 2
+

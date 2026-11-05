@@ -1,0 +1,25 @@
+# Coohom & WebGL Material Library for bo_doan_dai_sen
+newmtl GamLamTimSang
+Kd 0.5800 0.4800 0.5200
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 15
+d 1.0
+illum 2
+
+newmtl CanhSenGhiNau
+Kd 0.4800 0.3800 0.3400
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 19
+d 1.0
+illum 2
+
+newmtl ChiTheuVangKim
+Kd 0.8500 0.7000 0.2500
+Ka 0.1 0.1 0.1
+Ks 0.15 0.15 0.15
+Ns 50
+d 1.0
+illum 2
+

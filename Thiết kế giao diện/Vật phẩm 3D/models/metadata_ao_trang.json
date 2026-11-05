@@ -1,0 +1,30 @@
+{
+  "id": "ao_trang_phat_tu_vat_cheo_v1",
+  "name": "Áo Tràng Phật Tử Vạt Chéo Thắt Nơ",
+  "category": "Trang phục Phật tử / Nội thất Chùa",
+  "unit": "mm",
+  "dimensions": {
+    "width_mm": 680,
+    "depth_mm": 360,
+    "height_mm": 1520
+  },
+  "pivot": "bottom_center",
+  "materials": [
+    {
+      "name": "Mat_Ao_Trang_Lam",
+      "color_hex": "#a0979f",
+      "fabric": "Linen mềm rủ lam khói"
+    },
+    {
+      "name": "Mat_Nep_Co",
+      "color_hex": "#928a93",
+      "fabric": "Nẹp cổ chéo vạt to bản"
+    },
+    {
+      "name": "Mat_Wood_Pedestal",
+      "color_hex": "#61381F",
+      "fabric": "Gỗ sồi tiện cao cấp"
+    }
+  ],
+  "description": "Bộ trang phục Phật tử truyền thống Áo tràng vạt chéo có nơ thắt eo vải lam và ống tay thụng rộng, trưng bày trên ma-nơ-canh gỗ thanh lịch chuẩn Coohom."
+}
