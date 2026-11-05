@@ -300,8 +300,8 @@
       <div class="control-group">
         <div class="group-label">Nguồn Hiển Thị 3D</div>
         <div class="btn-row">
-          <button id="btn-mode-natural" class="active" onclick="switchRenderMode('natural')">Tỷ Lệ Tự Nhiên Mới</button>
-          <button id="btn-mode-glb" onclick="switchRenderMode('glb')">Mô Hình GLB Thật</button>
+          <button id="btn-mode-glb" class="active" onclick="switchRenderMode('glb')">Mô Hình 3D Người Thật</button>
+          <button id="btn-mode-natural" onclick="switchRenderMode('natural')">Bản Khối Đơn Giản</button>
         </div>
       </div>
 
@@ -403,7 +403,7 @@
     let scene, camera, renderer, controls;
     let characters = {};
     let glbCharacters = {};
-    let renderMode = 'natural'; // 'natural' hoặc 'glb'
+    let renderMode = 'glb'; // 'glb' người thật làm mặc định, 'natural' khối đơn giản
     let activeCharacterKey = 'nam';
     let currentAnim = 'idle';
     let animTime = 0;
