@@ -6,6 +6,11 @@
 
 ## 📸 Thư Viện Hình Ảnh Mô Hình 3D (Gallery)
 
+### 🌸 Không Gian 3D Cartoon Chùa Vĩnh Tràng (Chuẩn Thiết Kế Gốc)
+<p align="center">
+  <img src="./Thiết%20kế%20giao%20diện/chua-vinh-trang-3d-cartoon-de-xuat-01.png" width="98%" alt="Chùa Vĩnh Tràng 3D Cartoon — Người phụ nữ đi vào Chánh điện" />
+</p>
+
 ### 🏛️ Không Gian Kiến Trúc Chùa Vĩnh Tràng
 <p align="center">
   <img src="./Mô%20hình%203D%20Vĩnh%20Tràng/render_vinh_trang_facade.png" width="49%" alt="Mặt tiền Chùa Vĩnh Tràng" />
