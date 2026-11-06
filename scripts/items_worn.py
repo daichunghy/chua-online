@@ -1,1 +1,325 @@
-IiIiCkZJVCBNT0RFTCBSRVBPIEzDik4gTkjDgk4gVuG6rFQgVEjhuqxUIOKAlCBDaMO5YSBPbmxpbmUgLyBWxKluaCBUcsOgbmcgKGLhuqNuIHYyOiBpbXBvcnQtYW5kLWZpdCkKVGhheSB0b8OgbiBi4buZIHbhuq10IHBo4bqpbSBk4buxbmcgbmd1ecOqbiB0aOG7p3kgKGLhuqNuIGPFqSBsxrB1IOG7nyBpdGVtc193b3JuX3YxX3ByaW1pdGl2ZXMucHkpIGLhurFuZwpNT0RFTCBIT8OATiBDSOG7iE5IIEPDkyBURVhUVVJFIHThu6sgcmVwbyBjaHVhLW9ubGluZSAocGlwZWxpbmUgQ29vaG9tKSwgdGjGsCBt4bulYyByZXBvLWl0ZW1zLzoKICAxLiBub25fbGFfdGhldV9zZW5fdjMuZ2xiICDigJQgbsOzbiBsw6EgdGjDqnUgc2VuIFBCUiAoa8OobSBxdWFpIGzhu6VhIGjhu5NuZykg4oaSIHRoYXkgbsOzbiBjw7RuIHRyxqFuCiAgMi4gdHVpX3ZhaV90aGV1X3Nlbi5nbGIgICAg4oCUIHTDumkgduG6o2kgdGjDqnUgc2VuIFBCUiAodGjDom4gKyBxdWFpIHjDoWNoKSDihpIgdGhheSB0w7ppIGjhu5lwIHRyxqFuOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgduG6q24gZ2nhu68gcXVhaSDEkWVvIHZhaSAzIMSRb+G6oW4gw7RtIHRow6JuIMSRw6MgZml0IChtb2RlbCByZXBvIGNo4buJIGPDsyBxdWFpIHjDoWNoKQogIDMuIHRyYW5nX2hhdF9ib19kZS5vYmogICAg4oCUIHRyw6BuZyBo4bqhdCAxMDggaOG6oXQgKyBo4bqhdCBo4buTIGzDtCArIHR1YSBjaOG7iSDEkeG7jyAoTVRMIG3DoHUpCiAgNC4gaG9hX3Nlbl90dW9pLm9iaiAgICAgICDigJQgYsO6cCBzZW4gaOG7k25nICsgZ8awxqFuZyBzZW4gKyBjdeG7kW5nICsgbMOhIHNlbiAoTVRMIG3DoHUpCiAgNS4ga2hhbl9yYW5fbmFtX2JvLm9iaiAgICDigJQga2jEg24gcuG6sW46IHbDoG5oIGNhcm8gKyAyIHbhuqF0IHRy4bqvbmcgKyB0dWEgKE1UTCBtw6B1KQoKS+G7tyBsdeG6rXQgZml0IGdp4buvIG5ndXnDqm46IG3hu41pIGvDrWNoIHRoxrDhu5tjL3bhu4sgdHLDrSBzdXkgdOG7qyBwb3NlZCBtZXNoICsgeMawxqFuZyBj4bunYSBjaMOtbmggbmjDom4gduG6rXQKKHRow6JuIMSRbyBwb3NlIMSQ4bupbmcsIHRheS9j4buVIMSRbyBwb3NlIENo4bqvcCB0YXkgZnJhbWUgMTUpLiBNb2RlbCByZXBvIMSRxrDhu6NjIMSRbyBiYm94IHRo4bqtdCBj4bunYQpjaMOtbmggbsOzIHLhu5NpIHNjYWxlIHbhu4EgxJHDum5nIGdpw6EgdHLhu4sgZml0IMSRw6Mga2nhu4NtIGNo4bupbmcgKHbDoG5oIG7Ds24gMCwyNTJILCB0aMOibiB0w7ppIDAsMTU1SMOXMCwxNjVILi4uKS4KTcOgdSBuaMOibiB24bqtdCA9IHZlcnRleCBjb2xvciAnQ29sb3InLgoKRMO5bmc6IGJsZW5kZXIgLWIgLS1mYWN0b3J5LXN0YXJ0dXAgLW5vYXVkaW8gLS1weXRob24gaXRlbXNfd29ybi5weSAtLSA8bnV8bmFtfHRyZT4KIiIiCmltcG9ydCBicHksIG1hdGgsIHN5cywgb3MKc3lzLnN0ZG91dC5yZWNvbmZpZ3VyZShsaW5lX2J1ZmZlcmluZz1UcnVlKQpmcm9tIG1hdGh1dGlscyBpbXBvcnQgVmVjdG9yCgpLRVkgPSBzeXMuYXJndltzeXMuYXJndi5pbmRleCgnLS0nKSArIDFdCkNGRyA9IHsKICAgICdudSc6ICBkaWN0KHNyYz0iL2hvbWUvaGF0Y2gvd29ya3NwYWNlL3VzZXIvZmlsZXMvbnUtcGh1Yy1ob2ktbWF1LWNodXllbi1kb25nLmdsYiIsCiAgICAgICAgICAgICAgICBoYXQ9J3YxJywgb3V0PSIvaG9tZS9oYXRjaC93b3Jrc3BhY2UvY2h1YS1vbmxpbmUtd29yay9pdGVtcy1udS5wbmciKSwKICAgICduYW0nOiBkaWN0KHNyYz0iL2hvbWUvaGF0Y2gvd29ya3NwYWNlL3VzZXIvZmlsZXMvbmFtLWNodXllbi1kb25nLmdsYiIsCiAgICAgICAgICAgICAgICBoYXQ9J3YyJywgb3V0PSIvaG9tZS9oYXRjaC93b3Jrc3BhY2UvY2h1YS1vbmxpbmUtd29yay9pdGVtcy1uYW0ucG5nIiksCiAgICAndHJlJzogZGljdChzcmM9Ii9ob21lL2hhdGNoL3dvcmtzcGFjZS91c2VyL2ZpbGVzL3RyZS1lbS1jaHV5ZW4tZG9uZy5nbGIiLAogICAgICAgICAgICAgICAgaGF0PSd2MicsIG91dD0iL2hvbWUvaGF0Y2gvd29ya3NwYWNlL2NodWEtb25saW5lLXdvcmsvaXRlbXMtdHJlLWVtLnBuZyIpLAp9W0tFWV0KSVRFTVMgPSAiL2hvbWUvaGF0Y2gvd29ya3NwYWNlL2NodWEtb25saW5lLXdvcmsvcmVwby1pdGVtcyIKCmJweS5vcHMud20ucmVhZF9mYWN0b3J5X3NldHRpbmdzKHVzZV9lbXB0eT1UcnVlKQpicHkub3BzLmltcG9ydF9zY2VuZS5nbHRmKGZpbGVwYXRoPUNGR1snc3JjJ10pCmFybSA9IG5leHQobyBmb3IgbyBpbiBicHkuY29udGV4dC5zY2VuZS5vYmplY3RzIGlmIG8udHlwZSA9PSAnQVJNQVRVUkUnKQptZXNoID0gbmV4dChvIGZvciBvIGluIGJweS5jb250ZXh0LnNjZW5lLm9iamVjdHMgaWYgby50eXBlID09ICdNRVNIJyBhbmQgby5uYW1lID09ICdnZW9tZXRyeV8wJykKZm9yIG8gaW4gbGlzdChicHkuY29udGV4dC5zY2VuZS5vYmplY3RzKToKICAgIGlmIG8udHlwZSA9PSAnTUVTSCcgYW5kIG8ubmFtZSAhPSAnZ2VvbWV0cnlfMCc6CiAgICAgICAgYnB5LmRhdGEub2JqZWN0cy5yZW1vdmUobywgZG9fdW5saW5rPVRydWUpCgp2bSA9IGJweS5kYXRhLm1hdGVyaWFscy5uZXcoIk1hdV9WZXJ0ZXhfTmhhblZhdCIpOyB2bS51c2Vfbm9kZXMgPSBUcnVlCm50ID0gdm0ubm9kZV90cmVlCmJzZGYgPSBudC5ub2Rlc1siUHJpbmNpcGxlZCBCU0RGIl07IGJzZGYuaW5wdXRzWyJSb3VnaG5lc3MiXS5kZWZhdWx0X3ZhbHVlID0gMC43NQp2YyA9IG50Lm5vZGVzLm5ldygiU2hhZGVyTm9kZVZlcnRleENvbG9yIik7IHZjLmxheWVyX25hbWUgPSAiQ29sb3IiCm50LmxpbmtzLm5ldyh2Yy5vdXRwdXRzWyJDb2xvciJdLCBic2RmLmlucHV0c1siQmFzZSBDb2xvciJdKQptZXNoLmRhdGEubWF0ZXJpYWxzLmNsZWFyKCk7IG1lc2guZGF0YS5tYXRlcmlhbHMuYXBwZW5kKHZtKQoKZGVmIG1hdChuYW1lLCByZ2JhLCByb3VnaD0wLjgpOgogICAgbSA9IGJweS5kYXRhLm1hdGVyaWFscy5uZXcobmFtZSk7IG0udXNlX25vZGVzID0gVHJ1ZQogICAgYiA9IG0ubm9kZV90cmVlLm5vZGVzWyJQcmluY2lwbGVkIEJTREYiXQogICAgYi5pbnB1dHNbIkJhc2UgQ29sb3IiXS5kZWZhdWx0X3ZhbHVlID0gcmdiYTsgYi5pbnB1dHNbIlJvdWdobmVzcyJdLmRlZmF1bHRfdmFsdWUgPSByb3VnaAogICAgcmV0dXJuIG0KbWF0X3N0cmFwID0gbWF0KCJRdWFpIiwgKDAuNDUsIDAuNDAsIDAuMzQsIDEpLCAwLjkpCgpkZWYgc2V0X3Bvc2UoYWN0aW9uX25hbWUsIGZyYW1lKToKICAgIGFjdCA9IGJweS5kYXRhLmFjdGlvbnMuZ2V0KGFjdGlvbl9uYW1lKQogICAgaWYgYXJtLmFuaW1hdGlvbl9kYXRhIGlzIE5vbmU6IGFybS5hbmltYXRpb25fZGF0YV9jcmVhdGUoKQogICAgYXJtLmFuaW1hdGlvbl9kYXRhLmFjdGlvbiA9IGFjdAogICAgYnB5LmNvbnRleHQuc2NlbmUuZnJhbWVfc2V0KGZyYW1lKQogICAgYnB5LmNvbnRleHQudmlld19sYXllci51cGRhdGUoKQoKZGVmIHBvc2VkX3ZlcnRzKCk6CiAgICBkZyA9IGJweS5jb250ZXh0LmV2YWx1YXRlZF9kZXBzZ3JhcGhfZ2V0KCk7IGV2ID0gbWVzaC5ldmFsdWF0ZWRfZ2V0KGRnKQogICAgcmV0dXJuIFtldi5tYXRyaXhfd29ybGQgQCB2LmNvIGZvciB2IGluIGV2LmRhdGEudmVydGljZXNdCgpkZWYgYm9uZV93b3JsZChuYW1lKToKICAgIHBiID0gYXJtLnBvc2UuYm9uZXNbbmFtZV0KICAgIHJldHVybiAoYXJtLm1hdHJpeF93b3JsZCBAIHBiLmhlYWQsIGFybS5tYXRyaXhfd29ybGQgQCBwYi50YWlsKQoKIyAtLS0tLS0tLS0tIMSQbyBwb3NlIMSQ4bupbmcgLS0tLS0tLS0tLQpzZXRfcG9zZSgnRHVuZ193b3JsZCcsIDEpCnYwID0gcG9zZWRfdmVydHMoKQp6MG1pbiA9IG1pbih2LnogZm9yIHYgaW4gdjApOyB6MG1heCA9IG1heCh2LnogZm9yIHYgaW4gdjApOyBIMCA9IHowbWF4IC0gejBtaW4KYmFuZDAgPSBbdiBmb3IgdiBpbiB2MCBpZiBhYnModi56IC0gKHowbWluICsgMC43OCAqIEgwKSkgPCAwLjAzICogSDAgYW5kIGFicyh2LngpIDwgMC4xNiAqIEgwXQpGUk9OVF9ZID0gbWluKHYueSBmb3IgdiBpbiBiYW5kMCkgLSAwLjAwNgoKIyAtLS0tLS0tLS0tIMSQbyBwb3NlIENo4bqvcCB0YXkgLS0tLS0tLS0tLQpzZXRfcG9zZSgnQ2jhuq9wIHRheV93b3JsZCcsIDE1KQp2ZXJ0cyA9IHBvc2VkX3ZlcnRzKCkKem1pbiA9IG1pbih2LnogZm9yIHYgaW4gdmVydHMpOyB6bWF4ID0gbWF4KHYueiBmb3IgdiBpbiB2ZXJ0cyk7IEggPSB6bWF4IC0gem1pbgpoZWFkX2JhbmQgPSBbdiBmb3IgdiBpbiB2ZXJ0cyBpZiB2LnogPiB6bWF4IC0gMC4xNiAqIEhdCmhlYWRfY3ggPSBzdW0odi54IGZvciB2IGluIGhlYWRfYmFuZCkgLyBsZW4oaGVhZF9iYW5kKQpoZWFkX2N5ID0gc3VtKHYueSBmb3IgdiBpbiBoZWFkX2JhbmQpIC8gbGVuKGhlYWRfYmFuZCkKaGlwX2JhbmQgPSBbdiBmb3IgdiBpbiB2ZXJ0cyBpZiBhYnModi56IC0gKHptaW4gKyAwLjUyICogSCkpIDwgMC4wMyAqIEhdCmhpcF93ID0gbWF4KHYueCBmb3IgdiBpbiBoaXBfYmFuZCkgLSBtaW4odi54IGZvciB2IGluIGhpcF9iYW5kKQpoZWFkX2gsIGhlYWRfdCA9IGJvbmVfd29ybGQoJ0hlYWQnKQpzaExfaCwgXyA9IGJvbmVfd29ybGQoJ0wgdXBwZXIgYXJtJykKc2hSX2gsIF8gPSBib25lX3dvcmxkKCdSIHVwcGVyIGFybScpCmxoX2gsIGxoX3QgPSBib25lX3dvcmxkKCdMIGhhbmQnKQpyaF9oLCByaF90ID0gYm9uZV93b3JsZCgnUiBoYW5kJykKcGFsbSA9IChsaF9oICsgcmhfaCkgLyAyCnByaW50KGYiW3tLRVl9XSBIPXtIOi4zZn0gRlJPTlRfWT17RlJPTlRfWTouM2Z9IHBhbG09e3R1cGxlKHJvdW5kKHYsMykgZm9yIHYgaW4gcGFsbSl9IikKCiMgZW8gY+G7lTogcXXDqXQgeiBkxrDhu5tpIHjGsMahbmcgSGVhZCwgbsahaSBi4buBIG5nYW5nIHRow6JuIGjhurlwIG5o4bqldCAobmjGsCBi4bqjbiB2MSkKbmVja19jeCwgbmVja19jeSA9IGhlYWRfaC54LCBoZWFkX2gueQpiZXN0ID0gTm9uZTsgemNfdHJ5ID0gaGVhZF9oLnogLSAwLjAwNCAqIEgKd2hpbGUgemNfdHJ5ID4gaGVhZF9oLnogLSAwLjA1NSAqIEg6CiAgICBiYW5kID0gW3YgZm9yIHYgaW4gdmVydHMgaWYgYWJzKHYueiAtIHpjX3RyeSkgPCAwLjAwOCAqIEhdCiAgICBpZiBiYW5kOgogICAgICAgIGhhbGZ3ID0gbWF4KGFicyh2LnggLSBuZWNrX2N4KSBmb3IgdiBpbiBiYW5kKQogICAgICAgIGlmIGJlc3QgaXMgTm9uZSBvciBoYWxmdyA8IGJlc3RbMV06IGJlc3QgPSAoemNfdHJ5LCBoYWxmdykKICAgIHpjX3RyeSAtPSAwLjAwNCAqIEgKbmVja196ID0gYmVzdFswXSBpZiBiZXN0IGVsc2UgaGVhZF9oLnogLSAwLjAyICogSApwcmludChmIlt7S0VZfV0gbmVja196PXtuZWNrX3o6LjNmfSIpCgojIC0tLS0tLS0tLS0gSGVscGVyOiBpbXBvcnQgbW9kZWwgcmVwbywgdHLhuqMgduG7gSBsaXN0IG1lc2ggbeG7m2kgLS0tLS0tLS0tLQpkZWYgaW1wb3J0X2l0ZW0oZmlsZW5hbWUpOgogICAgYmVmb3JlID0gc2V0KGJweS5jb250ZXh0LnNjZW5lLm9iamVjdHMpCiAgICBwID0gb3MucGF0aC5qb2luKElURU1TLCBmaWxlbmFtZSkKICAgIGlmIGZpbGVuYW1lLmVuZHN3aXRoKCcuZ2xiJyk6IGJweS5vcHMuaW1wb3J0X3NjZW5lLmdsdGYoZmlsZXBhdGg9cCkKICAgIGVsc2U6IGJweS5vcHMud20ub2JqX2ltcG9ydChmaWxlcGF0aD1wKQogICAgbmV3ID0gW28gZm9yIG8gaW4gYnB5LmNvbnRleHQuc2NlbmUub2JqZWN0cyBpZiBvIG5vdCBpbiBiZWZvcmVdCiAgICBtZXNoZXMgPSBbbyBmb3IgbyBpbiBuZXcgaWYgby50eXBlID09ICdNRVNIJ10KICAgIGZvciBvIGluIG5ldzoKICAgICAgICBpZiBvLnR5cGUgIT0gJ01FU0gnOiBicHkuZGF0YS5vYmplY3RzLnJlbW92ZShvLCBkb191bmxpbms9VHJ1ZSkKICAgIGlmIGZpbGVuYW1lLmVuZHN3aXRoKCcub2JqJyk6CiAgICAgICAgIyBPQkogY+G7p2EgcmVwbyBtYW5nIGN1c3RvbSBzcGxpdCBub3JtYWxzIEjhu45ORyAodGhhbSBjaGnhur91IHZuIHbGsOG7o3QgbeG6o25nKSDihpIgc2hhZGUKICAgICAgICAjIGfhuqduIMSRZW4gdHJvbmcgbeG7jWkgaW1wb3J0ZXIgY2h14bqpbi4gdmVyaWZ5X29uZS5weSBj4bunYSBjaMOtbmggcmVwbyBjxaluZyBwaOG6o2kgeG/DoQogICAgICAgICMgc3BsaXQgbm9ybWFscyArIHNoYWRlX3Ntb290aF9ieV9hbmdsZSBt4bubaSBraeG7g20gY2jhu6luZyDEkcaw4bujYyDigJQgw6FwIMSRw7puZyBjaHXhuqluIMSRw7MuCiAgICAgICAgZm9yIG8gaW4gbWVzaGVzOgogICAgICAgICAgICBicHkuY29udGV4dC52aWV3X2xheWVyLm9iamVjdHMuYWN0aXZlID0gbwogICAgICAgICAgICBvLnNlbGVjdF9zZXQoVHJ1ZSkKICAgICAgICAgICAgaWYgby5kYXRhLmhhc19jdXN0b21fbm9ybWFsczoKICAgICAgICAgICAgICAgIHRyeTogYnB5Lm9wcy5tZXNoLmN1c3RvbWRhdGFfY3VzdG9tX3NwbGl0bm9ybWFsc19jbGVhcigpCiAgICAgICAgICAgICAgICBleGNlcHQgRXhjZXB0aW9uOiBwYXNzCiAgICAgICAgICAgIHRyeTogYnB5Lm9wcy5vYmplY3Quc2hhZGVfc21vb3RoX2J5X2FuZ2xlKCkKICAgICAgICAgICAgZXhjZXB0IEV4Y2VwdGlvbjoKICAgICAgICAgICAgICAgIGZvciBwXyBpbiBvLmRhdGEucG9seWdvbnM6IHBfLnVzZV9zbW9vdGggPSBUcnVlCiAgICAgICAgICAgIG8uc2VsZWN0X3NldChGYWxzZSkKICAgICAgICAgICAgby5kYXRhLnVwZGF0ZSgpCiAgICByZXR1cm4gbWVzaGVzCgpkZWYgYmJveF9vZihvYmpzKToKICAgIHhzLCB5cywgenMgPSBbXSwgW10sIFtdCiAgICBmb3IgbyBpbiBvYmpzOgogICAgICAgIGZvciBjIGluIG8uYm91bmRfYm94OgogICAgICAgICAgICB3ID0gby5tYXRyaXhfd29ybGQgQCBWZWN0b3IoYykKICAgICAgICAgICAgeHMuYXBwZW5kKHcueCk7IHlzLmFwcGVuZCh3LnkpOyB6cy5hcHBlbmQody56KQogICAgcmV0dXJuIChtaW4oeHMpLCBtYXgoeHMpLCBtaW4oeXMpLCBtYXgoeXMpLCBtaW4oenMpLCBtYXgoenMpKQoKIyAtLS0tLS0tLS0tIDEuIE7Dk04gUkVQTzogc2NhbGUgdsOgbmggduG7gSAwLDI1MkgsIHbDoG5oIHThuqFpIHJpbV96IMSRw6MgZml0IC0tLS0tLS0tLS0KaGF0X29ianMgPSBpbXBvcnRfaXRlbSgibm9uX2xhX3RoZXVfc2VuX3YzLmdsYiIpCmNvbmUgPSBuZXh0KG8gZm9yIG8gaW4gaGF0X29ianMgaWYgJ05vbl9MYScgaW4gby5uYW1lKQojIFF1YWkgbOG7pWEgY+G7p2EgR0xCOiB2w7JuZyDEkWFpIG7hurFtIHRyb25nIG3hurd0IHBo4bqzbmcgWFogcXVhIHRy4bulYyDEkeG6p3Ug4oCUIGtoaSDEkeG7mWkgbMOqbiDEkeG6p3UgdGjhuq10LAojIGN1bmcgZMaw4bubaSBj4bunYSBuw7MgY+G6r3QgbmdhbmcgbeG6t3QgKMSRw6Mga2nhu4NtIGNo4bupbmcgYuG6sW5nIHJlbmRlcikg4oaSIGxv4bqhaSBtZXNoIHF1YWksIGdp4buvIHRow6JuIG7Ds24uCmZvciBvIGluIGxpc3QoaGF0X29ianMpOgogICAgaWYgbyBpcyBub3QgY29uZToKICAgICAgICBubSA9IG8ubmFtZQogICAgICAgIGJweS5kYXRhLm9iamVjdHMucmVtb3ZlKG8sIGRvX3VubGluaz1UcnVlKQogICAgICAgIGhhdF9vYmpzLnJlbW92ZShvKQogICAgICAgIHByaW50KGYiW3tLRVl9XSByZXBvIGhhdDogcmVtb3ZlZCBzdHJhcCBtZXNoICd7bm19JyAoZmFjZS1jbGlwcGluZyBhcyBhdXRob3JlZCkiKQpoYiA9IGJib3hfb2YoW2NvbmVdKTsgYnJpbV9kID0gaGJbMV0gLSBoYlswXQpzX2hhdCA9ICgwLjI1MiAqIEgpIC8gYnJpbV9kCmlmIENGR1snaGF0J10gPT0gJ3YyJzoKICAgIHJpbV96ID0gem1pbiArIDAuODg1ICogSDsgaGF0X2N4LCBoYXRfY3kgPSBoZWFkX2N4LCBoZWFkX2N5CmVsc2U6CiAgICByaW1feiA9IHptaW4gKyAwLjg5NSAqIEg7IGhhdF9jeCwgaGF0X2N5ID0gaGVhZF9oLngsIGhlYWRfaC55CmZvciBvIGluIGhhdF9vYmpzOgogICAgby5zY2FsZSA9IChzX2hhdCwgc19oYXQsIHNfaGF0KQogICAgby5yb3RhdGlvbl9ldWxlciA9IChtYXRoLnJhZGlhbnMoMyksIDAsIDApCiAgICBvLmxvY2F0aW9uID0gKGhhdF9jeCwgaGF0X2N5LCByaW1feikgICAjIG9yaWdpbiBHTEIgbuG6sW0gdOG6oWkgdMOibSB2w6BuaCAoej0wKQpwcmludChmIlt7S0VZfV0gcmVwbyBoYXQ6IGJyaW0ge2JyaW1fZDouM2Z9IC0+IHNjYWxlIHtzX2hhdDouM2Z9LCByaW1fej17cmltX3o6LjNmfSIpCgojIC0tLS0tLS0tLS0gMi4gVMOaSSBSRVBPICsgcXVhaSDEkWVvIHZhaSAzIMSRb+G6oW4gxJHDoyBmaXQgLS0tLS0tLS0tLQpiYWdfb2JqcyA9IGltcG9ydF9pdGVtKCJ0dWlfdmFpX3RoZXVfc2VuLmdsYiIpCmJhZyA9IGJhZ19vYmpzWzBdCmJiID0gYmJveF9vZihiYWdfb2JqcykKYmFnX3csIGJhZ19kID0gYmJbMV0gLSBiYlswXSwgYmJbM10gLSBiYlsyXQojIHRow6JuIHTDumkgcmVwbzogeiAwLi4wLDM4IHRyb25nIHThu5VuZyBjYW8gMCw1NjQgKHBo4bqnbiB0csOqbiBsw6AgcXVhaSB4w6FjaCkg4oCUIHThu4kgbOG7hyB0aMOibiBzdXkgdOG7qyBmaWxlIGNoxrBhIGfhu5lwCkJPRFlfRlJBQyA9IDAuMzggLyAwLjU2NApiYWdfdG90YWxfaCA9IGJiWzVdIC0gYmJbNF0KYm9keV9oX2xvY2FsID0gYmFnX3RvdGFsX2ggKiBCT0RZX0ZSQUMKc19iYWcgPSAoMC4xNTUgKiBIKSAvIGJhZ193CmJhZ19jID0gVmVjdG9yKChoaXBfdyAvIDIgKyAwLjA1NSAqIEgsIDAuMCwgem1pbiArIDAuNDcgKiBIKSkKb3JpZ2luX3ogPSBiYWdfYy56IC0gKGJvZHlfaF9sb2NhbCAqIHNfYmFnKSAvIDIKZm9yIG8gaW4gYmFnX29ianM6CiAgICBvLnNjYWxlID0gKHNfYmFnLCBzX2JhZywgc19iYWcpCiAgICBvLnJvdGF0aW9uX2V1bGVyID0gKDAsIDAsIG1hdGgucmFkaWFucygtNCkpCiAgICBvLmxvY2F0aW9uID0gKGJhZ19jLngsIGJhZ19jLnksIG9yaWdpbl96KQpwcmludChmIlt7S0VZfV0gcmVwbyBiYWc6IHcge2JhZ193Oi4zZn0gLT4gc2NhbGUge3NfYmFnOi4zZn0sIGJvZHlfaD17KGJvZHlfaF9sb2NhbCpzX2JhZyk6LjNmfSB0YXJnZXQgezAuMTY1Kkg6LjNmfSIpCiMgcXVhaSDEkWVvIHZhaSAzIMSRb+G6oW4gw7RtIGLhu4EgbeG6t3QgKGdp4buvIG5ndXnDqm4gYuG6o24gZml0IMSRw6MgxJHhuqF0KQpkZWYgc3VyZl95X2ZpdCh6ZnJhYywgeCk6CiAgICB6dCA9IHowbWluICsgemZyYWMgKiBIMAogICAgYmFuZCA9IFt2LnkgZm9yIHYgaW4gdjAgaWYgYWJzKHYueiAtIHp0KSA8IDAuMDIgKiBIMCBhbmQgYWJzKHYueCAtIHgpIDwgMC4wNiAqIEgwXQogICAgaWYgbm90IGJhbmQ6IHJldHVybiBGUk9OVF9ZCiAgICByZXR1cm4gbWF4KG1pbihiYW5kKSAtIDAuMDA0LCBGUk9OVF9ZIC0gMC4wMTUpCnAxID0gVmVjdG9yKChiYWdfYy54IC0gMC4wMiwgRlJPTlRfWSArIDAuMDMsIGJhZ19jLnogKyAoYm9keV9oX2xvY2FsICogc19iYWcpIC8gMikpCnAyID0gVmVjdG9yKChzaFJfaC54ICsgMC4wMSwgRlJPTlRfWSwgc2hSX2gueiAtIDAuMDEpKQpwdHMgPSBbcDFdCmZvciB0IGluICgwLjMzLCAwLjY2KToKICAgIHEgPSBwMS5sZXJwKHAyLCB0KTsgcS55ID0gc3VyZl95X2ZpdCgocS56IC0gem1pbikgLyBILCBxLngpOyBwdHMuYXBwZW5kKHEpCnB0cy5hcHBlbmQocDIpCmZvciBpIGluIHJhbmdlKGxlbihwdHMpIC0gMSk6CiAgICBhLCBiID0gcHRzW2ldLCBwdHNbaSArIDFdOyBtaWQgPSAoYSArIGIpIC8gMjsgZCA9IGIgLSBhCiAgICBicHkub3BzLm1lc2gucHJpbWl0aXZlX2N1YmVfYWRkKHNpemU9MSwgbG9jYXRpb249bWlkKQogICAgc2VnID0gYnB5LmNvbnRleHQub2JqZWN0OyBzZWcubmFtZSA9IGYiUXVhaV9EZW9fRml0VGhhdF97aX0iCiAgICBzZWcuZGltZW5zaW9ucyA9ICgwLjAxNiAqIEgsIDAuMDA0LCBkLmxlbmd0aCkKICAgIHNlZy5yb3RhdGlvbl9tb2RlID0gJ1FVQVRFUk5JT04nCiAgICBzZWcucm90YXRpb25fcXVhdGVybmlvbiA9IFZlY3RvcigoMCwgMCwgMSkpLnJvdGF0aW9uX2RpZmZlcmVuY2UoZC5ub3JtYWxpemVkKCkpCiAgICBzZWcuZGF0YS5tYXRlcmlhbHMuYXBwZW5kKG1hdF9zdHJhcCkKCiMgLS0tLS0tLS0tLSAzLiBUUsOATkcgSOG6oFQgUkVQTzogeG9heSDEkeG7qW5nLCBrw6lvIGdpw6NuIHRoZW8gdHLhu6VjIHbDsm5nLCB0cmVvIHF1YSBoYWkgdGF5IC0tLS0tLS0tLS0KYmVhZF9vYmpzID0gaW1wb3J0X2l0ZW0oInRyYW5nX2hhdF9ib19kZS5vYmoiKQpiZWFkcyA9IGJlYWRfb2Jqc1swXQojIE1vZGVsIGfhu5FjOiB2w7JuZyBvdmFsIG7hurFtIHBo4bqzbmcgWFkgKDAsMjk2IMOXIDAsNDE2KSwgaOG6oXQgY2jhu6cg4bufIMSR4bqndSDiiJJZLCB0dWEgcuG7pyDiiJJaIHThuqFpIGjhuqF0IGNo4bunLgojIFhvYXkgWCArOTDCsDogdHLhu6VjIGTDoGkg4oaSIHRy4bulYyBaICho4bqhdCBjaOG7pyB4deG7kW5nIMSRw6F5KSwgdHVhIHJhIHBow61hICtZICh24buBIHBow61hIHRow6JuKSDigJQgbmdoacOqbmcgdGjDqm0g4oiSNcKwIGNobyDEkcOheSB2w7JuZyBuZ+G6oyByYSB0csaw4bubYy4KTE9PUF9IID0gMC41MCAqIEggICAgICAgICAgIyBjaGnhu4F1IGNhbyB2w7JuZyBzYXUgZml0IOKAlCBraOG7m3AgxJHDoXkgdsOybmcgYuG6o24gbmd1ecOqbiB0aOG7p3kgxJHDoyDEkeG6oXQgKHRvcCB0YXkg4oaSIMSRw6F5IOKJiCAwLDk3IHbhu5tpIEjiiYgxLDk5KQpiYiA9IGJib3hfb2YoYmVhZF9vYmpzKQpsb25nX2xvY2FsID0gYmJbM10gLSBiYlsyXSAgIyAwLDQxNgp3aWRfbG9jYWwgPSBiYlsxXSAtIGJiWzBdICAgIyAwLDI5Ngpzel9sb25nID0gTE9PUF9IIC8gbG9uZ19sb2NhbApzeF93aWQgPSAwLjM1IC8gd2lkX2xvY2FsICogKEggLyAxLjk4NSkgICAjIGLhu4EgbmdhbmcgdsOybmcg4omIIDAsMzUg4bufIEggY2h14bqpbiAo4omIIGLhu4EgbmdhbmcgdGjDom4pLCB04buJIGzhu4cgdGhlbyBICiMgTW9kZWwgZ+G7kWM6IG9ial9pbXBvcnQgxJHhurd0IHPhurVuIHJvdGF0aW9uIFggKzkwwrAgdHLDqm4gb2JqZWN0IChnZW9tZXRyeSBsb2NhbCBraMOhYyBo4buHIHdvcmxkKS4KIyDhu54gd29ybGQgc2F1IGltcG9ydDogdsOybmcgb3ZhbCBu4bqxbSBwaOG6s25nIFhZICgwLDI5NiDDlyAwLDQxNiksIGjhuqF0IGNo4bunIOG7nyDEkeG6p3Ug4oiSWSwgdHVhIHLhu6cg4oiSWi4KIyBGaXQ6IGPhu5luZyB0aMOqbSBSeCArODXCsCB2w6BvIHJvdGF0aW9uIG9iamVjdCAoPSAxNzXCsCkgxJHhu4MgdHLhu6VjIGTDoGkgdGjDoG5oIHRy4bulYyBaLCBo4bqhdCBjaOG7pwojIHh14buRbmcgxJHDoXksIMSRw6F5IHbDsm5nIG5n4bqjIHRyxrDhu5tjIDXCsC4gU2NhbGUgdGhlbyB0cuG7pWMgTE9DQUw6IHggPSBi4buBIG5nYW5nIChmaWxlIFgpLAojIHogPSB0cuG7pWMgZMOgaSAoZmlsZSBZKSwgeSA9IGLhu4EgZMOgeSB2w7JuZyAoZ2nhu68gMSwwKS4KZm9yIG8gaW4gYmVhZF9vYmpzOgogICAgby5yb3RhdGlvbl9ldWxlciA9IChtYXRoLnJhZGlhbnMoOTAgKyA4NSksIDAsIDApCiAgICBvLnNjYWxlID0gKHN4X3dpZCwgMS4wLCBzel9sb25nKQogICAgdG9wX3ogPSBwYWxtLnogKyAwLjAzCiAgICBvLmxvY2F0aW9uID0gKHBhbG0ueCwgcGFsbS55ICsgMC4wMTAsIHRvcF96IC0gKGxvbmdfbG9jYWwgLyAyKSAqIHN6X2xvbmcpCnByaW50KGYiW3tLRVl9XSByZXBvIGJlYWRzOiBzY2FsZV94PXtzeF93aWQ6LjJmfSBzY2FsZV9sb25nPXtzel9sb25nOi4yZn0gdG9wX3o9e3BhbG0ueiArIDAuMDM6LjNmfSBib3R0b21fej17cGFsbS56ICsgMC4wMyAtIExPT1BfSDouM2Z9IikKCiMgLS0tLS0tLS0tLSA0LiBIT0EgU0VOIFJFUE86IGLDunAgxJHhu6luZyBnaeG7r2EgaGFpIGzDsm5nIGLDoG4gdGF5IC0tLS0tLS0tLS0KbG90dXNfb2JqcyA9IGltcG9ydF9pdGVtKCJob2Ffc2VuX3R1b2kub2JqIikKbGIgPSBiYm94X29mKGxvdHVzX29ianMpCmxvdHVzX2ggPSBsYls1XSAtIGxiWzRdICAgICAjIDAsMzQ2IOKAlCBjdeG7kW5nIHowIOKGkiBiw7pwIHowLDM0NiwgYsO6cCBu4bqxbSB0csOqbiB0cuG7pWMgZ+G7kWMgdG/huqEgxJHhu5kKc19sb3R1cyA9IDEuMTUgKiAoSCAvIDEuOTg1KQpmb3IgbyBpbiBsb3R1c19vYmpzOgogICAgby5zY2FsZSA9IChzX2xvdHVzLCBzX2xvdHVzLCBzX2xvdHVzKQogICAgby5sb2NhdGlvbiA9IChwYWxtLngsIHBhbG0ueSArIDAuMDA1LCBwYWxtLnogLSAwLjEwICogSCkKcHJpbnQoZiJbe0tFWX1dIHJlcG8gbG90dXM6IHNjYWxlPXtzX2xvdHVzOi4yZn0gYnVkX3RvcF96PXtwYWxtLnogLSAwLjEwKkggKyBsb3R1c19oKnNfbG90dXM6LjNmfSIpCgojIC0tLS0tLS0tLS0gNS4gS0jEgk4gUuG6sE4gUkVQTzogdsOgbmggw7RtIGVvIGPhu5UsIG5naGnDqm5nIHRyxrDhu5tjIGNobyB24bqhdCDDoXAgbmfhu7FjIC0tLS0tLS0tLS0Kc2NhcmZfb2JqcyA9IGltcG9ydF9pdGVtKCJraGFuX3Jhbl9uYW1fYm8ub2JqIikKc2IgPSBiYm94X29mKHNjYXJmX29ianMpCnJpbmdfZCA9IHNiWzFdIC0gc2JbMF0gICAgICAjIDAsMzUKc19zY2FyZiA9IDAuMzAgLyByaW5nX2QgKiAoSCAvIDEuOTg1KSAgICMgdsOgbmggZHJhcCDDmCDiiYggMCwzMCDhu58gSCBjaHXhuqluCmZvciBvIGluIHNjYXJmX29ianM6CiAgICBvLnNjYWxlID0gKHNfc2NhcmYsIHNfc2NhcmYsIHNfc2NhcmYpCiAgICAjIEdp4buvIHJvdGF0aW9uIFggKzkwwrAgZG8gb2JqX2ltcG9ydCDEkeG6t3QgKOG7nyB3b3JsZCBraMSDbiDEkcOjIMSRw7puZyB0xrAgdGjhur8gxJFlbzogdsOgbmggbmdhbmcsCiAgICAjIHbhuqF0IHLhu6cgdHLGsOG7m2Mg4oiSWSksIGNo4buJIHRy4burIDE1wrAgxJHhu4MgduG6oXQgbmfhuqMgw6FwIHbDoG8gbmfhu7FjLgogICAgby5yb3RhdGlvbl9ldWxlciA9IChtYXRoLnJhZGlhbnMoOTAgLSAxNSksIDAsIDApCiAgICBvLmxvY2F0aW9uID0gKG5lY2tfY3gsIG5lY2tfY3kgLSAwLjAwNSwgbmVja196IC0gMC4wMTgpCnByaW50KGYiW3tLRVl9XSByZXBvIHNjYXJmOiByaW5nIHtyaW5nX2Q6LjNmfSAtPiBzY2FsZSB7c19zY2FyZjouMmZ9IGF0IG5lY2tfej17bmVja196Oi4zZn0iKQoKIyAtLS0tLS0tLS0tIFPDom4gLyDEkcOobiAvIGNhbWVyYSAvIHJlbmRlciAtLS0tLS0tLS0tCmJweS5vcHMubWVzaC5wcmltaXRpdmVfcGxhbmVfYWRkKHNpemU9NDAsIGxvY2F0aW9uPSgwLCAwLCB6bWluIC0gMC4wMDUpKQpicHkuY29udGV4dC5vYmplY3QuZGF0YS5tYXRlcmlhbHMuYXBwZW5kKG1hdCgiU2FuIiwgKDAuNSwgMC40OCwgMC40NiwgMSksIDAuOTUpKQpzdW4gPSBicHkuZGF0YS5saWdodHMubmV3KCJTdW4iLCAnU1VOJyk7IHN1bi5lbmVyZ3kgPSAxLjE1CnNvID0gYnB5LmRhdGEub2JqZWN0cy5uZXcoIlN1biIsIHN1bik7IGJweS5jb250ZXh0LmNvbGxlY3Rpb24ub2JqZWN0cy5saW5rKHNvKQpzby5yb3RhdGlvbl9ldWxlciA9IChtYXRoLnJhZGlhbnMoNTApLCAwLCBtYXRoLnJhZGlhbnMoLTM1KSkKdyA9IGJweS5kYXRhLndvcmxkcy5uZXcoIlRyb2kiKTsgYnB5LmNvbnRleHQuc2NlbmUud29ybGQgPSB3OyB3LnVzZV9ub2RlcyA9IFRydWUKdy5ub2RlX3RyZWUubm9kZXNbIkJhY2tncm91bmQiXS5pbnB1dHNbMF0uZGVmYXVsdF92YWx1ZSA9ICgwLjU1LCAwLjY4LCAwLjg4LCAxKQp3Lm5vZGVfdHJlZS5ub2Rlc1siQmFja2dyb3VuZCJdLmlucHV0c1sxXS5kZWZhdWx0X3ZhbHVlID0gMC4zNQpjYW0gPSBicHkuZGF0YS5jYW1lcmFzLm5ldygiQ2FtIik7IGNhbS5jbGlwX2VuZCA9IDEwMApjbyA9IGJweS5kYXRhLm9iamVjdHMubmV3KCJDYW0iLCBjYW0pOyBicHkuY29udGV4dC5jb2xsZWN0aW9uLm9iamVjdHMubGluayhjbykKY3ggPSAobWluKHYueCBmb3IgdiBpbiB2ZXJ0cykgKyBtYXgodi54IGZvciB2IGluIHZlcnRzKSkgLyAyCmNhbS5zZW5zb3JfZml0ID0gJ1ZFUlRJQ0FMJwpjby5sb2NhdGlvbiA9IChjeCArIDAuODAgKiBILCAtMi4wNSAqIEgsIHptaW4gKyAwLjYwICogSCkKX3RndCA9IFZlY3RvcigoY3gsIC0wLjA1LCB6bWluICsgMC41MCAqIEgpKQpjby5yb3RhdGlvbl9ldWxlciA9IChfdGd0IC0gY28ubG9jYXRpb24pLnRvX3RyYWNrX3F1YXQoJy1aJywgJ1knKS50b19ldWxlcigpCmJweS5jb250ZXh0LnNjZW5lLmNhbWVyYSA9IGNvCnNjID0gYnB5LmNvbnRleHQuc2NlbmUKc2MucmVuZGVyLmVuZ2luZSA9ICdDWUNMRVMnOyBzYy5jeWNsZXMuc2FtcGxlcyA9IDMyOyBzYy5jeWNsZXMudXNlX2Rlbm9pc2luZyA9IFRydWUKc2Mudmlld19zZXR0aW5ncy52aWV3X3RyYW5zZm9ybSA9ICdBZ1gnCnNjLnJlbmRlci5yZXNvbHV0aW9uX3ggPSA5NjA7IHNjLnJlbmRlci5yZXNvbHV0aW9uX3kgPSA5NjAKc2MucmVuZGVyLmZpbGVwYXRoID0gQ0ZHWydvdXQnXQpicHkub3BzLnJlbmRlci5yZW5kZXIod3JpdGVfc3RpbGw9VHJ1ZSkKcHJpbnQoZiJbe0tFWX1dIElURU1TIEZJVCBSRVBPIERPTkUgLT4ge0NGR1snb3V0J119IikK
+"""
+FIT MODEL REPO LÊN NHÂN VẬT THẬT — Chùa Online / Vĩnh Tràng (bản v2: import-and-fit)
+Thay toàn bộ vật phẩm dựng nguyên thủy (bản cũ lưu ở items_worn_v1_primitives.py) bằng
+MODEL HOÀN CHỈNH CÓ TEXTURE từ repo chua-online (pipeline Coohom), thư mục repo-items/:
+  1. non_la_theu_sen_v3.glb  — nón lá thêu sen PBR (kèm quai lụa hồng) → thay nón côn trơn
+  2. tui_vai_theu_sen.glb    — túi vải thêu sen PBR (thân + quai xách) → thay túi hộp trơn;
+                               vẫn giữ quai đeo vai 3 đoạn ôm thân đã fit (model repo chỉ có quai xách)
+  3. trang_hat_bo_de.obj    — tràng hạt 108 hạt + hạt hồ lô + tua chỉ đỏ (MTL màu)
+  4. hoa_sen_tuoi.obj       — búp sen hồng + gương sen + cuống + lá sen (MTL màu)
+  5. khan_ran_nam_bo.obj    — khăn rằn: vành caro + 2 vạt trắng + tua (MTL màu)
+
+Kỷ luật fit giữ nguyên: mọi kích thước/vị trí suy từ posed mesh + xương của chính nhân vật
+(thân đo pose Đứng, tay/cổ đo pose Chắp tay frame 15). Model repo được đo bbox thật của
+chính nó rồi scale về đúng giá trị fit đã kiểm chứng (vành nón 0,252H, thân túi 0,155H×0,165H...).
+Màu nhân vật = vertex color 'Color'.
+
+Dùng: blender -b --factory-startup -noaudio --python items_worn.py -- <nu|nam|tre>
+
+V2 FIX (2026-11-06, chỉ nam/trẻ em — nữ giữ nguyên): hoa sen repo là bó sen cắm trưng:
+lá phẳng đọc như khay bay giữa thân, búp lơ lửng trên tay, búp rộng hơn cao đọc như
+chùm bóng. Tách theo material, xoá lá, thu hẹp búp ngang ×0,72 + kéo cao ×1,5, đáy búp
+đặt ngay trên đầu ngón tay, cuống chỉ còn đoạn ngắn xuyên tay. Xem mục 4 trong code.
+"""
+import bpy, math, sys, os
+sys.stdout.reconfigure(line_buffering=True)
+from mathutils import Vector
+
+KEY = sys.argv[sys.argv.index('--') + 1]
+CFG = {
+    'nu':  dict(src="/home/hatch/workspace/user/files/nu-phuc-hoi-mau-chuyen-dong.glb",
+                hat='v1', out="/home/hatch/workspace/chua-online-work/items-nu.png"),
+    'nam': dict(src="/home/hatch/workspace/user/files/nam-chuyen-dong.glb",
+                hat='v2', out="/home/hatch/workspace/chua-online-work/items-nam-v2.png",
+                lotus_fix=True),
+    'tre': dict(src="/home/hatch/workspace/user/files/tre-em-chuyen-dong.glb",
+                hat='v2', out="/home/hatch/workspace/chua-online-work/items-tre-em-v2.png",
+                lotus_fix=True),
+}[KEY]
+ITEMS = "/home/hatch/workspace/chua-online-work/repo-items"
+
+bpy.ops.wm.read_factory_settings(use_empty=True)
+bpy.ops.import_scene.gltf(filepath=CFG['src'])
+arm = next(o for o in bpy.context.scene.objects if o.type == 'ARMATURE')
+mesh = next(o for o in bpy.context.scene.objects if o.type == 'MESH' and o.name == 'geometry_0')
+for o in list(bpy.context.scene.objects):
+    if o.type == 'MESH' and o.name != 'geometry_0':
+        bpy.data.objects.remove(o, do_unlink=True)
+
+vm = bpy.data.materials.new("Mau_Vertex_NhanVat"); vm.use_nodes = True
+nt = vm.node_tree
+bsdf = nt.nodes["Principled BSDF"]; bsdf.inputs["Roughness"].default_value = 0.75
+vc = nt.nodes.new("ShaderNodeVertexColor"); vc.layer_name = "Color"
+nt.links.new(vc.outputs["Color"], bsdf.inputs["Base Color"])
+mesh.data.materials.clear(); mesh.data.materials.append(vm)
+
+def mat(name, rgba, rough=0.8):
+    m = bpy.data.materials.new(name); m.use_nodes = True
+    b = m.node_tree.nodes["Principled BSDF"]
+    b.inputs["Base Color"].default_value = rgba; b.inputs["Roughness"].default_value = rough
+    return m
+mat_strap = mat("Quai", (0.45, 0.40, 0.34, 1), 0.9)
+
+def set_pose(action_name, frame):
+    act = bpy.data.actions.get(action_name)
+    if arm.animation_data is None: arm.animation_data_create()
+    arm.animation_data.action = act
+    bpy.context.scene.frame_set(frame)
+    bpy.context.view_layer.update()
+
+def posed_verts():
+    dg = bpy.context.evaluated_depsgraph_get(); ev = mesh.evaluated_get(dg)
+    return [ev.matrix_world @ v.co for v in ev.data.vertices]
+
+def bone_world(name):
+    pb = arm.pose.bones[name]
+    return (arm.matrix_world @ pb.head, arm.matrix_world @ pb.tail)
+
+# ---------- Đo pose Đứng ----------
+set_pose('Dung_world', 1)
+v0 = posed_verts()
+z0min = min(v.z for v in v0); z0max = max(v.z for v in v0); H0 = z0max - z0min
+band0 = [v for v in v0 if abs(v.z - (z0min + 0.78 * H0)) < 0.03 * H0 and abs(v.x) < 0.16 * H0]
+FRONT_Y = min(v.y for v in band0) - 0.006
+
+# ---------- Đo pose Chắp tay ----------
+set_pose('Chắp tay_world', 15)
+verts = posed_verts()
+zmin = min(v.z for v in verts); zmax = max(v.z for v in verts); H = zmax - zmin
+head_band = [v for v in verts if v.z > zmax - 0.16 * H]
+head_cx = sum(v.x for v in head_band) / len(head_band)
+head_cy = sum(v.y for v in head_band) / len(head_band)
+hip_band = [v for v in verts if abs(v.z - (zmin + 0.52 * H)) < 0.03 * H]
+hip_w = max(v.x for v in hip_band) - min(v.x for v in hip_band)
+head_h, head_t = bone_world('Head')
+shL_h, _ = bone_world('L upper arm')
+shR_h, _ = bone_world('R upper arm')
+lh_h, lh_t = bone_world('L hand')
+rh_h, rh_t = bone_world('R hand')
+palm = (lh_h + rh_h) / 2
+print(f"[{KEY}] H={H:.3f} FRONT_Y={FRONT_Y:.3f} palm={tuple(round(v,3) for v in palm)}")
+# Đỉnh ngón tay pose Chắp tay (để đặt đáy búp sen vừa trên tay — V2 fix):
+hand_band = [v for v in verts if abs(v.x - palm.x) < 0.07 and abs(v.y - palm.y) < 0.07
+             and palm.z < v.z < palm.z + 0.15]
+hand_top_z = max(v.z for v in hand_band) if hand_band else palm.z + 0.06
+print(f"[{KEY}] hand_top_z={hand_top_z:.3f} (palm.z={palm.z:.3f})")
+
+# eo cổ: quét z dưới xương Head, nơi bề ngang thân hẹp nhất (như bản v1)
+neck_cx, neck_cy = head_h.x, head_h.y
+best = None; zc_try = head_h.z - 0.004 * H
+while zc_try > head_h.z - 0.055 * H:
+    band = [v for v in verts if abs(v.z - zc_try) < 0.008 * H]
+    if band:
+        halfw = max(abs(v.x - neck_cx) for v in band)
+        if best is None or halfw < best[1]: best = (zc_try, halfw)
+    zc_try -= 0.004 * H
+neck_z = best[0] if best else head_h.z - 0.02 * H
+print(f"[{KEY}] neck_z={neck_z:.3f}")
+
+# ---------- Helper: import model repo, trả về list mesh mới ----------
+def import_item(filename):
+    before = set(bpy.context.scene.objects)
+    p = os.path.join(ITEMS, filename)
+    if filename.endswith('.glb'): bpy.ops.import_scene.gltf(filepath=p)
+    else: bpy.ops.wm.obj_import(filepath=p)
+    new = [o for o in bpy.context.scene.objects if o not in before]
+    meshes = [o for o in new if o.type == 'MESH']
+    for o in new:
+        if o.type != 'MESH': bpy.data.objects.remove(o, do_unlink=True)
+    if filename.endswith('.obj'):
+        # OBJ của repo mang custom split normals HỎNG (tham chiếu vn vượt mảng) → shade
+        # gần đen trong mọi importer chuẩn. verify_one.py của chính repo cũng phải xoá
+        # split normals + shade_smooth_by_angle mới kiểm chứng được — áp đúng chuẩn đó.
+        for o in meshes:
+            bpy.context.view_layer.objects.active = o
+            o.select_set(True)
+            if o.data.has_custom_normals:
+                try: bpy.ops.mesh.customdata_custom_splitnormals_clear()
+                except Exception: pass
+            try: bpy.ops.object.shade_smooth_by_angle()
+            except Exception:
+                for p_ in o.data.polygons: p_.use_smooth = True
+            o.select_set(False)
+            o.data.update()
+    return meshes
+
+def bbox_of(objs):
+    xs, ys, zs = [], [], []
+    for o in objs:
+        for c in o.bound_box:
+            w = o.matrix_world @ Vector(c)
+            xs.append(w.x); ys.append(w.y); zs.append(w.z)
+    return (min(xs), max(xs), min(ys), max(ys), min(zs), max(zs))
+
+# ---------- 1. NÓN REPO: scale vành về 0,252H, vành tại rim_z đã fit ----------
+hat_objs = import_item("non_la_theu_sen_v3.glb")
+cone = next(o for o in hat_objs if 'Non_La' in o.name)
+# Quai lụa của GLB: vòng đai nằm trong mặt phẳng XZ qua trục đầu — khi đội lên đầu thật,
+# cung dưới của nó cắt ngang mặt (đã kiểm chứng bằng render) → loại mesh quai, giữ thân nón.
+for o in list(hat_objs):
+    if o is not cone:
+        nm = o.name
+        bpy.data.objects.remove(o, do_unlink=True)
+        hat_objs.remove(o)
+        print(f"[{KEY}] repo hat: removed strap mesh '{nm}' (face-clipping as authored)")
+hb = bbox_of([cone]); brim_d = hb[1] - hb[0]
+s_hat = (0.252 * H) / brim_d
+if CFG['hat'] == 'v2':
+    rim_z = zmin + 0.885 * H; hat_cx, hat_cy = head_cx, head_cy
+else:
+    rim_z = zmin + 0.895 * H; hat_cx, hat_cy = head_h.x, head_h.y
+for o in hat_objs:
+    o.scale = (s_hat, s_hat, s_hat)
+    o.rotation_euler = (math.radians(3), 0, 0)
+    o.location = (hat_cx, hat_cy, rim_z)   # origin GLB nằm tại tâm vành (z=0)
+print(f"[{KEY}] repo hat: brim {brim_d:.3f} -> scale {s_hat:.3f}, rim_z={rim_z:.3f}")
+
+# ---------- 2. TÚI REPO + quai đeo vai 3 đoạn đã fit ----------
+bag_objs = import_item("tui_vai_theu_sen.glb")
+bag = bag_objs[0]
+bb = bbox_of(bag_objs)
+bag_w, bag_d = bb[1] - bb[0], bb[3] - bb[2]
+# thân túi repo: z 0..0,38 trong tổng cao 0,564 (phần trên là quai xách) — tỉ lệ thân suy từ file chưa gộp
+BODY_FRAC = 0.38 / 0.564
+bag_total_h = bb[5] - bb[4]
+body_h_local = bag_total_h * BODY_FRAC
+s_bag = (0.155 * H) / bag_w
+bag_c = Vector((hip_w / 2 + 0.055 * H, 0.0, zmin + 0.47 * H))
+origin_z = bag_c.z - (body_h_local * s_bag) / 2
+for o in bag_objs:
+    o.scale = (s_bag, s_bag, s_bag)
+    o.rotation_euler = (0, 0, math.radians(-4))
+    o.location = (bag_c.x, bag_c.y, origin_z)
+print(f"[{KEY}] repo bag: w {bag_w:.3f} -> scale {s_bag:.3f}, body_h={(body_h_local*s_bag):.3f} target {0.165*H:.3f}")
+# quai đeo vai 3 đoạn ôm bề mặt (giữ nguyên bản fit đã đạt)
+def surf_y_fit(zfrac, x):
+    zt = z0min + zfrac * H0
+    band = [v.y for v in v0 if abs(v.z - zt) < 0.02 * H0 and abs(v.x - x) < 0.06 * H0]
+    if not band: return FRONT_Y
+    return max(min(band) - 0.004, FRONT_Y - 0.015)
+p1 = Vector((bag_c.x - 0.02, FRONT_Y + 0.03, bag_c.z + (body_h_local * s_bag) / 2))
+p2 = Vector((shR_h.x + 0.01, FRONT_Y, shR_h.z - 0.01))
+pts = [p1]
+for t in (0.33, 0.66):
+    q = p1.lerp(p2, t); q.y = surf_y_fit((q.z - zmin) / H, q.x); pts.append(q)
+pts.append(p2)
+for i in range(len(pts) - 1):
+    a, b = pts[i], pts[i + 1]; mid = (a + b) / 2; d = b - a
+    bpy.ops.mesh.primitive_cube_add(size=1, location=mid)
+    seg = bpy.context.object; seg.name = f"Quai_Deo_FitThat_{i}"
+    seg.dimensions = (0.016 * H, 0.004, d.length)
+    seg.rotation_mode = 'QUATERNION'
+    seg.rotation_quaternion = Vector((0, 0, 1)).rotation_difference(d.normalized())
+    seg.data.materials.append(mat_strap)
+
+# ---------- 3. TRÀNG HẠT REPO: xoay đứng, kéo giãn theo trục vòng, treo qua hai tay ----------
+bead_objs = import_item("trang_hat_bo_de.obj")
+beads = bead_objs[0]
+# Model gốc: vòng oval nằm phẳng XY (0,296 × 0,416), hạt chủ ở đầu −Y, tua rủ −Z tại hạt chủ.
+# Xoay X +90°: trục dài → trục Z (hạt chủ xuống đáy), tua ra phía +Y (về phía thân) — nghiêng thêm −5° cho đáy vòng ngả ra trước.
+LOOP_H = 0.50 * H          # chiều cao vòng sau fit — khớp đáy vòng bản nguyên thủy đã đạt (top tay → đáy ≈ 0,97 với H≈1,99)
+bb = bbox_of(bead_objs)
+long_local = bb[3] - bb[2]  # 0,416
+wid_local = bb[1] - bb[0]   # 0,296
+sz_long = LOOP_H / long_local
+sx_wid = 0.35 / wid_local * (H / 1.985)   # bề ngang vòng ≈ 0,35 ở H chuẩn (≈ bề ngang thân), tỉ lệ theo H
+# Model gốc: obj_import đặt sẵn rotation X +90° trên object (geometry local khác hệ world).
+# Ở world sau import: vòng oval nằm phẳng XY (0,296 × 0,416), hạt chủ ở đầu −Y, tua rủ −Z.
+# Fit: cộng thêm Rx +85° vào rotation object (= 175°) để trục dài thành trục Z, hạt chủ
+# xuống đáy, đáy vòng ngả trước 5°. Scale theo trục LOCAL: x = bề ngang (file X),
+# z = trục dài (file Y), y = bề dày vòng (giữ 1,0).
+for o in bead_objs:
+    o.rotation_euler = (math.radians(90 + 85), 0, 0)
+    o.scale = (sx_wid, 1.0, sz_long)
+    top_z = palm.z + 0.03
+    o.location = (palm.x, palm.y + 0.010, top_z - (long_local / 2) * sz_long)
+print(f"[{KEY}] repo beads: scale_x={sx_wid:.2f} scale_long={sz_long:.2f} top_z={palm.z + 0.03:.3f} bottom_z={palm.z + 0.03 - LOOP_H:.3f}")
+
+# ---------- 4. HOA SEN REPO: búp đứng giữa hai lòng bàn tay ----------
+lotus_objs = import_item("hoa_sen_tuoi.obj")
+s_lotus = 1.15 * (H / 1.985)
+if CFG.get('lotus_fix'):
+    # --- V2 FIX (nam/trẻ em): model repo là bó sen cắm trưng, không phải sen cầm tay.
+    # Đo thật từng bộ phận (world, chưa scale): cuống z 0..0,300; gương sen z 0,300..0,325;
+    # cánh búp hồng z 0,284..0,346 (rộng 0,122 × cao 0,062 → đọc như chùm bóng);
+    # lá sen: đĩa phẳng 0,28×0,276 tại z≈0,053, lệch +X 0,08 (đọc như khay bay giữa thân).
+    # Lỗi cũ: gốc đặt tại palm.z − 0,10H → búp lơ lửng ~0,13 trên đầu ngón tay,
+    # lá nằm ngang giữa thân như khay. Fix: tách theo material, XOÁ lá, thu hẹp búp
+    # ngang ×0,72 + kéo cao ×1,5 (búp cao ~0,107 × rộng ~0,101), đáy búp đặt ngay trên
+    # đầu ngón tay +0,01, cuống chỉ còn đoạn ngắn từ đáy búp xuyên tay xuống palm.z − 0,08.
+    bpy.ops.object.select_all(action='DESELECT')
+    for o in lotus_objs:
+        o.select_set(True)
+    bpy.context.view_layer.objects.active = lotus_objs[0]
+    bpy.ops.mesh.separate(type='MATERIAL')
+    parts = {}
+    for o in [x for x in bpy.context.scene.objects if x.type == 'MESH' and x.name.startswith('hoa_sen_tuoi')]:
+        mn_ = o.data.materials[0].name if o.data.materials else ''
+        parts[mn_] = o
+    leaf = parts.pop('LaSenXanhNgoc', None)
+    if leaf is not None:
+        bpy.data.objects.remove(leaf, do_unlink=True)
+        print(f"[{KEY}] lotus V2: removed flat leaf disc (tray read)")
+    bud_target_bottom = hand_top_z + 0.01
+    bud_objs = [parts[k] for k in ('CanhSenHong', 'GuongSenVang') if k in parts]
+    for o in bud_objs:
+        # scale local (X->world X, Y->world Z, Z->world Y): world ngang ×0,72, cao ×1,5
+        o.scale = (0.72 * s_lotus, 1.5 * s_lotus, 0.72 * s_lotus)
+        o.location = (palm.x, palm.y + 0.005, palm.z - 0.10 * H)
+    bpy.context.view_layer.update()
+    dz = bud_target_bottom - bbox_of(bud_objs)[4]
+    for o in bud_objs:
+        o.location.z += dz
+    stem = parts.get('CanhSenXanh')
+    if stem is not None:
+        # cuống: giữ đường kính ×s_lotus, co chiều cao (local Y = world Z) về đúng đoạn
+        # từ đáy búp xuống palm.z − 0,08; gốc local Y=0 nằm ở đáy cuống.
+        stem_len = bud_target_bottom - (palm.z - 0.08)
+        stem.scale = (s_lotus, stem_len / 0.300, s_lotus)
+        stem.location = (palm.x, palm.y + 0.005, palm.z - 0.08)
+    print(f"[{KEY}] lotus V2: bud_bottom={bud_target_bottom:.3f} (hand_top={hand_top_z:.3f}) stem_len={stem_len:.3f}")
+else:
+    lb = bbox_of(lotus_objs)
+    lotus_h = lb[5] - lb[4]
+    for o in lotus_objs:
+        o.scale = (s_lotus, s_lotus, s_lotus)
+        o.location = (palm.x, palm.y + 0.005, palm.z - 0.10 * H)
+    print(f"[{KEY}] repo lotus: scale={s_lotus:.2f} bud_top_z={palm.z - 0.10*H + lotus_h*s_lotus:.3f}")
+
+# ---------- 5. KHĂN RẰN REPO: vành ôm eo cổ, nghiêng trước cho vạt áp ngực ----------
+scarf_objs = import_item("khan_ran_nam_bo.obj")
+sb = bbox_of(scarf_objs)
+ring_d = sb[1] - sb[0]      # 0,35
+s_scarf = 0.30 / ring_d * (H / 1.985)   # vành drap Ø ≈ 0,30 ở H chuẩn
+for o in scarf_objs:
+    o.scale = (s_scarf, s_scarf, s_scarf)
+    # Giữ rotation X +90° do obj_import đặt (ở world khăn đã đúng tư thế đeo: vành ngang,
+    # vạt rủ trước −Y), chỉ trừ 15° để vạt ngả áp vào ngực.
+    o.rotation_euler = (math.radians(90 - 15), 0, 0)
+    o.location = (neck_cx, neck_cy - 0.005, neck_z - 0.018)
+print(f"[{KEY}] repo scarf: ring {ring_d:.3f} -> scale {s_scarf:.2f} at neck_z={neck_z:.3f}")
+
+# ---------- Sân / đèn / camera / render ----------
+bpy.ops.mesh.primitive_plane_add(size=40, location=(0, 0, zmin - 0.005))
+bpy.context.object.data.materials.append(mat("San", (0.5, 0.48, 0.46, 1), 0.95))
+sun = bpy.data.lights.new("Sun", 'SUN'); sun.energy = 1.15
+so = bpy.data.objects.new("Sun", sun); bpy.context.collection.objects.link(so)
+so.rotation_euler = (math.radians(50), 0, math.radians(-35))
+w = bpy.data.worlds.new("Troi"); bpy.context.scene.world = w; w.use_nodes = True
+w.node_tree.nodes["Background"].inputs[0].default_value = (0.55, 0.68, 0.88, 1)
+w.node_tree.nodes["Background"].inputs[1].default_value = 0.35
+cam = bpy.data.cameras.new("Cam"); cam.clip_end = 100
+co = bpy.data.objects.new("Cam", cam); bpy.context.collection.objects.link(co)
+cx = (min(v.x for v in verts) + max(v.x for v in verts)) / 2
+cam.sensor_fit = 'VERTICAL'
+co.location = (cx + 0.80 * H, -2.05 * H, zmin + 0.60 * H)
+_tgt = Vector((cx, -0.05, zmin + 0.50 * H))
+co.rotation_euler = (_tgt - co.location).to_track_quat('-Z', 'Y').to_euler()
+bpy.context.scene.camera = co
+sc = bpy.context.scene
+sc.render.engine = 'CYCLES'; sc.cycles.samples = 32; sc.cycles.use_denoising = True
+sc.view_settings.view_transform = 'AgX'
+sc.render.resolution_x = 960; sc.render.resolution_y = 960
+sc.render.filepath = CFG['out']
+bpy.ops.render.render(write_still=True)
+print(f"[{KEY}] ITEMS FIT REPO DONE -> {CFG['out']}")
