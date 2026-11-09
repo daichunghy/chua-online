@@ -13,6 +13,7 @@ Cập nhật: 09/11/2026. Các mục dưới đây CHƯA có trên repo vì gi�
 
 ## 3. Nhân vật fitted cho scene Blender (17–18 MB/file)
 - `characters_fitted/nam.glb`, `nu.glb` (đã may áo tràng), `tre.glb` ở local — bản fitted tĩnh dùng trong scene Blender.
+- Đã thử đẩy qua giao diện web 09/11: file đính lên được nhưng GitHub từ chối commit ("file too large") — cùng nhóm với .blend ở mục 1: cần đẩy bằng git từ máy local (clone + push) hoặc Git LFS. Trên repo mới có thư mục `characters_fitted/` giữ chỗ (.gitkeep).
 - Bản rigged gốc (có xương + hành động, bản dùng cho web) ĐÃ có trên repo: `Thiết kế giao diện/Nhân vật 3D/Chuyển động/`.
 
 ## 4. Bản web V7 (đang kiểm nghiệm thu)
