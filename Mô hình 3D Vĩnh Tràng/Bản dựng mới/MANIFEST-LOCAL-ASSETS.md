@@ -3,7 +3,7 @@
 Cập nhật: 09/11/2026. Các mục dưới đây CHƯA có trên repo vì giới hạn kỹ thuật của đường truyền hiện có, không phải bị bỏ quên.
 
 ## 1. File .blend của layout (quá 25 MB/file)
-- `layout_v13_v11.blend` (97,9 MB — bản layout mới nhất, vòng V11) và các bản cũ `layout_v12_v10.blend` (97,2 MB), `layout_v11_v9.blend`, ... — nằm ở máy local `~/workspace/chua-online-work/`, file V13 còn có bản ở thư mục gốc work.
+- `layout_v14_v12.blend` (bản layout MỚI NHẤT — vòng V12 khôi phục tượng nguyên bản trang nghiêm), `layout_v13_v11.blend` (97,9 MB, vòng V11) và các bản cũ `layout_v12_v10.blend` (97,2 MB), `layout_v11_v9.blend`, ... — nằm ở máy local `~/workspace/chua-online-work/`.
 - Vì sao chưa lên: giao diện web GitHub giới hạn 25 MB/file; connector GitHub chỉ truyền được file text (đẩy binary qua đó sẽ hỏng thành chuỗi base64 — đã từng xảy ra 06/11); máy ảo không có đường git SSH (proxy chặn) và không có git-lfs.
 - Phương án: Chung Hy đẩy từ Mac bằng git thường (98 MB < giới hạn cứng 100 MB của GitHub), hoặc Muse cấp link lưu trữ riêng khi cần.
 - Script dựng lại toàn bộ các vòng nằm trong `scripts/layout-v5-v11/` trên repo (build_p0 → build_v11 + patch/fix + NOTES.md), nên mở repo là dựng/sửa tiếp được kể cả khi chưa có .blend.

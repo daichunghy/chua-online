@@ -1,0 +1,75 @@
+{
+ "steps": [
+  "imported glb objects: 96 mesh parts: 96",
+  "di-lac group matched: 94 parts",
+  "M0 translation: [-24.0, -1.0, 3.2] max dev giua cac manh: 1.5 tai PlatformSlab",
+  "pre-restore Head_cheekL lech translation vs M: [0.06, 0.0, -0.0] scale: [1.0, 1.0, 1.0]",
+  "pre-restore Head_cheekR lech translation vs M: [-0.06, 0.0, -0.0] scale: [1.0, 1.0, 1.0]",
+  "pre-restore Head_earL.001 lech translation vs M: [0.0, 0.0, -2.86] scale: [1.0, 1.0, 1.4]",
+  "pre-restore Head_earR.001 lech translation vs M: [0.0, 0.0, -2.86] scale: [1.0, 1.0, 1.4]",
+  "pre-restore Head_smile lech translation vs M: [0.0, 0.0, -0.0] scale: [1.3, 1.0, 1.0]",
+  "pre-restore PlatformSlab lech translation vs M: [0.0, 0.0, -1.5] scale: [1.0, 1.0, 1.0]",
+  "pre-restore Torso lech translation vs M: [0.0, 0.0, 0.0] scale: [1.0, 1.0, 1.0]",
+  "mesh swapped for all 94 parts; matrix restored: ['Head_cheekL', 'Head_cheekR', 'Head_earL.001', 'Head_earR.001', 'Head_smile', 'Torso']",
+  "cleanup done",
+  "post-restore dim deviations >0.5%: []",
+  "cheek center dist: scene = 0.8944 | glb = 0.8944",
+  "fill: {'energy': 1500.0, 'color': [1.0, 0.699999988079071, 0.4000000059604645]} | plinth_text: {'exists': True, 'hide_render': False} | front_text: {'hide_render': True, 'loc': [-24.0, 2.315000057220459, 4.079999923706055]}",
+  "gate audit: {'PT': {'parts': 32, 'max_matrix_dev': 0.26369, 'singular_values': [0.2636, 0.1953, 0.1953]}, 'TD': {'parts': 32, 'max_matrix_dev': 0.2637, 'singular_values': [0.2636, 0.1953, 0.1953]}}",
+  "SAVED /home/hatch/workspace/chua-online-work/layout_v14_v12.blend"
+ ],
+ "audit": {
+  "cheek_dist_scene": 0.8944015408889074,
+  "cheek_dist_glb": 0.8944000081232067,
+  "fill": {
+   "energy": 1500.0,
+   "color": [
+    1.0,
+    0.699999988079071,
+    0.4000000059604645
+   ]
+  },
+  "plinth_text": {
+   "exists": true,
+   "hide_render": false
+  },
+  "front_text": {
+   "hide_render": true,
+   "loc": [
+    -24.0,
+    2.315000057220459,
+    4.079999923706055
+   ]
+  },
+  "gates": {
+   "PT": {
+    "parts": 32,
+    "max_matrix_dev": 0.26369,
+    "singular_values": [
+     0.2636,
+     0.1953,
+     0.1953
+    ]
+   },
+   "TD": {
+    "parts": 32,
+    "max_matrix_dev": 0.2637,
+    "singular_values": [
+     0.2636,
+     0.1953,
+     0.1953
+    ]
+   }
+  },
+  "dim_deviations": [],
+  "group_parts": 94,
+  "matrix_restored": [
+   "Head_cheekL",
+   "Head_cheekR",
+   "Head_earL.001",
+   "Head_earR.001",
+   "Head_smile",
+   "Torso"
+  ]
+ }
+}

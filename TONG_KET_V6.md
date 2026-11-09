@@ -98,3 +98,33 @@ facade,dilac}.png):
 (sculpt), nội thất (chưa có ảnh thật), tỉ lệ tuyệt đối sơ đồ, chi tiết
 gốm mặt tiền giản lược, người tĩnh trong scene Blender, tán vành đai
 nhìn gần còn faceted.
+
+## V12 — KHÔI PHỤC TƯỢNG PHẬT NGUYÊN BẢN (09/11/2026, layout_v14_v12.blend)
+
+**Luật cứng mới (Chung Hy, 18:13 09/11): tượng Phật phải trang nghiêm —
+tuyệt đối không chỉnh/stylize tỉ lệ hay nét mặt tượng ("vậy là báng
+bổ").** Vòng này sửa tận gốc 2 vụ vi phạm cũ tìm được bằng đo đạc:
+
+1. **Di Lặc (sculpt từ V7)** — tai kéo Z ×1,4, miệng rộng X ×1,3, má
+   +0,06, bụng đẩy +0,14 m làm tượng thành hoạt hình. ĐÃ KHÔI PHỤC:
+   thay mesh cả 94 mảnh bằng bản gốc verified_v2 + reset transform 6
+   mảnh bị chạm theo phép đặt nhóm (dịch thuần (−24, −1, +3,2), scale
+   1,0). Kiểm chứng trên file đã lưu: lệch ma trận 0,0000, tỉ lệ từng
+   trục 1,000, diff render V13↔V14 chỉ 0,30% pixel (đúng vùng tai/má/
+   miệng/bụng). Giữ bệ V11 + bảng chữ + fill 1500W + màu ấm #EFE9DD.
+2. **Tượng hốc cổng (V10 fix3 "nới ngang ×1,35")** — ĐÃ HOÀN TRẢ bằng
+   phép nghịch; bổ sung 7 mảnh nét mặt bị sót ở bản sao V10 cho cả 2
+   cổng. Sau sửa: bản sao là ảnh đồng dạng chính xác của gốc (scale
+   đều 0,1953, 0/494 cặp khoảng cách lệch).
+
+Rà các tượng còn lại: **A Di Đà chính NGUYÊN BẢN** (đối chiếu từng
+đỉnh: lệch tối đa 0,00 mm), **Phật nằm NGUYÊN BẢN**, **tượng bàn thờ
+không có trong file bố cục** (nằm ở model nội điện riêng). Render:
+layout/layout_v14_{dilac,adida,niche,flycam}.png — đã soi cạnh
+ref5/ref3. Chi tiết: layout/NOTES.md §V12.
+
+**Thước đo sau V12: tổng thể ~73% (giữ V11); trục tượng về 100% hình
+học gốc verified_v2, 0 stylize còn sót.** Nợ tượng còn lại chỉ là giới
+hạn của bản dựng gốc (nét mặt tối giản, thân khối mượt). Ghi chú thêm:
+thân tượng trong hốc cổng đọc tối trên render (có từ V10) — vấn đề
+ánh sáng hốc, không phải tượng, chờ Chung Hy quyết có làm riêng không.

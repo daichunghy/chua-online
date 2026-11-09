@@ -731,3 +731,100 @@ scripts/gen_v11_lattice2.py, scripts/measure_v11.py, render_v11_driver.sh.
 4. Tầng trang trí: chi tiết gốm/relief giản lược so với ref1.
 5. Người trong scene Blender tĩnh (web dùng GLB có xương riêng).
 6. Tán cây vành đai nhìn gần còn faceted; cây tiền cảnh vẫn card.
+
+## V12 — KHÔI PHỤC TƯỢNG PHẬT NGUYÊN BẢN TRANG NGHIÊM (09/11/2026, layout_v14_v12.blend từ layout_v13_v11.blend)
+
+**Lệnh cứng của Chung Hy (18:13 09/11): "TƯỢNG PHẬT THÌ LÀM CHO NGHIÊM
+TRANG, KHÔNG ĐƯỢC CHỈNH LẠI — VẬY LÀ BÁNG BỔ ĐÓ".** Luật tuyệt đối từ
+vòng này: KHÔNG chỉnh sửa/stylize tỉ lệ hay nét mặt bất kỳ tượng Phật
+nào; chỉ được khớp VỀ PHÍA ảnh thật/bản gốc đã kiểm chứng. Màu đá ấm
+#EFE9DD + fill Di Lặc 1500W + bệ kiến trúc V11 là khớp theo ảnh thật /
+kiến trúc — GIỮ.
+
+### Phát hiện khi rà (đo từ file, không đoán)
+- **Di Lặc bị sculpt ở V7** (build_v7.py mục 4, mang sang mọi vòng sau):
+  tai `Head_earL/R.001` tỉ lệ trục Z = **1,400** so với bản gốc (scale
+  nằm trong object), `Head_smile` trục X = **1,300**, má `Head_cheekL/R`
+  lệch ±0,06 m, bụng `Torso` bị đẩy đỉnh vào mesh (bbox sâu Y +2,2%,
+  tối đa +0,14 m ở dải z 4,85–6,0). Đo bằng tỉ lệ bbox từng mảnh so với
+  verified_v2: 94 mảnh khớp, CHỈ 4 mảnh này lệch — đúng 4 chỗ V7 đã chạm.
+- **Tượng hốc cổng bị "nới ngang ×1,35"** ở build_v10_fix3 ("để hốc cổng
+  dễ đọc hơn"): trị riêng của ma trận sao chép = [0,2636; 0,1953; 0,1953]
+  — biến dạng tỉ lệ cùng loại với sculpt Di Lặc, phải hoàn trả.
+- A Di Đà chính + Phật nằm: không lệch (xem kiểm chứng dưới).
+
+### Cách sửa (sửa tận gốc, giữ nguyên mọi thứ khác của V13)
+1. `build_v12.py`: cả 94 mảnh của nhóm Di Lặc được thay mesh bằng bản
+   sao của mesh gốc từ `statues/verified_v2/di-lac.glb` (gán lại đúng
+   vật liệu scene theo từng slot); 6 mảnh bị chạm (tai ×2, smile, má ×2,
+   Torso) được reset `matrix_world = M @ W_glb`, với M = phép đặt cả
+   nhóm đo từ 88 mảnh chưa bị chạm: **dịch thuần (−24, −1, +3,2), scale
+   đúng 1,0** (87/88 mảnh khít tuyệt đối). `PlatformSlab` lệch M ở Z
+   −1,5 là vị trí chìm có chủ đích từ các vòng trước — giữ nguyên vị
+   trí, chỉ thay mesh.
+2. `fix_v12.py`: áp phép nghịch của ×1,35 (tỉ lệ X ×1/1,35 quanh tâm
+   cổng) lên 64 mảnh `V10_GateBuddha_*`. FIX2 (dịch Y) và FIX4 (xoay
+   180° cho mặt tượng hướng ra đường như ref6) là phép đặt/xoay cứng —
+   giữ nguyên.
+3. `fix_v12b.py`: bản sao cổng của V10 lọc theo vật liệu nên SÓT 7 mảnh
+   nét mặt (mày/mắt/mí/miệng, vật liệu FeatureShadow) — tượng cổng
+   thiếu mặt. Bổ sung đủ 7 mảnh × 2 cổng bằng đúng phép đồng dạng của
+   nhóm sao (độ lệch Mc = 0,00000), chia sẻ mesh gốc như cách V10 làm.
+   Đài sen/bệ/bảng của tượng chính không đưa vào — hốc có bệ riêng
+   (đúng thiết kế V10 + tượng cổng thật ở ref6).
+
+### Kiểm chứng (đo trên file đã lưu)
+- Di Lặc: 94/94 mảnh — độ lệch ma trận so với M@W_glb = **0,0000**, tỉ
+  lệ kích thước từng trục = **1,000**, khoảng cách 2 má scene 0,8944 =
+  GLB 0,8944. Mesh mới chỉ có đúng vật đó dùng (không còn bản sculpt
+  sót ở đâu).
+- A Di Đà chính: 79 mảnh, M-dev = 0; đối chiếu TỪNG ĐỈNH: khoảng cách
+  đỉnh-gần-nhất hai chiều scene↔gốc **max 0,00 mm** (trung bình
+  0,001–0,002 mm) kể cả các mảnh tay/ngón/chân/tai → nguyên bản tuyệt
+  đối, chưa từng bị chạm.
+- Phật nằm: 33 mảnh khớp đỉnh toàn bộ; chỉ `FrontText.001` (bảng chữ)
+  lệch vị trí — đó là lần dời bảng sang mặt nam ở P1 (vị trí, không
+  phải tỉ lệ tượng).
+- Tượng cổng sau sửa: trị riêng đều **[0,1953; 0,1953; 0,1953]**, tỉ lệ
+  khoảng cách từng cặp tâm mảnh hằng số tuyệt đối (0/494 cặp lệch),
+  cụm cao 1,58 m trong hốc — bản sao đồng dạng chính xác của gốc.
+- Diff pixel render Di Lặc V13↔V14 (cùng camera): chỉ **0,30%** khung
+  hình thay đổi, nằm đúng vùng đầu/tai và dải bụng — phần còn lại của
+  cảnh giống hệt. Phóng to vùng mặt: tai hết thõng dài (về độ dài tự
+  nhiên), má hết phồng, miệng cười hẹp lại — mặt về vẻ calm/trang
+  nghiêm của bản verified_v2.
+- Render nghiệm thu: layout/layout_v14_{dilac,adida,niche,flycam}.png
+  (soi cạnh ref5/ref3: đạt — tượng đúng tỉ lệ gốc, trang nghiêm).
+
+### Verdict từng tượng
+- **Di Lặc: ĐÃ KHÔI PHỤC nguyên bản verified_v2** (tai/miệng/má/bụng về
+  gốc; giữ bệ V11, bảng V11_PlinthText, fill 1500W, màu ấm).
+- **A Di Đà chính: NGUYÊN BẢN** — không phải sửa gì.
+- **Phật nằm (Niết Bàn): NGUYÊN BẢN** — không phải sửa gì.
+- **2 tượng hốc cổng: ĐÃ KHÔI PHỤC** — hết nới ngang ×1,35, bổ sung đủ
+  nét mặt; hình học là mesh gốc (dùng chung datablock với tượng chính).
+- **Tượng bàn thờ: KHÔNG CÓ trong file bố cục này** (quét toàn scene:
+  không vật nào dùng AltarGold/GoldDark, không có HandsDhyana; các cụm
+  WhiteStone/HairStone chỉ gồm đúng 4 nhóm tượng trên). Tượng thờ thuộc
+  model nội điện riêng — ngoài phạm vi layout_v14; muốn rà phải mở
+  vòng riêng cho file nội điện.
+
+### Ước lượng giống thật sau V12
+Tổng thể giữ **~73%** như V11 (vòng này không thêm chi tiết mới — nó
+gỡ một lỗi đúng/sai). Riêng trục tượng: **về đúng chuẩn verified_v2 —
+100% hình học gốc, 0 chỉnh stylize còn sót**. Giới hạn còn lại của
+tượng là giới hạn của chính bản dựng gốc (nét mặt tối giản kiểu ống,
+thân khối mượt, tay hơi "ống") — muốn vượt phải dựng lại tượng từ ảnh
+thật trong một vòng riêng, không phải nắn nót trên tượng hiện có.
+
+### Quan sát ngoài phạm vi (ghi lại, chưa sửa)
+Thân tượng trong hốc cổng đọc TỐI trên render cận cảnh — đã có từ
+render của chính V10 (layout_v12_niche.png), hình học đã chứng minh
+đúng vị trí/kích thước/vật liệu; đây là vấn đề ánh sáng trong hốc,
+không phải tượng. Để Chung Hy quyết có mở vòng riêng cho ánh sáng hốc
+hay không.
+
+Script vòng này: layout/build_v12.py, fix_v12.py, fix_v12b.py,
+verify_v12.py, diag_gate_v12.py, diag_gate2_v12.py, audit_verts_v12.py,
+audit_nn_v12.py, scripts/render_v12.py, render_v12_driver.sh;
+audit thô: layout/v12_audit.json.
