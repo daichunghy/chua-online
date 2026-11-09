@@ -17,4 +17,4 @@ Cập nhật: 09/11/2026. Các mục dưới đây CHƯA có trên repo vì gi�
 - Bản rigged gốc (có xương + hành động, bản dùng cho web) ĐÃ có trên repo: `Thiết kế giao diện/Nhân vật 3D/Chuyển động/`.
 
 ## 4. Bản web V7 (đang kiểm nghiệm thu)
-- `trai-nghiem-vinh-trang-v7.html` (17,2 MB — nhúng sẵn 3 GLB nhân vật): vượt trần 16 MiB của snapshot text; sẽ đẩy qua giao diện web sau khi nghiệm thu xong. Nguồn của nó (`v7_parts/`) ĐÃ có trên repo ở `Mô hình 3D Vĩnh Tràng/v7_parts/`.
+- `trai-nghiem-vinh-trang-v7.html` (17,2 MB — nhúng sẵn 3 GLB nhân vật): ĐÃ LÊN REPO 23:10 ngày 09/11/2026 qua giao diện web (commit 87149fb), đọc lại kiểm chứng blob SHA 8376cc2f… khớp byte tuyệt đối với bản local đã nghiệm thu 46/46. Nguồn của nó (`v7_parts/`) cũng có trên repo ở `Mô hình 3D Vĩnh Tràng/v7_parts/`.
