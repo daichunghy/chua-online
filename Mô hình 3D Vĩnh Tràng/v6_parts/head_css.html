@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Chùa Vĩnh Tràng — Cảm giác đi chùa</title>
+<script type="importmap">
+{ "imports": {
+  "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+} }
+</script>
+<style>
+  :root{
+    --cream:#FFF6E5; --cream2:#FDF3DC; --green:#1C5A34; --green2:#14532D;
+    --brown:#4A3222; --brown2:#6B4226; --gold:#C9962E; --pink:#F2A0C4; --pink2:#EE7FAE;
+    --terra:#C96F4A; --ink:#2B1D12;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;height:100%;overflow:hidden;background:var(--cream);
+    font-family:Georgia,'Times New Roman',serif;color:var(--brown)}
+  #canvas-container{position:fixed;inset:0}
+  #three-canvas{width:100%;height:100%;display:block;touch-action:none}
+  #vignette{position:fixed;inset:0;pointer-events:none;z-index:5;
+    background:radial-gradient(ellipse at center,transparent 62%,rgba(255,180,107,.07) 100%)}
+  #fade-overlay{position:fixed;inset:0;background:#2B1D12;opacity:0;pointer-events:none;z-index:60;transition:opacity .4s}
+  /* V6: bảng tên nổi trên đầu nhân vật ĐÃ XÓA — khách lễ chùa là người vô danh như thật */
+  /* Header — thương hiệu + 3 pill (chỉ hiện sau khi đi trọn tuyến lần đầu) */
+  .top-bar{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:flex-start;
+    justify-content:space-between;padding:10px 12px;pointer-events:none}
+  .top-bar>*{pointer-events:auto}
+  .brand{display:flex;align-items:center;gap:8px;background:var(--cream);border:1.5px solid var(--green);
+    border-radius:24px;padding:6px 14px 6px 8px;box-shadow:0 3px 12px rgba(0,0,0,.15)}
+  .brand .lotus{font-size:22px}
+  .brand b{color:var(--green);font-size:15px;display:block;line-height:1.1}
+  .brand small{color:var(--brown2);font-size:11px}
+  .nav-pills{display:none;gap:6px}
+  body.free .nav-pills{display:flex}
+  .nav-pill{background:var(--cream);border:1.5px solid var(--green);color:var(--green);
+    border-radius:999px;padding:7px 13px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer}
+  .nav-pill:hover{background:var(--green);color:var(--cream)}
+  /* Hai nút hệ thống nhỏ: bản đồ + cài đặt */
+  .sys-btns{position:fixed;top:64px;right:12px;z-index:30;display:flex;gap:6px}
+  .sys-btn{background:var(--cream);border:1.5px solid var(--green);color:var(--green);border-radius:999px;
+    padding:7px 12px;font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+  .sys-btn:hover{background:var(--green);color:var(--cream)}
+  #settings-pop{position:fixed;top:104px;right:12px;z-index:31;display:none;background:var(--cream);
+    border:1.5px solid var(--gold);border-radius:24px;padding:14px 16px;width:250px;box-shadow:0 6px 20px rgba(0,0,0,.2)}
+  #settings-pop.open{display:block}
+  #settings-pop label{font-size:13px;font-weight:700;color:var(--brown);display:block;margin:8px 0 6px}
+  #settings-pop .set-btn{width:100%;background:#fff;border:1.5px solid var(--green);color:var(--green);border-radius:999px;
+    padding:8px 0;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;margin-top:4px}
+  #settings-pop .set-btn:hover{background:var(--green);color:var(--cream)}
+  #brightness-slider{width:100%;accent-color:var(--green)}
+  #settings-pop small{color:var(--brown2);font-size:11.5px;line-height:1.45;display:block}
+  /* Hàng cánh sen — hệ tiến trình DUY NHẤT (v6: thu nhỏ, tông tĩnh, không phát sáng) */
+  #lotus-progress{position:fixed;top:66px;left:50%;transform:translateX(-50%);z-index:29;display:flex;gap:4px;
+    background:rgba(255,246,229,.88);border:1px solid #D8C69A;border-radius:999px;padding:4px 10px;
+    box-shadow:0 2px 6px rgba(0,0,0,.08);align-items:center}
+  #lotus-progress .lp-label{font-size:10.5px;font-weight:700;color:var(--brown2);margin-right:2px}
+  .petal{width:11px;height:11px;border-radius:60% 60% 60% 60%/80% 80% 40% 40%;background:#EFE4C8;
+    border:1px solid #CBB98F}
+  .petal.done{background:#D9B45B;border-color:#B08A2E}
+  .petal.next{background:#F3E3B3;border-color:var(--gold)}
+  /* Bong bóng lời của An — chỉ dẫn, không bấm được */
+  #an-bubble{position:fixed;left:50%;bottom:158px;transform:translateX(-50%);z-index:28;max-width:min(480px,88vw);
+    background:rgba(255,251,235,.96);border:1.5px solid var(--gold);border-radius:24px;padding:9px 16px;
+    font-size:13.5px;line-height:1.5;color:var(--brown);box-shadow:0 4px 14px rgba(0,0,0,.16);
+    pointer-events:none;opacity:0;transition:opacity .35s;text-align:center}
+  #an-bubble.show{opacity:1}
+  #an-bubble b{color:var(--green)}
+  /* Nút động từ lớn — bấm là LỆNH DI CHUYỂN */
+  #btn-context{position:fixed;left:50%;bottom:88px;transform:translateX(-50%);z-index:31;
+    background:var(--green);color:var(--cream);border:2.5px solid var(--gold);border-radius:999px;
+    padding:14px 30px;font-family:inherit;font-size:17px;font-weight:800;cursor:pointer;
+    box-shadow:0 6px 20px rgba(0,0,0,.3);white-space:nowrap;max-width:92vw}
+  #btn-context:hover{background:var(--green2)}
+  #btn-context:disabled{opacity:.55;cursor:default}
+  body.panel-open #btn-context{display:none}
+  /* Khay khám phá (mở từ pill Khám phá sau khi tự do đi lại) */
+  #explore-tray{position:fixed;left:50%;bottom:88px;transform:translateX(-50%);z-index:31;display:none;
+    background:var(--cream);border:2px solid var(--green);border-radius:26px;padding:14px;
+    box-shadow:0 10px 30px rgba(0,0,0,.3);width:min(430px,94vw)}
+  #explore-tray.open{display:block}
+  #explore-tray h3{margin:0 0 10px;color:var(--green);font-size:17px;text-align:center}
+  #explore-tray .tray-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .tray-btn{background:#fff;border:1.5px solid var(--gold);color:var(--brown);border-radius:18px;
+    padding:11px 8px;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer}
+  .tray-btn:hover{border-color:var(--green);color:var(--green)}
+  /* Tấm dưới (bottom sheet) cho sạp nhang + lễ thắp nhang */
+  .sheet{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(16px);z-index:44;
+    width:min(480px,95vw);background:var(--cream);border:2px solid var(--green);border-radius:26px;
+    padding:18px 18px 14px;box-shadow:0 14px 40px rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:all .3s}
+  .sheet.open{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+  .sheet h3{margin:0 26px 4px 0;color:var(--green);font-size:18px}
+  .sheet .sheet-sub{font-size:13px;color:var(--brown2);line-height:1.5;margin-bottom:10px}
+  .sheet .sheet-close{position:absolute;top:12px;right:12px;background:#fff;border:1.5px solid var(--gold);
+    width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:14px;color:var(--brown2)}
+  .opt-cards{display:flex;gap:8px;margin-bottom:10px}
+  .opt-card{flex:1;background:#fff;border:2px solid #E5D3A8;border-radius:20px;padding:11px 10px;cursor:pointer;text-align:center}
+  .opt-card.sel{border-color:var(--gold);background:#FDF3DC;box-shadow:0 3px 10px rgba(201,150,46,.3)}
+  .opt-card b{display:block;font-size:14.5px;color:var(--brown);margin-bottom:2px}
+  .opt-card small{color:var(--brown2);font-size:12px;line-height:1.4;display:block}
+  .opt-card .price{color:var(--terra);font-weight:800;font-size:13.5px;margin-top:4px;display:block}
+  .sheet .big-btn{width:100%;background:var(--green);color:var(--cream);border:none;border-radius:999px;
+    padding:12px 0;font-family:inherit;font-size:15.5px;font-weight:800;cursor:pointer;margin-top:4px}
+  .sheet .big-btn:disabled{opacity:.5;cursor:default}
+  .sheet .big-btn.gold{background:var(--gold);color:#fff}
+  .beat-dots{display:flex;gap:6px;justify-content:center;margin:8px 0 2px}
+  .beat-dots span{width:11px;height:11px;border-radius:50%;background:#E9DCC0;border:1.5px solid #CBB98F}
+  .beat-dots span.done{background:var(--pink2);border-color:var(--gold)}
+  .beat-dots span.now{background:#F3E3B3;border-color:var(--gold)}
+  .hold-wrap{position:relative}
+  .hold-ring{height:8px;background:#EFE3C4;border-radius:99px;overflow:hidden;margin-top:8px;display:none}
+  .hold-ring i{display:block;height:100%;width:0%;background:var(--gold)}
+  .sheet .flame-line{min-height:30px;display:flex;justify-content:center;align-items:flex-end;margin:2px 0 6px}
+  /* Ngọn lửa vẽ bằng CSS (v6: bỏ emoji lửa/nến) */
+  .flame-dot{width:11px;height:17px;border-radius:50% 50% 50% 50%/64% 64% 36% 36%;
+    background:radial-gradient(circle at 50% 80%, #FFF3C4 0 20%, #F5B84C 46%, #CE742F 78%, rgba(206,116,47,0) 100%);
+    transform-origin:50% 100%;animation:flameFlicker 1.6s ease-in-out infinite}
+  .flame-dot.dim{opacity:.55;height:13px;animation-duration:2.4s}
+  @keyframes flameFlicker{0%,100%{transform:scaleY(1) rotate(-1.2deg)}45%{transform:scaleY(1.09) rotate(1.4deg)}70%{transform:scaleY(.96) rotate(-.6deg)}}
+  /* V6 — mờ UI trong nhịp lễ (lạy / đứng lặng / hồi hướng / thắp nhang) */
+  .top-bar,.sys-btns,#lotus-progress,#btn-context,#btn-info{transition:opacity .7s ease}
+  body.ritual-dim .top-bar,body.ritual-dim .sys-btns,body.ritual-dim #lotus-progress,
+  body.ritual-dim #an-bubble,body.ritual-dim #btn-context,body.ritual-dim #btn-info,
+  body.ritual-dim #joystick{opacity:0;pointer-events:none}
+  /* Nút "Tiếp" nhỏ — chỉ hiện trong nhịp lễ khi cần người lễ chạm để đi tiếp */
+  #btn-quiet{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);z-index:47;display:none;
+    background:rgba(255,246,229,.95);color:var(--green);border:1.5px solid var(--gold);border-radius:999px;
+    padding:9px 26px;font-family:inherit;font-size:14.5px;font-weight:700;cursor:pointer;
+    box-shadow:0 3px 12px rgba(0,0,0,.18)}
+  #btn-quiet.show{display:block}
+  /* Nút "Tìm hiểu thêm" — thẻ kiến thức tĩnh ở từng trạm */
+  #btn-info{position:fixed;right:12px;bottom:150px;z-index:30;display:none;
+    background:rgba(255,246,229,.94);color:var(--brown2);border:1px solid #D8C69A;border-radius:999px;
+    padding:7px 14px;font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;
+    box-shadow:0 2px 8px rgba(0,0,0,.1)}
+  #btn-info.show{display:block}
+  #btn-info:hover{color:var(--green);border-color:var(--green)}
+  .info-sec{margin-bottom:14px}
+  .info-sec h4{margin:0 0 4px;color:var(--green);font-size:15.5px}
+  .info-sec p{margin:0;font-size:13.5px;line-height:1.6;color:var(--brown)}
+  .info-sec .src{margin-top:5px;font-size:11.5px;color:#9A7B52;line-height:1.45}
+  /* Joystick */
+  #joystick{position:fixed;left:18px;bottom:170px;width:110px;height:110px;border-radius:50%;z-index:25;
+    background:rgba(255,246,229,.35);border:2px solid rgba(28,90,52,.5);display:none}
+  #joy-knob{position:absolute;left:50%;top:50%;width:48px;height:48px;border-radius:50%;
+    background:rgba(28,90,52,.75);transform:translate(-50%,-50%)}
+  @media (pointer:coarse){ #joystick{display:block} }
+  /* Toast */
+  .toast-msg{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(8px);z-index:46;
+    background:var(--brown);color:var(--cream);border-radius:18px;padding:9px 18px;font-size:13.5px;
+    opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;max-width:88vw;text-align:center}
+  body.panel-open .toast-msg{bottom:auto;top:110px}
+  .toast-msg.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .floating-blessing{position:fixed;z-index:45;pointer-events:none;color:var(--gold);font-weight:800;
+    font-size:15px;text-shadow:0 1px 4px rgba(255,255,255,.9);animation:floatUp 1.6s ease-out forwards}
+  @keyframes floatUp{from{opacity:0;transform:translateY(8px)}20%{opacity:1}to{opacity:0;transform:translateY(-34px)}}
+  /* Modals (shop / đơn hàng / sớ / bản đồ / kinh sách) */
+  .modal-overlay{position:fixed;inset:0;z-index:50;background:rgba(43,29,18,.55);display:none;
+    align-items:center;justify-content:center;padding:14px}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--cream);border:2px solid var(--green);border-radius:26px;width:min(430px,94vw);
+    max-height:86vh;overflow-y:auto;padding:20px 18px;color:var(--brown);box-shadow:0 12px 40px rgba(0,0,0,.4)}
+  .modal-title{font-size:19px;font-weight:800;color:var(--green);margin-bottom:4px}
+  .modal-desc{font-size:13.5px;color:var(--brown2);line-height:1.5;margin-bottom:12px}
+  .modal-close{float:right;background:none;border:none;font-size:20px;cursor:pointer;color:var(--brown2)}
+  .modal input,.modal textarea{width:100%;padding:9px 11px;border:1.5px solid var(--gold);border-radius:12px;
+    font-family:inherit;font-size:14px;background:#fff;margin:4px 0 8px;color:var(--ink)}
+  .modal label{font-size:13px;font-weight:700}
+  .btn-submit{width:100%;background:var(--green);color:var(--cream);border:none;border-radius:999px;
+    padding:11px 0;font-family:inherit;font-size:15px;font-weight:800;cursor:pointer;margin-top:6px}
+  .btn-submit.alt{background:var(--terra)}
+  .shop-tabs{display:flex;gap:6px;margin-bottom:10px}
+  .shop-tab{flex:1;border:1.5px solid var(--green);background:transparent;color:var(--green);border-radius:999px;
+    padding:8px 4px;font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer}
+  .shop-tab.active{background:var(--green);color:var(--cream)}
+  .shop-item{display:flex;gap:10px;align-items:center;border:1px solid rgba(201,150,46,.5);border-radius:18px;
+    padding:9px;margin-bottom:8px;background:#fff}
+  .shop-item .thumb{width:44px;height:44px;flex:none;border:1.5px solid var(--gold);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:800;color:var(--green);background:var(--cream2)}
+  .shop-item .info{flex:1}
+  .shop-item .info b{font-size:14px;color:var(--brown)}
+  .shop-item .info small{display:block;color:var(--brown2);font-size:12px}
+  .shop-item .price{font-weight:800;color:var(--terra);font-size:13.5px;white-space:nowrap}
+  .shop-item .add{background:var(--green);color:var(--cream);border:none;border-radius:999px;
+    padding:7px 13px;font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer}
+  .cart-badge{background:var(--terra);color:#fff;border-radius:10px;padding:1px 7px;font-size:12px;margin-left:4px}
+  .book-item{display:flex;gap:10px;align-items:center;background:#fff;border:1px solid rgba(201,150,46,.5);
+    border-radius:18px;padding:10px 12px;margin-bottom:8px}
+  .book-item .thumb{width:40px;height:40px;flex:none;border:1.5px solid var(--gold);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:var(--green);background:var(--cream2)}
+  .book-item b{font-size:14px}
+  .book-item small{display:block;color:var(--brown2);font-size:12px}
+  #map-modal .modal{width:min(520px,96vw)}
+  #map-wrap{position:relative;background:#FDF3DC;border:1.5px solid var(--gold);border-radius:18px;overflow:hidden}
+  #map-dot{position:absolute;width:14px;height:14px;border-radius:50%;background:var(--gold);
+    border:2.5px solid #fff;box-shadow:0 0 0 2px var(--gold),0 2px 8px rgba(0,0,0,.4);transform:translate(-50%,-50%);z-index:3}
+  @media (max-width:700px){
+    .brand small{display:none}
+    #lotus-progress{top:60px;padding:5px 9px}
+    #lotus-progress .lp-label{display:none}
+    #an-bubble{bottom:150px}
+    #btn-context{bottom:80px;font-size:15.5px;padding:12px 22px}
+  }
+</style>
+</head>
+<body>
+  <div id="canvas-container"><canvas id="three-canvas"></canvas></div>
+  <div id="vignette"></div>
+  <div id="fade-overlay"></div>
+
+  <header class="top-bar">
+    <div class="brand"><span class="lotus">🪷</span><div><b>Chùa Online</b><small>Chùa Vĩnh Tràng · Tiền Giang</small></div></div>
+    <nav class="nav-pills">
+      <button class="nav-pill" id="nav-explore">Khám phá</button>
+      <button class="nav-pill" id="nav-learn">Học Phật</button>
+      <button class="nav-pill" id="nav-account">Tài khoản</button>
+    </nav>
+  </header>
+
+  <div class="sys-btns">
+    <button class="sys-btn" id="btn-map">Bản đồ</button>
+    <button class="sys-btn" id="btn-settings">Cài đặt</button>
+  </div>
+
+  <div id="settings-pop">
+    <label>Giọng dẫn đường</label>
+    <small>Giọng dẫn: giọng đọc nhân tạo (thu sẵn từng câu). Tiếng tụng trong chánh điện chỉ phát khi có bản ghi thật được phép dùng.</small>
+    <label for="brightness-slider">Độ sáng khung cảnh</label>
+    <input type="range" id="brightness-slider" min="0.85" max="1.15" step="0.01" value="1.00">
+    <small>Mặc định đúng grade chuẩn (sáng trong).</small>
+    <button class="set-btn" id="btn-audio-toggle">Chuông Mõ: Bật</button>
+    <button class="set-btn" id="btn-profile-change">Đổi người đi chùa</button>
+  </div>
+
+  <div id="lotus-progress" title="Hành trình một vòng chùa">
+    <span class="lp-label">Hành trình</span>
+    <span class="petal" data-p="gate"></span><span class="petal" data-p="stall"></span>
+    <span class="petal" data-p="adida"></span><span class="petal" data-p="dilac"></span>
+    <span class="petal" data-p="burner"></span><span class="petal" data-p="hall"></span>
+    <span class="petal" data-p="nirvana"></span><span class="petal" data-p="tower"></span>
+  </div>
+
+  <div id="an-bubble"><b>An:</b> <span id="an-text"></span></div>
+
+  <button id="btn-context">Vào cổng</button>
+  <button id="btn-quiet">Tiếp</button>
+  <button id="btn-info">Tìm hiểu thêm</button>
+
+  <div id="explore-tray">
+    <h3>Khám phá thêm</h3>
+    <div class="tray-grid">
+      <button class="tray-btn" id="tray-chant">Niệm kinh</button>
+      <button class="tray-btn" id="tray-lessons">Bài giảng Huệ Đăng</button>
+      <button class="tray-btn" id="tray-fortune">Thẻ an lạc hôm nay</button>
+      <button class="tray-btn" id="tray-books">Phòng kinh sách</button>
+      <button class="tray-btn" id="tray-shop">Cửa hàng lưu niệm</button>
+      <button class="tray-btn" id="tray-so">Sớ cầu an</button>
+    </div>
+  </div>
+
+  <div id="joystick"><div id="joy-knob"></div></div>
+
+  <!-- Tấm: Sạp nhang hoa (MUA — ngoài cổng) -->
+  <div class="sheet" id="stall-panel">
+    <button class="sheet-close" id="stall-close">✕</button>
+    <h3>Sạp nhang hoa — trước cổng chùa</h3>
+    <div class="sheet-sub">Cô bán hàng: “Mua bó nhang, thêm ít hoa sen là đủ lễ rồi con. Vào chùa thắp ở lư giữa sân thôi, trước tượng chỉ vái.”</div>
+    <div class="opt-cards">
+      <div class="opt-card" id="stall-opt1"><b>Bó 1 nén</b><small>Tâm hương — một nén tượng trưng tấm lòng</small><span class="price">10.000đ</span></div>
+      <div class="opt-card" id="stall-opt3"><b>Bó 3 nén</b><small>Tam Bảo — Phật, Pháp, Tăng</small><span class="price">15.000đ</span></div>
+    </div>
+    <div class="sheet-sub" style="margin-bottom:4px">Kèm theo: một cành hoa sen tươi.</div>
+    <button class="big-btn" id="stall-buy" disabled>Mua nhang hoa</button>
+  </div>
+
+  <!-- Tấm: Lễ thắp nhang ở lư sân — người chơi tự chạm TỪNG nhịp -->
+  <div class="sheet" id="incense-panel">
+    <button class="sheet-close" id="incense-close">✕</button>
+    <h3>Thắp nhang — lư giữa sân</h3>
+    <div class="beat-dots" id="incense-dots"><span></span><span></span><span></span><span></span></div>
+    <div class="flame-line" id="incense-flame"></div>
+    <div class="sheet-sub" id="incense-text"></div>
+    <div id="incense-actions"></div>
+  </div>
+
+  <div class="toast-msg" id="toast">Thành tâm kính Phật</div>

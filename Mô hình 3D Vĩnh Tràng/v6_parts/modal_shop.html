@@ -1,0 +1,19 @@
+
+  <!-- Modal: Cửa hàng lưu niệm S7 (giá CHỈ ở đây — không giá trong UI lễ) -->
+  <div class="modal-overlay" id="shop-modal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('shop-modal')">✕</button>
+      <div class="modal-title">Cửa hàng lưu niệm</div>
+      <div class="modal-desc">Quà lưu niệm &amp; đồ tu học của chùa — giao tận nhà, kiểm tra rồi thanh toán (COD).</div>
+      <div class="shop-tabs">
+        <button class="shop-tab active" data-cat="souvenir">Quà lưu niệm</button>
+        <button class="shop-tab" data-cat="study">Đồ tu học</button>
+        <button class="shop-tab" data-cat="3d">Vật phẩm 3D</button>
+      </div>
+      <div id="shop-list" style="max-height:340px; overflow-y:auto;"></div>
+      <div style="display:flex; gap:8px; margin-top:10px;">
+        <button class="btn-submit" id="btn-view-cart" style="margin-top:0; flex:1;">Giỏ hàng <span class="cart-badge" id="cart-count">0</span></button>
+        <button class="btn-submit" id="btn-checkout" style="margin-top:0; flex:1; background:var(--terra);">Đặt hàng</button>
+      </div>
+    </div>
+  </div>
