@@ -196,12 +196,12 @@
       metalness: 0.15,
     });
 
-    const pillarMat = mat(0xd90429, 0.3, 0.05); // Cột sơn son đỏ tươi bóng
+    const pillarMat = mat(0x8B251E, 0.38, 0.10); // Cột sơn son đỏ chu sa ấm bóng
     const wallMat = mat(0xfff3bf, 0.65, 0.0); // Tường vàng kem ấm
     const goldMat = mat(0xffd166, 0.22, 0.88); // Vàng hoàng kim tươi sáng
-    const buddhaMat = mat(0xffb703, 0.2, 0.9); // Kim thân Phật dát vàng óng ánh
+    const buddhaMat = mat(0xffd166, 0.22, 0.88, 1, 0.25); // Kim thân Phật dát vàng óng ánh
     const arhatMat = mat(0xffc300, 0.22, 0.88); // 18 La Hán Chibi vàng óng
-    const lotusPinkMat = mat(0xff5d8f, 0.4); // Cánh hoa sen hồng tươi
+    const lotusPinkMat = mat(0xe0367e, 0.4); // Cánh hoa sen hồng tươi
     const lotusWhiteMat = mat(0xffffff, 0.35); // Đầu cánh sen trắng
     const woodDark = mat(0x4a1e13, 0.6); // Gỗ mun ấm
     const matRug = mat(0x9d0208, 0.65); // Thảm đỏ tươi
@@ -216,11 +216,11 @@
     const lionMat = mat(0xffb703, 0.4, 0.2);
 
 
-    // ---- Scene + grade D2 (audit) ----
+    // ---- Scene + grade Daylight (chuẩn thiết kế gốc Chùa Vĩnh Tràng) ----
     const canvas = document.getElementById('three-canvas');
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x7fb2e5);
-    scene.fog = new THREE.FogExp2(0x2a1a10, 0.007);
+    scene.background = new THREE.Color(0x74b4fa); // Trời xanh thanh khiết ban mai
+    scene.fog = new THREE.Fog(0xe6f0f8, 55, 220); // Sương mù sáng khí quyển, hòa quyện chân trời
     const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 600);
     camera.position.set(23, 4.5, 52);
     camera.lookAt(23, 2, 38);
@@ -229,23 +229,24 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.02;
+    renderer.toneMappingExposure = 1.15; // Nâng sáng rạng rỡ, trong trẻo
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    // Layered lights: layer 0 ngoài sân / layer 1 nội điện (tối hơn một bậc)
-    const hemi = new THREE.HemisphereLight(0xfff2d9, 0x5e4a35, 1.15);
+    // Layered lights: layer 0 ngoài sân / layer 1 nội điện
+    const hemi = new THREE.HemisphereLight(0xe8f4fc, 0xbba590, 1.25); // Phản xạ đất ấm
     hemi.layers.set(0);
     scene.add(hemi);
-    const sun = new THREE.DirectionalLight(0xffd9a3, 1.5);
-    sun.position.set(-30, 25, 18); // nắng thấp phía tây
+    const sun = new THREE.DirectionalLight(0xfff1d0, 1.65); // Nắng vàng ấm rạng rỡ
+    sun.position.set(-35, 30, 22);
     sun.castShadow = true;
     sun.shadow.mapSize.width = 2048; sun.shadow.mapSize.height = 2048;
     sun.shadow.camera.left = -60; sun.shadow.camera.right = 60;
     sun.shadow.camera.top = 60; sun.shadow.camera.bottom = -60;
-    sun.shadow.camera.far = 120;
+    sun.shadow.camera.far = 130;
+    sun.shadow.bias = -0.0004;
     sun.layers.set(0);
     scene.add(sun);
-    const hemiIn = new THREE.HemisphereLight(0xffe9c4, 0x3a2418, 0.55);
+    const hemiIn = new THREE.HemisphereLight(0xfff0d8, 0x4a2e1d, 0.65);
     hemiIn.layers.set(1);
     scene.add(hemiIn);
     camera.layers.enable(1); // camera thấy cả 2 layer
@@ -463,15 +464,15 @@
       tex.colorSpace = THREE.SRGBColorSpace;
       return tex;
     }
-    const leafTexA = leafTexture('#3E6B34'), leafTexB = leafTexture('#5C8446'), leafTexC = leafTexture('#4E7A3A');
+    const leafTexA = leafTexture('#357a32'), leafTexB = leafTexture('#4ca046'), leafTexC = leafTexture('#5cb854');
     function roofTexture() {
       const cv = document.createElement('canvas'); cv.width = 256; cv.height = 256;
       const ctx = cv.getContext('2d');
-      ctx.fillStyle = '#7C4030'; ctx.fillRect(0, 0, 256, 256);
+      ctx.fillStyle = '#B34728'; ctx.fillRect(0, 0, 256, 256);
       for (let y = 0; y < 16; y++) {
         for (let x = 0; x < 16; x++) {
-          const v = 0.85 + Math.random() * 0.3;
-          ctx.fillStyle = `rgb(${Math.floor(124 * v)},${Math.floor(64 * v)},${Math.floor(48 * v)})`;
+          const v = 0.9 + Math.random() * 0.2;
+          ctx.fillStyle = `rgb(${Math.floor(179 * v)},${Math.floor(71 * v)},${Math.floor(40 * v)})`;
           ctx.fillRect(x * 16, y * 16, 15, 15);
         }
       }
@@ -483,10 +484,10 @@
     function pavingTexture() {
       const cv = document.createElement('canvas'); cv.width = 256; cv.height = 256;
       const ctx = cv.getContext('2d');
-      ctx.fillStyle = '#8A7A63'; ctx.fillRect(0, 0, 256, 256);
+      ctx.fillStyle = '#D0C6B5'; ctx.fillRect(0, 0, 256, 256);
       for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) {
-        const v = 0.88 + Math.random() * 0.24;
-        ctx.fillStyle = `rgb(${Math.floor(138 * v)},${Math.floor(122 * v)},${Math.floor(99 * v)})`;
+        const v = 0.94 + Math.random() * 0.12;
+        ctx.fillStyle = `rgb(${Math.floor(226 * v)},${Math.floor(217 * v)},${Math.floor(205 * v)})`;
         ctx.fillRect(x * 32 + 1, y * 32 + 1, 30, 30);
       }
       const tex = new THREE.CanvasTexture(cv);

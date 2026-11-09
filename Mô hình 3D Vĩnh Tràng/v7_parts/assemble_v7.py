@@ -13,9 +13,9 @@ OUT = os.path.join(os.path.dirname(D), 'trai-nghiem-vinh-trang-v7.html')
 TEST = os.path.join(os.path.dirname(D), 'trai-nghiem-vinh-trang-v7-TESTLOCAL.html')
 
 GLB_FILES = {
-    'nu': os.path.expanduser('~/workspace/user/files/nu-phuc-hoi-mau-chuyen-dong.glb'),
-    'nam': os.path.expanduser('~/workspace/user/files/nam-chuyen-dong.glb'),
-    'tre': os.path.expanduser('~/workspace/user/files/tre-em-chuyen-dong.glb'),
+    'nu': os.path.abspath(os.path.join(D, '../../Thiết kế giao diện/Nhân vật 3D/Bản chỉnh sửa/nu-phuc-hoi-mau-chuyen-dong.glb')),
+    'nam': os.path.abspath(os.path.join(D, '../../Thiết kế giao diện/Nhân vật 3D/Chuyển động/nam-chuyen-dong.glb')),
+    'tre': os.path.abspath(os.path.join(D, '../../Thiết kế giao diện/Nhân vật 3D/Chuyển động/tre-em-chuyen-dong.glb')),
 }
 b64 = {}
 for kind, path in GLB_FILES.items():

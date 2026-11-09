@@ -92,6 +92,33 @@
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(e.code)) e.preventDefault();
     });
     window.addEventListener('keyup', e => { keys[e.code] = false; });
+
+    // D-Pad di chuyển (chuẩn ảnh đề xuất)
+    const dpadButtons = [
+      ['dpad-up', 'KeyW'],
+      ['dpad-down', 'KeyS'],
+      ['dpad-left', 'KeyA'],
+      ['dpad-right', 'KeyD']
+    ];
+    dpadButtons.forEach(([id, code]) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const onDown = (e) => {
+        e.preventDefault();
+        keys[code] = true;
+        el.classList.add('active');
+        if (typeof cancelAutoWalk === 'function') cancelAutoWalk();
+      };
+      const onUp = (e) => {
+        e.preventDefault();
+        keys[code] = false;
+        el.classList.remove('active');
+      };
+      el.addEventListener('pointerdown', onDown);
+      el.addEventListener('pointerup', onUp);
+      el.addEventListener('pointerleave', onUp);
+      el.addEventListener('pointercancel', onUp);
+    });
     const raycaster = new THREE.Raycaster();
     const groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
     const clickPoint = new THREE.Vector3();

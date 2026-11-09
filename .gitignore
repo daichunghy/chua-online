@@ -6,6 +6,7 @@ node_modules/
 # Production / Build
 dist/
 build/
+*-TESTLOCAL.html
 
 # Operating System
 .DS_Store

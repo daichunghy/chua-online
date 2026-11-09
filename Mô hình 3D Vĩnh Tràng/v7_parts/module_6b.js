@@ -604,7 +604,7 @@
       SHOP_PRODUCTS.filter(p => p.cat === shopCat).forEach(p => {
         const div = document.createElement('div');
         div.className = 'shop-item';
-        div.innerHTML = `<div class="thumb">${p.name.charAt(0)}</div><div class="info"><b>${p.name}</b><small>${p.desc}</small></div><div class="price">${fmtVND(p.price)}</div>`;
+        div.innerHTML = `<div class="thumb">${p.name.charAt(0)}</div><div class="info"><b>${p.name}</b><small>${p.desc}</small><small style="color:var(--green);font-weight:600;">🚚 Giao tận nhà</small></div><div class="price">${fmtVND(p.price)}</div>`;
         const btn = document.createElement('button');
         btn.className = 'add'; btn.textContent = 'Thêm';
         btn.onclick = () => {
@@ -662,10 +662,10 @@
     // ---- Cài đặt + nav + khay khám phá ----
     const brightnessSlider = document.getElementById('brightness-slider');
     brightnessSlider.value = V4.brightness || 1.0;
-    renderer.toneMappingExposure = 1.02 * (V4.brightness || 1.0);
+    renderer.toneMappingExposure = 1.15 * (V4.brightness || 1.0);
     brightnessSlider.addEventListener('input', () => {
       V4.brightness = parseFloat(brightnessSlider.value); saveV4();
-      renderer.toneMappingExposure = 1.02 * V4.brightness;
+      renderer.toneMappingExposure = 1.15 * V4.brightness;
     });
     document.getElementById('btn-settings').addEventListener('click', () => {
       document.getElementById('settings-pop').classList.toggle('open');
@@ -684,6 +684,43 @@
     document.getElementById('tray-books').addEventListener('click', () => { tray.classList.remove('open'); openBooks(); });
     document.getElementById('tray-shop').addEventListener('click', () => { tray.classList.remove('open'); openModal('shop-modal'); });
     document.getElementById('tray-so').addEventListener('click', () => { tray.classList.remove('open'); openModal('so-modal'); });
+
+    // Gắn sự kiện cho 4 nút hành động nghi lễ góc dưới phải (chuẩn ảnh đề xuất)
+    document.getElementById('act-bow')?.addEventListener('click', () => {
+      cancelAutoWalk();
+      startBow(3);
+      playBell();
+      showToast('🙏 Thành tâm đảnh lễ Chư Phật Tam Bảo (3 lạy).');
+      spawnBlessingText('Kính Lễ Tam Bảo', window.innerWidth * 0.7, window.innerHeight * 0.5);
+    });
+    document.getElementById('act-incense')?.addEventListener('click', () => {
+      cancelAutoWalk();
+      if (!V4.bought) {
+        showToast('Chưa có nhang hoa. Đang dẫn bạn tới sạp nhang hoa ngoài cổng...');
+        const s = stationById('stall');
+        if (s) startAutoWalk(s);
+      } else {
+        const s = stationById('burner');
+        if (s) startAutoWalk(s);
+      }
+    });
+    document.getElementById('act-flower')?.addEventListener('click', () => {
+      cancelAutoWalk();
+      playBell();
+      showToast('🪷 Dâng hoa sen thơm thanh tịnh cúng dường Chư Phật.');
+      spawnBlessingText('Dâng Hoa Cúng Dường', window.innerWidth * 0.7, window.innerHeight * 0.5);
+    });
+    document.getElementById('act-chant')?.addEventListener('click', () => {
+      if (window.openChant) window.openChant();
+      else showToast('📿 Nam Mô A Di Đà Phật · Niệm Phật an lạc.');
+    });
+
+    // Pin 3D Chánh điện click
+    document.getElementById('pin-chanhdien')?.addEventListener('click', () => {
+      cancelAutoWalk();
+      const s = stationById('hall');
+      if (s) startAutoWalk(s);
+    });
 
     // ---- Khởi tạo ----
     renderPetals();

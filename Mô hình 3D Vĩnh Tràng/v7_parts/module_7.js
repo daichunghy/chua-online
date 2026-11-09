@@ -244,6 +244,26 @@
         camera.position.lerp(camTmp, Math.min(1, dt * 6));
         camera.lookAt(player.pos.x, 1.4, player.pos.z);
       }
+      // Cập nhật tọa độ chiếu 3D cho Pin "📍 Chánh điện"
+      const pinEl = document.getElementById('pin-chanhdien');
+      if (pinEl) {
+        if (inside) {
+          pinEl.style.display = 'none';
+        } else {
+          // Tọa độ vòm cửa chính Chánh điện (x: 23, y: 5.8, z: 4.2)
+          const pinPos = new THREE.Vector3(23, 5.8, 4.2);
+          pinPos.project(camera);
+          if (pinPos.z > -1 && pinPos.z < 1) {
+            const screenX = (pinPos.x * 0.5 + 0.5) * window.innerWidth;
+            const screenY = (-(pinPos.y * 0.5) + 0.5) * window.innerHeight;
+            pinEl.style.left = screenX + 'px';
+            pinEl.style.top = screenY + 'px';
+            pinEl.style.display = 'flex';
+          } else {
+            pinEl.style.display = 'none';
+          }
+        }
+      }
       if (render) renderer.render(scene, camera);
     }
     function animate() {

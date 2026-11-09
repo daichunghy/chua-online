@@ -12,9 +12,9 @@
 </script>
 <style>
   :root{
-    --cream:#FFF6E5; --cream2:#FDF3DC; --green:#1C5A34; --green2:#14532D;
-    --brown:#4A3222; --brown2:#6B4226; --gold:#C9962E; --pink:#F2A0C4; --pink2:#EE7FAE;
-    --terra:#C96F4A; --ink:#2B1D12;
+    --cream:#FFFCF2; --cream2:#FFF6E5; --green:#1C5A34; --green2:#144D2C;
+    --brown:#4A3222; --brown2:#6B4226; --gold:#C9962E; --gold-light:#FCC86C;
+    --pink:#E0367E; --pink2:#EB6896; --terra:#C96F4A; --ink:#2B1D12; --bronze:#58321A;
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0;height:100%;overflow:hidden;background:var(--cream);
@@ -22,23 +22,21 @@
   #canvas-container{position:fixed;inset:0}
   #three-canvas{width:100%;height:100%;display:block;touch-action:none}
   #vignette{position:fixed;inset:0;pointer-events:none;z-index:5;
-    background:radial-gradient(ellipse at center,transparent 62%,rgba(255,180,107,.07) 100%)}
+    background:radial-gradient(ellipse at center,transparent 65%,rgba(255,200,120,.05) 100%)}
   #fade-overlay{position:fixed;inset:0;background:#2B1D12;opacity:0;pointer-events:none;z-index:60;transition:opacity .4s}
-  /* V6: bảng tên nổi trên đầu nhân vật ĐÃ XÓA — khách lễ chùa là người vô danh như thật */
-  /* Header — thương hiệu + 3 pill (chỉ hiện sau khi đi trọn tuyến lần đầu) */
-  .top-bar{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:flex-start;
-    justify-content:space-between;padding:10px 12px;pointer-events:none}
+  /* Header — thương hiệu + 3 pill chuẩn theme ảnh gốc */
+  .top-bar{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;
+    justify-content:space-between;padding:10px 14px;pointer-events:none}
   .top-bar>*{pointer-events:auto}
-  .brand{display:flex;align-items:center;gap:8px;background:var(--cream);border:1.5px solid var(--green);
-    border-radius:24px;padding:6px 14px 6px 8px;box-shadow:0 3px 12px rgba(0,0,0,.15)}
-  .brand .lotus{font-size:22px}
-  .brand b{color:var(--green);font-size:15px;display:block;line-height:1.1}
-  .brand small{color:var(--brown2);font-size:11px}
-  .nav-pills{display:none;gap:6px}
-  body.free .nav-pills{display:flex}
-  .nav-pill{background:var(--cream);border:1.5px solid var(--green);color:var(--green);
-    border-radius:999px;padding:7px 13px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer}
-  .nav-pill:hover{background:var(--green);color:var(--cream)}
+  .brand{display:flex;align-items:center;gap:8px;background:rgba(22,53,38,0.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);
+    border-radius:24px;padding:6px 14px 6px 10px;box-shadow:0 3px 12px rgba(0,0,0,.2);color:#fff}
+  .brand .lotus{font-size:20px}
+  .brand b{color:#fff;font-size:14.5px;display:block;line-height:1.1}
+  .brand small{color:#FCC86C;font-size:11px}
+  .nav-pills{display:flex;gap:6px}
+  .nav-pill{background:rgba(22,53,38,0.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);color:#fff;
+    border-radius:999px;padding:7px 14px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s ease;box-shadow:0 3px 10px rgba(0,0,0,.15)}
+  .nav-pill:hover{background:#256843;color:#fff;transform:translateY(-1px)}
   /* Hai nút hệ thống nhỏ: bản đồ + cài đặt */
   .sys-btns{position:fixed;top:64px;right:12px;z-index:30;display:flex;gap:6px}
   .sys-btn{background:var(--cream);border:1.5px solid var(--green);color:var(--green);border-radius:999px;
@@ -121,9 +119,10 @@
   .flame-dot.dim{opacity:.55;height:13px;animation-duration:2.4s}
   @keyframes flameFlicker{0%,100%{transform:scaleY(1) rotate(-1.2deg)}45%{transform:scaleY(1.09) rotate(1.4deg)}70%{transform:scaleY(.96) rotate(-.6deg)}}
   /* V6 — mờ UI trong nhịp lễ (lạy / đứng lặng / hồi hướng / thắp nhang) */
-  .top-bar,.sys-btns,#lotus-progress,#btn-context,#btn-info{transition:opacity .7s ease}
+  .top-bar,.sys-btns,#lotus-progress,#btn-context,#btn-info,#dpad-controller,#action-dock,#pin-chanhdien{transition:opacity .7s ease}
   body.ritual-dim .top-bar,body.ritual-dim .sys-btns,body.ritual-dim #lotus-progress,
   body.ritual-dim #an-bubble,body.ritual-dim #btn-context,body.ritual-dim #btn-info,
+  body.ritual-dim #dpad-controller,body.ritual-dim #action-dock,body.ritual-dim #pin-chanhdien,
   body.ritual-dim #joystick{opacity:0;pointer-events:none}
   /* Nút "Tiếp" nhỏ — chỉ hiện trong nhịp lễ khi cần người lễ chạm để đi tiếp */
   #btn-quiet{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);z-index:47;display:none;
@@ -142,12 +141,73 @@
   .info-sec h4{margin:0 0 4px;color:var(--green);font-size:15.5px}
   .info-sec p{margin:0;font-size:13.5px;line-height:1.6;color:var(--brown)}
   .info-sec .src{margin-top:5px;font-size:11.5px;color:#9A7B52;line-height:1.45}
-  /* Joystick */
-  #joystick{position:fixed;left:18px;bottom:170px;width:110px;height:110px;border-radius:50%;z-index:25;
-    background:rgba(255,246,229,.35);border:2px solid rgba(28,90,52,.5);display:none}
-  #joy-knob{position:absolute;left:50%;top:50%;width:48px;height:48px;border-radius:50%;
-    background:rgba(28,90,52,.75);transform:translate(-50%,-50%)}
-  @media (pointer:coarse){ #joystick{display:block} }
+
+  /* D-PAD Điều Khiển Ở Góc Dưới Bên Trái */
+  .dpad-container {
+    position: fixed; left: 18px; bottom: 18px; z-index: 35;
+    background: rgba(22, 53, 38, 0.88); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border: 1.5px solid rgba(255, 255, 255, 0.2); border-radius: 20px;
+    padding: 8px 12px 10px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+    display: flex; flex-direction: column; align-items: center;
+    user-select: none; touch-action: none;
+  }
+  .dpad-label {
+    color: #FCC86C; font-size: 11.5px; font-weight: 700; margin-bottom: 6px;
+    letter-spacing: 0.3px; text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+  .dpad-cross { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .dpad-mid-row { display: flex; align-items: center; gap: 3px; }
+  .dpad-btn {
+    width: 36px; height: 36px; background: rgba(14, 38, 27, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 9px;
+    color: #fff; font-size: 13px; display: flex; align-items: center;
+    justify-content: center; cursor: pointer; outline: none;
+    transition: background 0.15s, transform 0.1s; box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+  .dpad-btn:active, .dpad-btn.active {
+    background: var(--gold); color: var(--brown); transform: scale(0.92); border-color: #fcc86c;
+  }
+  .dpad-center { width: 36px; height: 36px; background: rgba(18, 48, 34, 0.5); border-radius: 6px; }
+
+  /* 4 Nút Hành Động Nghi Lễ Ở Góc Dưới Bên Phải */
+  .action-dock {
+    position: fixed; right: 18px; bottom: 18px; z-index: 35;
+    display: flex; gap: 10px; align-items: center;
+  }
+  .action-card {
+    width: 76px; height: 82px;
+    background: linear-gradient(180deg, #64391e 0%, #4a2813 100%);
+    border: 1.5px solid rgba(255, 222, 179, 0.35); border-radius: 16px;
+    padding: 8px 4px 6px; display: flex; flex-direction: column;
+    align-items: center; justify-content: space-between;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    cursor: pointer; transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s, border-color 0.15s;
+    outline: none; font-family: inherit; color: #fff;
+  }
+  .action-card:hover { transform: translateY(-3px) scale(1.02); border-color: var(--gold-light); }
+  .action-card:active { transform: translateY(1px) scale(0.96); }
+  .act-icon { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+  .act-label { color: #fff2d6; font-size: 11.5px; font-weight: 700; text-shadow: 0 1px 3px rgba(0,0,0,0.5); white-space: nowrap; }
+
+  /* Pin Định Vị Chánh Điện Nổi 3D */
+  .hall-pin {
+    position: fixed; z-index: 32; top: 0; left: 0;
+    background: rgba(22, 53, 38, 0.92); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    border: 1.5px solid rgba(255, 230, 180, 0.4); color: #fff; border-radius: 999px;
+    padding: 6px 14px 6px 10px; display: none; align-items: center; gap: 5px;
+    font-family: inherit; font-size: 13.5px; font-weight: 700;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35); cursor: pointer; pointer-events: auto;
+    transform: translate(-50%, -100%); animation: pulsePin 2.2s ease-in-out infinite; white-space: nowrap;
+  }
+  .hall-pin .pin-arrow {
+    position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
+    width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent;
+    border-top: 6px solid rgba(22, 53, 38, 0.92);
+  }
+  @keyframes pulsePin {
+    0%, 100% { transform: translate(-50%, -100%) translateY(0); }
+    50% { transform: translate(-50%, -100%) translateY(-6px); }
+  }
   /* Toast */
   .toast-msg{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(8px);z-index:46;
     background:var(--brown);color:var(--cream);border-radius:18px;padding:9px 18px;font-size:13.5px;
@@ -214,9 +274,9 @@
   <header class="top-bar">
     <div class="brand"><span class="lotus">🪷</span><div><b>Chùa Online</b><small>Chùa Vĩnh Tràng · Tiền Giang</small></div></div>
     <nav class="nav-pills">
-      <button class="nav-pill" id="nav-explore">Khám phá</button>
-      <button class="nav-pill" id="nav-learn">Học Phật</button>
-      <button class="nav-pill" id="nav-account">Tài khoản</button>
+      <button class="nav-pill" id="nav-explore">🧭 Khám phá</button>
+      <button class="nav-pill" id="nav-learn">📖 Học Phật</button>
+      <button class="nav-pill" id="nav-account">👤 Tài khoản</button>
     </nav>
   </header>
 
@@ -259,6 +319,47 @@
       <button class="tray-btn" id="tray-shop">Cửa hàng lưu niệm</button>
       <button class="tray-btn" id="tray-so">Sớ cầu an</button>
     </div>
+  </div>
+
+  <!-- Pin 3D Chánh Điện -->
+  <div id="pin-chanhdien" class="hall-pin">
+    <span class="pin-icon">📍</span>
+    <span class="pin-text">Chánh điện</span>
+    <div class="pin-arrow"></div>
+  </div>
+
+  <!-- D-Pad Điều Khiển Góc Dưới Bên Trái -->
+  <div id="dpad-controller" class="dpad-container">
+    <div class="dpad-label">Di chuyển</div>
+    <div class="dpad-cross">
+      <button class="dpad-btn" id="dpad-up" aria-label="Lên">▲</button>
+      <div class="dpad-mid-row">
+        <button class="dpad-btn" id="dpad-left" aria-label="Trái">◀</button>
+        <div class="dpad-center"></div>
+        <button class="dpad-btn" id="dpad-right" aria-label="Phải">▶</button>
+      </div>
+      <button class="dpad-btn" id="dpad-down" aria-label="Xuống">▼</button>
+    </div>
+  </div>
+
+  <!-- 4 Nút Hành Động Nghi Lễ Góc Dưới Bên Phải -->
+  <div id="action-dock" class="action-dock">
+    <button class="action-card" id="act-bow" title="Lễ Phật 3 lạy">
+      <div class="act-icon">🪷</div>
+      <span class="act-label">Lễ Phật</span>
+    </button>
+    <button class="action-card" id="act-incense" title="Dâng hương tại lư">
+      <div class="act-icon">♨️</div>
+      <span class="act-label">Dâng hương</span>
+    </button>
+    <button class="action-card" id="act-flower" title="Dâng hoa cúng dường">
+      <div class="act-icon">🌸</div>
+      <span class="act-label">Dâng hoa</span>
+    </button>
+    <button class="action-card" id="act-chant" title="Niệm Phật 108 hạt">
+      <div class="act-icon">📿</div>
+      <span class="act-label">Niệm Phật</span>
+    </button>
   </div>
 
   <div id="joystick"><div id="joy-knob"></div></div>
@@ -562,12 +663,12 @@
       metalness: 0.15,
     });
 
-    const pillarMat = mat(0xd90429, 0.3, 0.05); // Cột sơn son đỏ tươi bóng
+    const pillarMat = mat(0x8B251E, 0.38, 0.10); // Cột sơn son đỏ chu sa ấm bóng
     const wallMat = mat(0xfff3bf, 0.65, 0.0); // Tường vàng kem ấm
     const goldMat = mat(0xffd166, 0.22, 0.88); // Vàng hoàng kim tươi sáng
-    const buddhaMat = mat(0xffb703, 0.2, 0.9); // Kim thân Phật dát vàng óng ánh
+    const buddhaMat = mat(0xffd166, 0.22, 0.88, 1, 0.25); // Kim thân Phật dát vàng óng ánh
     const arhatMat = mat(0xffc300, 0.22, 0.88); // 18 La Hán Chibi vàng óng
-    const lotusPinkMat = mat(0xff5d8f, 0.4); // Cánh hoa sen hồng tươi
+    const lotusPinkMat = mat(0xe0367e, 0.4); // Cánh hoa sen hồng tươi
     const lotusWhiteMat = mat(0xffffff, 0.35); // Đầu cánh sen trắng
     const woodDark = mat(0x4a1e13, 0.6); // Gỗ mun ấm
     const matRug = mat(0x9d0208, 0.65); // Thảm đỏ tươi
@@ -582,11 +683,11 @@
     const lionMat = mat(0xffb703, 0.4, 0.2);
 
 
-    // ---- Scene + grade D2 (audit) ----
+    // ---- Scene + grade Daylight (chuẩn thiết kế gốc Chùa Vĩnh Tràng) ----
     const canvas = document.getElementById('three-canvas');
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x7fb2e5);
-    scene.fog = new THREE.FogExp2(0x2a1a10, 0.007);
+    scene.background = new THREE.Color(0x74b4fa); // Trời xanh thanh khiết ban mai
+    scene.fog = new THREE.Fog(0xe6f0f8, 55, 220); // Sương mù sáng khí quyển, hòa quyện chân trời
     const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 600);
     camera.position.set(23, 4.5, 52);
     camera.lookAt(23, 2, 38);
@@ -595,23 +696,24 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.02;
+    renderer.toneMappingExposure = 1.15; // Nâng sáng rạng rỡ, trong trẻo
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    // Layered lights: layer 0 ngoài sân / layer 1 nội điện (tối hơn một bậc)
-    const hemi = new THREE.HemisphereLight(0xfff2d9, 0x5e4a35, 1.15);
+    // Layered lights: layer 0 ngoài sân / layer 1 nội điện
+    const hemi = new THREE.HemisphereLight(0xe8f4fc, 0xbba590, 1.25); // Phản xạ đất ấm
     hemi.layers.set(0);
     scene.add(hemi);
-    const sun = new THREE.DirectionalLight(0xffd9a3, 1.5);
-    sun.position.set(-30, 25, 18); // nắng thấp phía tây
+    const sun = new THREE.DirectionalLight(0xfff1d0, 1.65); // Nắng vàng ấm rạng rỡ
+    sun.position.set(-35, 30, 22);
     sun.castShadow = true;
     sun.shadow.mapSize.width = 2048; sun.shadow.mapSize.height = 2048;
     sun.shadow.camera.left = -60; sun.shadow.camera.right = 60;
     sun.shadow.camera.top = 60; sun.shadow.camera.bottom = -60;
-    sun.shadow.camera.far = 120;
+    sun.shadow.camera.far = 130;
+    sun.shadow.bias = -0.0004;
     sun.layers.set(0);
     scene.add(sun);
-    const hemiIn = new THREE.HemisphereLight(0xffe9c4, 0x3a2418, 0.55);
+    const hemiIn = new THREE.HemisphereLight(0xfff0d8, 0x4a2e1d, 0.65);
     hemiIn.layers.set(1);
     scene.add(hemiIn);
     camera.layers.enable(1); // camera thấy cả 2 layer
@@ -829,15 +931,15 @@
       tex.colorSpace = THREE.SRGBColorSpace;
       return tex;
     }
-    const leafTexA = leafTexture('#3E6B34'), leafTexB = leafTexture('#5C8446'), leafTexC = leafTexture('#4E7A3A');
+    const leafTexA = leafTexture('#357a32'), leafTexB = leafTexture('#4ca046'), leafTexC = leafTexture('#5cb854');
     function roofTexture() {
       const cv = document.createElement('canvas'); cv.width = 256; cv.height = 256;
       const ctx = cv.getContext('2d');
-      ctx.fillStyle = '#7C4030'; ctx.fillRect(0, 0, 256, 256);
+      ctx.fillStyle = '#B34728'; ctx.fillRect(0, 0, 256, 256);
       for (let y = 0; y < 16; y++) {
         for (let x = 0; x < 16; x++) {
-          const v = 0.85 + Math.random() * 0.3;
-          ctx.fillStyle = `rgb(${Math.floor(124 * v)},${Math.floor(64 * v)},${Math.floor(48 * v)})`;
+          const v = 0.9 + Math.random() * 0.2;
+          ctx.fillStyle = `rgb(${Math.floor(179 * v)},${Math.floor(71 * v)},${Math.floor(40 * v)})`;
           ctx.fillRect(x * 16, y * 16, 15, 15);
         }
       }
@@ -849,10 +951,10 @@
     function pavingTexture() {
       const cv = document.createElement('canvas'); cv.width = 256; cv.height = 256;
       const ctx = cv.getContext('2d');
-      ctx.fillStyle = '#8A7A63'; ctx.fillRect(0, 0, 256, 256);
+      ctx.fillStyle = '#D0C6B5'; ctx.fillRect(0, 0, 256, 256);
       for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) {
-        const v = 0.88 + Math.random() * 0.24;
-        ctx.fillStyle = `rgb(${Math.floor(138 * v)},${Math.floor(122 * v)},${Math.floor(99 * v)})`;
+        const v = 0.94 + Math.random() * 0.12;
+        ctx.fillStyle = `rgb(${Math.floor(226 * v)},${Math.floor(217 * v)},${Math.floor(205 * v)})`;
         ctx.fillRect(x * 32 + 1, y * 32 + 1, 30, 30);
       }
       const tex = new THREE.CanvasTexture(cv);
@@ -871,32 +973,33 @@
     function colCircle(x, z, r) { colCircles.push([x, z, r]); }
     const fishes = [];
 
-    const stoneMat = mat(0x8A7A63, 0.85);
-    const stoneDark = mat(0x6E675C, 0.9);
-    const fenceGoldMat = mat(0xC9962E, 0.5, 0.3);
-    const woodSignMat = mat(0x5A3D26, 0.7);
-    const roofMat = new THREE.MeshStandardMaterial({ map: roofTex, roughness: 0.7 });
+    const stoneMat = mat(0xDFD6C7, 0.82);
+    const stoneDark = mat(0x9E9385, 0.88);
+    const fenceGoldMat = mat(0xE0A832, 0.45, 0.35);
+    const woodSignMat = mat(0x6E4426, 0.65);
+    const roofMat = new THREE.MeshStandardMaterial({ map: roofTex, roughness: 0.65 });
     roofTex.repeat.set(3, 2);
-    const wallGoldMat = mat(0xD9A441, 0.6);
-    const pillarRedMat = mat(0x7E2A22, 0.45);
-    const grilleMat = mat(0x2B2320, 0.6, 0.4);
-    const waterMat = new THREE.MeshStandardMaterial({ color: 0x4E5F3A, roughness: 0.15, metalness: 0.35, transparent: true, opacity: 0.92 });
-    const flowerPinkMat = mat(0xEE7FAE, 0.5);
-    const flowerRedMat = mat(0xD94F3D, 0.5);
+    const wallGoldMat = mat(0xF2C357, 0.55); // Vàng chùa Vĩnh Tràng tươi sáng
+    const pillarRedMat = mat(0xBA3524, 0.38, 0.08); // Đỏ son bóng mịn
+    const grilleMat = mat(0x3D2E26, 0.5, 0.3);
+    const waterMat = new THREE.MeshStandardMaterial({ color: 0x328A80, roughness: 0.08, metalness: 0.42, transparent: true, opacity: 0.85 });
+    const flowerPinkMat = mat(0xFF4388, 0.45); // Hoa giấy hồng rực rỡ
+    const flowerRedMat = mat(0xE63946, 0.45);
+    const statueMat = mat(0xFAF6EE, 0.38, 0.06); // Đá cẩm thạch trắng ngà ấm trang nghiêm
 
     // --- Nền đất ngoài rào + sân lát gạch trong khuôn viên ---
     const outerGround = new THREE.Mesh(new THREE.PlaneGeometry(260, 260),
-      new THREE.MeshStandardMaterial({ color: 0x7A8A5A, roughness: 1 }));
+      new THREE.MeshStandardMaterial({ color: 0x6FA83B, roughness: 0.95 }));
     outerGround.rotation.x = -Math.PI / 2; outerGround.position.set(7, -0.05, 0);
     outerGround.receiveShadow = true; grounds.add(outerGround);
     const slab = new THREE.Mesh(new THREE.PlaneGeometry(93, 95),
-      new THREE.MeshStandardMaterial({ map: pavingTex, roughness: 0.95 }));
+      new THREE.MeshStandardMaterial({ map: pavingTex, roughness: 0.85 }));
     pavingTex.repeat.set(24, 24);
     slab.rotation.x = -Math.PI / 2; slab.position.set(7.7, 0, 5.5);
     slab.receiveShadow = true; grounds.add(slab);
     // Đường chính từ cổng vào chánh điện
     const road = new THREE.Mesh(new THREE.PlaneGeometry(9, 43),
-      new THREE.MeshStandardMaterial({ color: 0x9A8A70, roughness: 0.95 }));
+      new THREE.MeshStandardMaterial({ color: 0xD8CFBF, roughness: 0.85 }));
     road.rotation.x = -Math.PI / 2; road.position.set(23, 0.02, 20);
     road.receiveShadow = true; grounds.add(road);
 
@@ -1030,15 +1133,15 @@
     function makeStandingBuddha(x, z, plaqueLines) {
       const g = new THREE.Group(); g.position.set(x, 0, z); grounds.add(g);
       addCyl(0, 0.35, 0, 2.2, 0.7, mat(0x8A4A3A, 0.8), g); // bệ đỏ nâu
-      const lotus = addBall(0, 0.9, 0, 1.7, mat(0x4E86A8, 0.5), g); lotus.scale.set(1, 0.45, 1); // đài sen xanh
+      const lotus = addBall(0, 0.9, 0, 1.7, mat(0x1F6B4F, 0.45), g); lotus.scale.set(1, 0.45, 1); // đài sen xanh
       for (let i = 0; i < 10; i++) {
         const a = (i / 10) * Math.PI * 2;
-        const petal = addBall(Math.cos(a) * 1.55, 0.85, Math.sin(a) * 1.55, 0.4, mat(0x4E86A8, 0.5), g);
+        const petal = addBall(Math.cos(a) * 1.55, 0.85, Math.sin(a) * 1.55, 0.4, flowerPinkMat, g);
         petal.scale.set(1, 0.5, 0.6); petal.rotation.y = -a;
       }
-      const body = addBall(0, 2.6, 0, 0.95, mat(0xEFE9DD, 0.4), g); body.scale.set(1, 1.7, 0.75);
-      addBall(0, 4.5, 0, 0.45, mat(0xEFE9DD, 0.4), g);
-      addCyl(0, 4.85, 0, 0.16, 0.3, mat(0xEFE9DD, 0.4), g); // nhục kế
+      const body = addBall(0, 2.6, 0, 0.95, statueMat, g); body.scale.set(1, 1.7, 0.75);
+      addBall(0, 4.5, 0, 0.45, statueMat, g);
+      addCyl(0, 4.85, 0, 0.16, 0.3, statueMat, g); // nhục kế
       const sign = plaque(plaqueLines, 3.4, 1.0, { w: 512, h: 160, bg: '#5A3D26', fg: '#FFD166', font: 'bold 44px Georgia, serif' });
       sign.position.set(0, 1.1, 2.35); g.add(sign);
       colCircle(x, z, 3.2);
@@ -1049,11 +1152,11 @@
     const qaGarden = new THREE.Group(); qaGarden.position.set(-27, 0, 21); grounds.add(qaGarden);
     addCyl(0, 0.3, 0, 1.9, 0.6, stoneDark, qaGarden);
     addCyl(0, 0.75, 0, 1.5, 0.3, stoneMat, qaGarden);
-    const qaLotus = addBall(0, 1.0, 0, 1.05, mat(0x4E86A8, 0.5), qaGarden); qaLotus.scale.set(1, 0.4, 1);
-    const qaBody = addBall(0, 2.1, 0, 0.55, mat(0xEFE9DD, 0.4), qaGarden); qaBody.scale.set(0.85, 1.6, 0.7);
-    addBall(0, 3.35, 0, 0.3, mat(0xEFE9DD, 0.4), qaGarden);
-    addCyl(0.42, 1.9, 0.3, 0.05, 0.55, mat(0xEFE9DD, 0.4), qaGarden); // tay cầm bình cam lồ
-    addBall(0.42, 2.25, 0.3, 0.11, mat(0xEFE9DD, 0.4), qaGarden);
+    const qaLotus = addBall(0, 1.0, 0, 1.05, mat(0x1F6B4F, 0.45), qaGarden); qaLotus.scale.set(1, 0.4, 1);
+    const qaBody = addBall(0, 2.1, 0, 0.55, statueMat, qaGarden); qaBody.scale.set(0.85, 1.6, 0.7);
+    addBall(0, 3.35, 0, 0.3, statueMat, qaGarden);
+    addCyl(0.42, 1.9, 0.3, 0.05, 0.55, statueMat, qaGarden); // tay cầm bình cam lồ
+    addBall(0.42, 2.25, 0.3, 0.11, statueMat, qaGarden);
     const qaSign = plaque(['ĐÀI QUAN ÂM'], 2.6, 0.8, { w: 512, h: 160, bg: '#5A3D26', fg: '#FFD166', font: 'bold 52px Georgia, serif' });
     qaSign.position.set(0, 0.75, 1.75); qaGarden.add(qaSign);
     colCircle(-27, 21, 2.1);
@@ -1061,9 +1164,9 @@
     const dilac = new THREE.Group(); dilac.position.set(-24.5, 0, -3); grounds.add(dilac);
     addBox(0, 0.6, 0, 8, 1.2, 7, stoneDark, dilac);
     addBox(0, 1.3, 0, 6.5, 0.6, 5.5, stoneMat, dilac);
-    const dBody = addBall(0, 3.0, 0, 1.9, mat(0xEFE9DD, 0.4), dilac); dBody.scale.set(1.15, 1.15, 0.9);
-    addBall(0, 4.9, 0, 0.75, mat(0xEFE9DD, 0.4), dilac);
-    addBall(0, 2.1, 0, 0.9, mat(0xEFE9DD, 0.4), dilac); // bụng tròn
+    const dBody = addBall(0, 3.0, 0, 1.9, statueMat, dilac); dBody.scale.set(1.15, 1.15, 0.9);
+    addBall(0, 4.9, 0, 0.75, statueMat, dilac);
+    addBall(0, 2.1, 0, 0.9, statueMat, dilac); // bụng tròn
     // Chuỗi hạt đeo cổ
     for (let i = 0; i < 12; i++) {
       const a = Math.PI * (0.15 + 0.7 * i / 11);
@@ -1077,8 +1180,8 @@
     const recl = new THREE.Group(); recl.position.set(12, 0, -47); grounds.add(recl);
     addBox(0, 0.8, 0, 12, 1.6, 5, stoneDark, recl);
     addBox(0, 1.7, 0, 10.5, 0.5, 4, stoneMat, recl);
-    const rBody = addBall(0, 2.5, 0, 1.1, mat(0xEFE9DD, 0.4), recl); rBody.scale.set(3.2, 1.0, 0.9);
-    addBall(-3.9, 2.9, 0, 0.55, mat(0xEFE9DD, 0.4), recl);
+    const rBody = addBall(0, 2.5, 0, 1.1, statueMat, recl); rBody.scale.set(3.2, 1.0, 0.9);
+    addBall(-3.9, 2.9, 0, 0.55, statueMat, recl);
     const rSign = plaque(['NAM MÔ BỔN SƯ', 'THÍCH CA MÂU NI PHẬT'], 5.2, 1.3, { w: 512, h: 128, bg: '#5A3D26', fg: '#FFD166', font: 'bold 40px Georgia, serif' });
     rSign.position.set(0, 1.0, 2.6); recl.add(rSign);
     colRect(12 - 6, -47 - 2.5, 12 + 6, -47 + 2.5);
@@ -2295,6 +2398,33 @@
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(e.code)) e.preventDefault();
     });
     window.addEventListener('keyup', e => { keys[e.code] = false; });
+
+    // D-Pad di chuyển (chuẩn ảnh đề xuất)
+    const dpadButtons = [
+      ['dpad-up', 'KeyW'],
+      ['dpad-down', 'KeyS'],
+      ['dpad-left', 'KeyA'],
+      ['dpad-right', 'KeyD']
+    ];
+    dpadButtons.forEach(([id, code]) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const onDown = (e) => {
+        e.preventDefault();
+        keys[code] = true;
+        el.classList.add('active');
+        if (typeof cancelAutoWalk === 'function') cancelAutoWalk();
+      };
+      const onUp = (e) => {
+        e.preventDefault();
+        keys[code] = false;
+        el.classList.remove('active');
+      };
+      el.addEventListener('pointerdown', onDown);
+      el.addEventListener('pointerup', onUp);
+      el.addEventListener('pointerleave', onUp);
+      el.addEventListener('pointercancel', onUp);
+    });
     const raycaster = new THREE.Raycaster();
     const groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
     const clickPoint = new THREE.Vector3();
@@ -2986,7 +3116,7 @@
       SHOP_PRODUCTS.filter(p => p.cat === shopCat).forEach(p => {
         const div = document.createElement('div');
         div.className = 'shop-item';
-        div.innerHTML = `<div class="thumb">${p.name.charAt(0)}</div><div class="info"><b>${p.name}</b><small>${p.desc}</small></div><div class="price">${fmtVND(p.price)}</div>`;
+        div.innerHTML = `<div class="thumb">${p.name.charAt(0)}</div><div class="info"><b>${p.name}</b><small>${p.desc}</small><small style="color:var(--green);font-weight:600;">🚚 Giao tận nhà</small></div><div class="price">${fmtVND(p.price)}</div>`;
         const btn = document.createElement('button');
         btn.className = 'add'; btn.textContent = 'Thêm';
         btn.onclick = () => {
@@ -3044,10 +3174,10 @@
     // ---- Cài đặt + nav + khay khám phá ----
     const brightnessSlider = document.getElementById('brightness-slider');
     brightnessSlider.value = V4.brightness || 1.0;
-    renderer.toneMappingExposure = 1.02 * (V4.brightness || 1.0);
+    renderer.toneMappingExposure = 1.15 * (V4.brightness || 1.0);
     brightnessSlider.addEventListener('input', () => {
       V4.brightness = parseFloat(brightnessSlider.value); saveV4();
-      renderer.toneMappingExposure = 1.02 * V4.brightness;
+      renderer.toneMappingExposure = 1.15 * V4.brightness;
     });
     document.getElementById('btn-settings').addEventListener('click', () => {
       document.getElementById('settings-pop').classList.toggle('open');
@@ -3066,6 +3196,43 @@
     document.getElementById('tray-books').addEventListener('click', () => { tray.classList.remove('open'); openBooks(); });
     document.getElementById('tray-shop').addEventListener('click', () => { tray.classList.remove('open'); openModal('shop-modal'); });
     document.getElementById('tray-so').addEventListener('click', () => { tray.classList.remove('open'); openModal('so-modal'); });
+
+    // Gắn sự kiện cho 4 nút hành động nghi lễ góc dưới phải (chuẩn ảnh đề xuất)
+    document.getElementById('act-bow')?.addEventListener('click', () => {
+      cancelAutoWalk();
+      startBow(3);
+      playBell();
+      showToast('🙏 Thành tâm đảnh lễ Chư Phật Tam Bảo (3 lạy).');
+      spawnBlessingText('Kính Lễ Tam Bảo', window.innerWidth * 0.7, window.innerHeight * 0.5);
+    });
+    document.getElementById('act-incense')?.addEventListener('click', () => {
+      cancelAutoWalk();
+      if (!V4.bought) {
+        showToast('Chưa có nhang hoa. Đang dẫn bạn tới sạp nhang hoa ngoài cổng...');
+        const s = stationById('stall');
+        if (s) startAutoWalk(s);
+      } else {
+        const s = stationById('burner');
+        if (s) startAutoWalk(s);
+      }
+    });
+    document.getElementById('act-flower')?.addEventListener('click', () => {
+      cancelAutoWalk();
+      playBell();
+      showToast('🪷 Dâng hoa sen thơm thanh tịnh cúng dường Chư Phật.');
+      spawnBlessingText('Dâng Hoa Cúng Dường', window.innerWidth * 0.7, window.innerHeight * 0.5);
+    });
+    document.getElementById('act-chant')?.addEventListener('click', () => {
+      if (window.openChant) window.openChant();
+      else showToast('📿 Nam Mô A Di Đà Phật · Niệm Phật an lạc.');
+    });
+
+    // Pin 3D Chánh điện click
+    document.getElementById('pin-chanhdien')?.addEventListener('click', () => {
+      cancelAutoWalk();
+      const s = stationById('hall');
+      if (s) startAutoWalk(s);
+    });
 
     // ---- Khởi tạo ----
     renderPetals();
@@ -3328,6 +3495,26 @@
           player.pos.z + Math.cos(player.camYaw) * dist);
         camera.position.lerp(camTmp, Math.min(1, dt * 6));
         camera.lookAt(player.pos.x, 1.4, player.pos.z);
+      }
+      // Cập nhật tọa độ chiếu 3D cho Pin "📍 Chánh điện"
+      const pinEl = document.getElementById('pin-chanhdien');
+      if (pinEl) {
+        if (inside) {
+          pinEl.style.display = 'none';
+        } else {
+          // Tọa độ vòm cửa chính Chánh điện (x: 23, y: 5.8, z: 4.2)
+          const pinPos = new THREE.Vector3(23, 5.8, 4.2);
+          pinPos.project(camera);
+          if (pinPos.z > -1 && pinPos.z < 1) {
+            const screenX = (pinPos.x * 0.5 + 0.5) * window.innerWidth;
+            const screenY = (-(pinPos.y * 0.5) + 0.5) * window.innerHeight;
+            pinEl.style.left = screenX + 'px';
+            pinEl.style.top = screenY + 'px';
+            pinEl.style.display = 'flex';
+          } else {
+            pinEl.style.display = 'none';
+          }
+        }
       }
       if (render) renderer.render(scene, camera);
     }

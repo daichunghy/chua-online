@@ -8,32 +8,33 @@
     function colCircle(x, z, r) { colCircles.push([x, z, r]); }
     const fishes = [];
 
-    const stoneMat = mat(0x8A7A63, 0.85);
-    const stoneDark = mat(0x6E675C, 0.9);
-    const fenceGoldMat = mat(0xC9962E, 0.5, 0.3);
-    const woodSignMat = mat(0x5A3D26, 0.7);
-    const roofMat = new THREE.MeshStandardMaterial({ map: roofTex, roughness: 0.7 });
+    const stoneMat = mat(0xDFD6C7, 0.82);
+    const stoneDark = mat(0x9E9385, 0.88);
+    const fenceGoldMat = mat(0xE0A832, 0.45, 0.35);
+    const woodSignMat = mat(0x6E4426, 0.65);
+    const roofMat = new THREE.MeshStandardMaterial({ map: roofTex, roughness: 0.65 });
     roofTex.repeat.set(3, 2);
-    const wallGoldMat = mat(0xD9A441, 0.6);
-    const pillarRedMat = mat(0x7E2A22, 0.45);
-    const grilleMat = mat(0x2B2320, 0.6, 0.4);
-    const waterMat = new THREE.MeshStandardMaterial({ color: 0x4E5F3A, roughness: 0.15, metalness: 0.35, transparent: true, opacity: 0.92 });
-    const flowerPinkMat = mat(0xEE7FAE, 0.5);
-    const flowerRedMat = mat(0xD94F3D, 0.5);
+    const wallGoldMat = mat(0xF2C357, 0.55); // Vàng chùa Vĩnh Tràng tươi sáng
+    const pillarRedMat = mat(0xBA3524, 0.38, 0.08); // Đỏ son bóng mịn
+    const grilleMat = mat(0x3D2E26, 0.5, 0.3);
+    const waterMat = new THREE.MeshStandardMaterial({ color: 0x328A80, roughness: 0.08, metalness: 0.42, transparent: true, opacity: 0.85 });
+    const flowerPinkMat = mat(0xFF4388, 0.45); // Hoa giấy hồng rực rỡ
+    const flowerRedMat = mat(0xE63946, 0.45);
+    const statueMat = mat(0xFAF6EE, 0.38, 0.06); // Đá cẩm thạch trắng ngà ấm trang nghiêm
 
     // --- Nền đất ngoài rào + sân lát gạch trong khuôn viên ---
     const outerGround = new THREE.Mesh(new THREE.PlaneGeometry(260, 260),
-      new THREE.MeshStandardMaterial({ color: 0x7A8A5A, roughness: 1 }));
+      new THREE.MeshStandardMaterial({ color: 0x6FA83B, roughness: 0.95 }));
     outerGround.rotation.x = -Math.PI / 2; outerGround.position.set(7, -0.05, 0);
     outerGround.receiveShadow = true; grounds.add(outerGround);
     const slab = new THREE.Mesh(new THREE.PlaneGeometry(93, 95),
-      new THREE.MeshStandardMaterial({ map: pavingTex, roughness: 0.95 }));
+      new THREE.MeshStandardMaterial({ map: pavingTex, roughness: 0.85 }));
     pavingTex.repeat.set(24, 24);
     slab.rotation.x = -Math.PI / 2; slab.position.set(7.7, 0, 5.5);
     slab.receiveShadow = true; grounds.add(slab);
     // Đường chính từ cổng vào chánh điện
     const road = new THREE.Mesh(new THREE.PlaneGeometry(9, 43),
-      new THREE.MeshStandardMaterial({ color: 0x9A8A70, roughness: 0.95 }));
+      new THREE.MeshStandardMaterial({ color: 0xD8CFBF, roughness: 0.85 }));
     road.rotation.x = -Math.PI / 2; road.position.set(23, 0.02, 20);
     road.receiveShadow = true; grounds.add(road);
 
@@ -167,15 +168,15 @@
     function makeStandingBuddha(x, z, plaqueLines) {
       const g = new THREE.Group(); g.position.set(x, 0, z); grounds.add(g);
       addCyl(0, 0.35, 0, 2.2, 0.7, mat(0x8A4A3A, 0.8), g); // bệ đỏ nâu
-      const lotus = addBall(0, 0.9, 0, 1.7, mat(0x4E86A8, 0.5), g); lotus.scale.set(1, 0.45, 1); // đài sen xanh
+      const lotus = addBall(0, 0.9, 0, 1.7, mat(0x1F6B4F, 0.45), g); lotus.scale.set(1, 0.45, 1); // đài sen xanh
       for (let i = 0; i < 10; i++) {
         const a = (i / 10) * Math.PI * 2;
-        const petal = addBall(Math.cos(a) * 1.55, 0.85, Math.sin(a) * 1.55, 0.4, mat(0x4E86A8, 0.5), g);
+        const petal = addBall(Math.cos(a) * 1.55, 0.85, Math.sin(a) * 1.55, 0.4, flowerPinkMat, g);
         petal.scale.set(1, 0.5, 0.6); petal.rotation.y = -a;
       }
-      const body = addBall(0, 2.6, 0, 0.95, mat(0xEFE9DD, 0.4), g); body.scale.set(1, 1.7, 0.75);
-      addBall(0, 4.5, 0, 0.45, mat(0xEFE9DD, 0.4), g);
-      addCyl(0, 4.85, 0, 0.16, 0.3, mat(0xEFE9DD, 0.4), g); // nhục kế
+      const body = addBall(0, 2.6, 0, 0.95, statueMat, g); body.scale.set(1, 1.7, 0.75);
+      addBall(0, 4.5, 0, 0.45, statueMat, g);
+      addCyl(0, 4.85, 0, 0.16, 0.3, statueMat, g); // nhục kế
       const sign = plaque(plaqueLines, 3.4, 1.0, { w: 512, h: 160, bg: '#5A3D26', fg: '#FFD166', font: 'bold 44px Georgia, serif' });
       sign.position.set(0, 1.1, 2.35); g.add(sign);
       colCircle(x, z, 3.2);
@@ -186,11 +187,11 @@
     const qaGarden = new THREE.Group(); qaGarden.position.set(-27, 0, 21); grounds.add(qaGarden);
     addCyl(0, 0.3, 0, 1.9, 0.6, stoneDark, qaGarden);
     addCyl(0, 0.75, 0, 1.5, 0.3, stoneMat, qaGarden);
-    const qaLotus = addBall(0, 1.0, 0, 1.05, mat(0x4E86A8, 0.5), qaGarden); qaLotus.scale.set(1, 0.4, 1);
-    const qaBody = addBall(0, 2.1, 0, 0.55, mat(0xEFE9DD, 0.4), qaGarden); qaBody.scale.set(0.85, 1.6, 0.7);
-    addBall(0, 3.35, 0, 0.3, mat(0xEFE9DD, 0.4), qaGarden);
-    addCyl(0.42, 1.9, 0.3, 0.05, 0.55, mat(0xEFE9DD, 0.4), qaGarden); // tay cầm bình cam lồ
-    addBall(0.42, 2.25, 0.3, 0.11, mat(0xEFE9DD, 0.4), qaGarden);
+    const qaLotus = addBall(0, 1.0, 0, 1.05, mat(0x1F6B4F, 0.45), qaGarden); qaLotus.scale.set(1, 0.4, 1);
+    const qaBody = addBall(0, 2.1, 0, 0.55, statueMat, qaGarden); qaBody.scale.set(0.85, 1.6, 0.7);
+    addBall(0, 3.35, 0, 0.3, statueMat, qaGarden);
+    addCyl(0.42, 1.9, 0.3, 0.05, 0.55, statueMat, qaGarden); // tay cầm bình cam lồ
+    addBall(0.42, 2.25, 0.3, 0.11, statueMat, qaGarden);
     const qaSign = plaque(['ĐÀI QUAN ÂM'], 2.6, 0.8, { w: 512, h: 160, bg: '#5A3D26', fg: '#FFD166', font: 'bold 52px Georgia, serif' });
     qaSign.position.set(0, 0.75, 1.75); qaGarden.add(qaSign);
     colCircle(-27, 21, 2.1);
@@ -198,9 +199,9 @@
     const dilac = new THREE.Group(); dilac.position.set(-24.5, 0, -3); grounds.add(dilac);
     addBox(0, 0.6, 0, 8, 1.2, 7, stoneDark, dilac);
     addBox(0, 1.3, 0, 6.5, 0.6, 5.5, stoneMat, dilac);
-    const dBody = addBall(0, 3.0, 0, 1.9, mat(0xEFE9DD, 0.4), dilac); dBody.scale.set(1.15, 1.15, 0.9);
-    addBall(0, 4.9, 0, 0.75, mat(0xEFE9DD, 0.4), dilac);
-    addBall(0, 2.1, 0, 0.9, mat(0xEFE9DD, 0.4), dilac); // bụng tròn
+    const dBody = addBall(0, 3.0, 0, 1.9, statueMat, dilac); dBody.scale.set(1.15, 1.15, 0.9);
+    addBall(0, 4.9, 0, 0.75, statueMat, dilac);
+    addBall(0, 2.1, 0, 0.9, statueMat, dilac); // bụng tròn
     // Chuỗi hạt đeo cổ
     for (let i = 0; i < 12; i++) {
       const a = Math.PI * (0.15 + 0.7 * i / 11);
@@ -214,8 +215,8 @@
     const recl = new THREE.Group(); recl.position.set(12, 0, -47); grounds.add(recl);
     addBox(0, 0.8, 0, 12, 1.6, 5, stoneDark, recl);
     addBox(0, 1.7, 0, 10.5, 0.5, 4, stoneMat, recl);
-    const rBody = addBall(0, 2.5, 0, 1.1, mat(0xEFE9DD, 0.4), recl); rBody.scale.set(3.2, 1.0, 0.9);
-    addBall(-3.9, 2.9, 0, 0.55, mat(0xEFE9DD, 0.4), recl);
+    const rBody = addBall(0, 2.5, 0, 1.1, statueMat, recl); rBody.scale.set(3.2, 1.0, 0.9);
+    addBall(-3.9, 2.9, 0, 0.55, statueMat, recl);
     const rSign = plaque(['NAM MÔ BỔN SƯ', 'THÍCH CA MÂU NI PHẬT'], 5.2, 1.3, { w: 512, h: 128, bg: '#5A3D26', fg: '#FFD166', font: 'bold 40px Georgia, serif' });
     rSign.position.set(0, 1.0, 2.6); recl.add(rSign);
     colRect(12 - 6, -47 - 2.5, 12 + 6, -47 + 2.5);
