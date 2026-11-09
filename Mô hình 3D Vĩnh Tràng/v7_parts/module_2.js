@@ -130,22 +130,85 @@
     const hall = new THREE.Group(); hall.position.set(23, 0, -1); grounds.add(hall);
     addBox(0, 2.7, 0, 28, 5.4, 10, wallGoldMat, hall); // thân điện
     addBox(0, 0.4, 5.1, 28.6, 0.8, 0.6, mat(0xE8E2D4, 0.6), hall); // gờ chân tường
-    // 13 vòm cửa (mở tối) + cột đỏ giữa các vòm
+    // 13 vòm cửa (cửa giữa i=6 mở rộng hiển lộ bàn thờ Tam Bảo) + cột đỏ giữa các vòm
     for (let i = 0; i < 13; i++) {
       const x = -12 + i * 2;
       const archTrim = new THREE.Mesh(new THREE.TorusGeometry(0.85, 0.12, 8, 16, Math.PI), wallGoldMat);
       archTrim.position.set(x, 2.4, 5.12); archTrim.castShadow = true; hall.add(archTrim);
-      const dark = addBox(x, 1.6, 5.06, 1.5, 3.2, 0.1, mat(0x1E1410, 0.9), hall);
-      dark.castShadow = false;
-      if (i < 12) addCyl(x + 1, 2.2, 5.15, 0.22, 4.4, pillarRedMat, hall); // cột đỏ
+      if (i !== 6) {
+        // Cửa phụ: nền tối sau vòm
+        const dark = addBox(x, 1.6, 5.06, 1.5, 3.2, 0.1, mat(0x1E1410, 0.9), hall);
+        dark.castShadow = false;
+        // Song sắt vàng trước vòm (lattice)
+        for (let j = 0; j < 3; j++) addBox(x - 0.5 + j * 0.5, 1.6, 5.3, 0.05, 3.2, 0.05, fenceGoldMat, hall);
+      }
+      // Cột Corinthian/Romanesque vàng đất nung thạch cao theo ảnh tham khảo
+      const colGoldMat = mat(0xDCA74A, 0.45);
+      const colPlasterMat = mat(0xF6F0DC, 0.5);
+      if (i < 12) {
+        addBox(x + 1, 0.35, 5.15, 0.52, 0.7, 0.52, colPlasterMat, hall);
+        addCyl(x + 1, 2.3, 5.15, 0.20, 3.2, colGoldMat, hall);
+        addBox(x + 1, 4.05, 5.15, 0.52, 0.35, 0.52, colPlasterMat, hall);
+      }
     }
-    addCyl(-13, 2.2, 5.15, 0.22, 4.4, pillarRedMat, hall);
-    addCyl(13, 2.2, 5.15, 0.22, 4.4, pillarRedMat, hall);
-    // Song sắt vàng trước vòm (lattice)
-    for (let i = 0; i < 13; i++) {
-      const x = -12 + i * 2;
-      for (let j = 0; j < 3; j++) addBox(x - 0.5 + j * 0.5, 1.6, 5.3, 0.05, 3.2, 0.05, fenceGoldMat, hall);
+    const colGoldMat = mat(0xDCA74A, 0.45);
+    const colPlasterMat = mat(0xF6F0DC, 0.5);
+    addBox(-13, 0.35, 5.15, 0.52, 0.7, 0.52, colPlasterMat, hall);
+    addCyl(-13, 2.3, 5.15, 0.20, 3.2, colGoldMat, hall);
+    addBox(-13, 4.05, 5.15, 0.52, 0.35, 0.52, colPlasterMat, hall);
+    addBox(13, 0.35, 5.15, 0.52, 0.7, 0.52, colPlasterMat, hall);
+    addCyl(13, 2.3, 5.15, 0.20, 3.2, colGoldMat, hall);
+    addBox(13, 4.05, 5.15, 0.52, 0.35, 0.52, colPlasterMat, hall);
+
+    // Lan can phù điêu thạch cao chạy dọc bờ mái Chánh điện
+    addBox(0, 5.5, 5.1, 28.4, 0.75, 0.3, colPlasterMat, hall);
+    for (let bx = -13.2; bx <= 13.2; bx += 0.88) {
+      addCyl(bx, 5.5, 5.18, 0.08, 0.55, colPlasterMat, hall);
     }
+    for (let px = -13.2; px <= 13.2; px += 2.64) {
+      addBall(px, 6.0, 5.18, 0.16, fenceGoldMat, hall);
+    }
+
+    // Bàn thờ & Tượng Phật thếp vàng hiển lộ bên trong cửa vòm chính (i=6)
+    const altar = new THREE.Group(); altar.position.set(0, 0.4, 2.8); hall.add(altar);
+    addBox(0, 0.6, 0, 3.2, 1.2, 1.6, mat(0x5c1d18, 0.4), altar);
+    addBox(0, 1.22, 0, 3.4, 0.08, 1.8, fenceGoldMat, altar);
+    const altarLotus = addBall(0, 1.45, 0, 0.9, mat(0x1F6B4F, 0.45), altar); altarLotus.scale.set(1, 0.35, 1);
+    for (let k = 0; k < 8; k++) {
+      const a = (k / 8) * Math.PI * 2;
+      const p = addBall(Math.cos(a) * 0.8, 1.45, Math.sin(a) * 0.8, 0.22, flowerPinkMat, altar);
+      p.scale.set(1, 0.4, 0.6);
+    }
+    const altBuddhaBody = addBall(0, 2.15, 0, 0.6, mat(0xffd166, 0.22, 0.85, 1, 0.35), altar);
+    altBuddhaBody.scale.set(0.95, 1.35, 0.7);
+    addBall(0, 2.95, 0, 0.32, mat(0xffd166, 0.22, 0.85, 1, 0.35), altar);
+    addCyl(0, 3.22, 0, 0.1, 0.22, mat(0xffd166, 0.22, 0.85, 1, 0.35), altar);
+    const altHalo = addBall(0, 2.7, -0.25, 0.75, mat(0xffe066, 0.1, 0, 1, 2.0), altar);
+    altHalo.scale.set(1.2, 1.2, 0.1);
+    [[-1.1, 0.4], [1.1, 0.4]].forEach(([cx, cz]) => {
+      addCyl(cx, 1.4, cz, 0.06, 0.32, fenceGoldMat, altar);
+      addBall(cx, 1.6, cz, 0.045, mat(0xffaa00, 0.1, 0, 1, 2.5), altar);
+    });
+    const altarLight = new THREE.PointLight(0xffe29a, 2.8, 12);
+    altarLight.position.set(0, 2.4, 2.5); hall.add(altarLight);
+
+    // Tầng trán pediment & tháp Angkor trang trí nóc Chánh điện
+    const pediment = new THREE.Group(); pediment.position.set(0, 5.4, 4.8); hall.add(pediment);
+    addBox(0, 1.2, 0, 10.4, 2.4, 0.6, colPlasterMat, pediment);
+    addBox(0, 2.5, 0, 9.8, 0.25, 0.8, wallGoldMat, pediment);
+    addBox(0, 3.4, 0, 5.4, 1.6, 0.7, colPlasterMat, pediment);
+    addBox(0, 4.3, 0, 3.2, 1.0, 0.8, wallGoldMat, pediment);
+    addCyl(0, 5.4, 0, 0.22, 1.4, fenceGoldMat, pediment);
+    addBall(0, 6.2, 0, 0.26, fenceGoldMat, pediment);
+    const hallSign = plaque(['CHÙA VĨNH TRÀNG', '永長寺'], 3.6, 1.0, { w: 512, h: 160, bg: '#1C5A34', fg: '#FFD166', font: 'bold 44px Georgia, serif' });
+    hallSign.position.set(0, 1.1, 0.35); pediment.add(hallSign);
+    [-9.5, 9.5].forEach(tx => {
+      addBox(tx, 1.5, 0, 3.2, 2.4, 0.6, colPlasterMat, pediment);
+      addBox(tx, 2.8, 0, 2.6, 0.8, 0.7, wallGoldMat, pediment);
+      addCyl(tx, 3.7, 0, 0.18, 1.0, fenceGoldMat, pediment);
+      addBall(tx, 4.3, 0, 0.22, fenceGoldMat, pediment);
+    });
+
     // Mái 2 tầng cong + rêu
     const roof1 = addBox(0, 6.2, 0, 31, 0.7, 13, roofMat, hall); roof1.rotation.x = 0.18;
     const roof2 = addBox(0, 8.6, 0, 26, 0.6, 11, roofMat, hall); roof2.rotation.x = 0.18;
@@ -155,12 +218,20 @@
       const moss = addBox(mx, 6.55, mz, mw, 0.08, 2.6, mat(0x55663A, 0.95), hall);
       moss.rotation.x = 0.18; moss.castShadow = false;
     });
-    // Bậc thềm 5 bậc + đèn đá 2 bên
-    for (let i = 0; i < 5; i++) addBox(0, 0.12 + i * 0.12, 5.9 + i * 0.55, 16 - i * 1.2, 0.24, 0.6, stoneMat, hall);
-    [[-9, 6.5], [9, 6.5]].forEach(([x, z]) => {
-      addBox(x, 0.7, z, 0.5, 1.4, 0.5, stoneDark, hall);
-      addBox(x, 1.55, z, 0.7, 0.3, 0.7, stoneDark, hall);
-      addBall(x, 1.85, z, 0.22, mat(0xFFAA00, 0.2, 0, 1, 1.6), hall);
+
+    // Bậc thềm tam cấp 7 bậc + Lan can uốn lượn màu vàng
+    for (let i = 0; i < 7; i++) {
+      addBox(0, 0.12 + i * 0.14, 5.2 + i * 0.52, 9.6, 0.26, 0.58, stoneMat, hall);
+    }
+    [-5.1, 5.1].forEach(lx => {
+      for (let k = 0; k < 6; k++) {
+        const bz = 5.3 + k * 0.52, by = 0.55 + k * 0.14;
+        addCyl(lx, by, bz, 0.08, 0.7, wallGoldMat, hall);
+      }
+      const rail = addBox(lx, 1.05, 6.6, 0.22, 0.16, 3.4, wallGoldMat, hall);
+      rail.rotation.x = 0.26;
+      addBox(lx, 0.55, 8.4, 0.45, 1.1, 0.45, wallGoldMat, hall);
+      addBall(lx, 1.25, 8.4, 0.22, fenceGoldMat, hall);
     });
     colRect(23 - 14, -1 - 12, 23 + 14, -1 + 2.2);
 
@@ -294,25 +365,89 @@
       b.scale.set(1.2, 0.55, 1.2);
       addCyl(x, 0.5, z, 0.12, 1.0, mat(0x5A3D26, 0.9), grounds);
     }
-    [[20, 6.2], [26, 6.2], [18, 30], [28, 30]].forEach(([x, z]) => {
-      addCyl(x, 0.35, z, 0.55, 0.7, mat(0x8A4A3A, 0.8), grounds);
-      const bonsai = addBall(x, 1.0, z, 0.7, mat(0x3E6B34, 0.85), grounds); bonsai.scale.set(1, 0.7, 1);
-      colCircle(x, z, 0.7);
-    });
-    // Đèn lồng hồng treo
-    for (let i = 0; i < 8; i++) {
-      const x = 16 + i * 2, z = 34 - (i % 2) * 4;
-      const pole = addCyl(x, 2.2, z, 0.1, 4.4, mat(0x5A3D26, 0.8), grounds);
-      const lamp = addBall(x, 3.6, z, 0.36, mat(0xEE7FAE, 0.3, 0, 1, 1.2), grounds);
-      lamp.scale.set(1, 1.2, 1);
+    // --- Hai hàng chậu kiểng đất nung & bonsai / hoa giấy dọc sân Chánh điện (chuẩn 100% ảnh tham khảo) ---
+    const potMat = mat(0xA64A28, 0.75); // Đất nung đỏ Nam Bộ
+    function makeCourtyardPlanter(x, z, isFlower = false) {
+      const g = new THREE.Group(); g.position.set(x, 0, z); grounds.add(g);
+      addCyl(0, 0.22, 0, 0.75, 0.44, potMat, g); // đôn tròn
+      addCyl(0, 0.55, 0, 0.95, 0.35, potMat, g); // chậu miệng xòe
+      addCyl(0, 0.70, 0, 0.88, 0.08, mat(0x3B2518, 0.9), g); // đất
+      if (isFlower) {
+        // Cây hoa giấy / hoa sứ tán tròn hoa hồng rực rỡ
+        addCyl(0, 1.1, 0, 0.12, 0.8, mat(0x5A3D26, 0.9), g);
+        const bush = addBall(0, 1.7, 0, 0.95, mat(0x2E6B38, 0.85), g);
+        bush.scale.set(1.15, 0.85, 1.15);
+        for (let k = 0; k < 14; k++) {
+          const a = (k / 14) * Math.PI * 2 + (k % 3);
+          const r = 0.55 + (k % 4) * 0.12;
+          const fl = addBall(Math.cos(a) * r, 1.6 + Math.sin(k * 2) * 0.35, Math.sin(a) * r, 0.22, flowerPinkMat, g);
+          fl.scale.set(1.2, 0.6, 1.2);
+        }
+      } else {
+        // Cây kiểng Bonsai thế cổ Nam Bộ nhiều tầng tán
+        const trunk = addCyl(0.08, 1.15, 0, 0.16, 0.9, mat(0x543722, 0.9), g);
+        trunk.rotation.z = -0.12;
+        const b1 = addBall(-0.25, 1.45, 0.1, 0.65, mat(0x1F5428, 0.85), g); b1.scale.set(1.1, 0.45, 1.0);
+        const b2 = addBall(0.35, 1.75, -0.1, 0.58, mat(0x235E2D, 0.85), g); b2.scale.set(1.05, 0.42, 1.05);
+        const b3 = addBall(0.05, 2.15, 0, 0.72, mat(0x2A6F35, 0.85), g); b3.scale.set(1.15, 0.5, 1.15);
+      }
+      colCircle(x, z, 0.95);
+      return g;
     }
 
-    // Lư hương chính S2 (23, 11) + 2 lư nhỏ
-    const burnerMain = new THREE.Group(); burnerMain.position.set(23, 0, 11); burnerMain.scale.setScalar(1.35); grounds.add(burnerMain);
+    // 5 cặp chậu đối xứng hai bên lối đi chính (x = 17.5 và x = 28.5)
+    [10.5, 14.5, 18.5, 22.5, 26.5].forEach((z, idx) => {
+      makeCourtyardPlanter(17.5, z, idx % 2 === 1);
+      makeCourtyardPlanter(28.5, z, idx % 2 === 0);
+    });
+
+    // Ghế đá cong nghỉ chân dọc mép hoa viên
+    const benchMat = mat(0xD8CFBF, 0.85);
+    function makeCourtyardBench(x, z, yaw) {
+      const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.y = yaw; grounds.add(g);
+      addBox(0, 0.48, 0, 2.2, 0.14, 0.6, benchMat, g);
+      addBox(-0.85, 0.22, 0, 0.28, 0.44, 0.5, stoneDark, g);
+      addBox(0.85, 0.22, 0, 0.28, 0.44, 0.5, stoneDark, g);
+      addBox(0, 0.85, -0.25, 2.2, 0.65, 0.12, benchMat, g);
+      colRect(x - 1.1, z - 0.5, x + 1.1, z + 0.5);
+    }
+    makeCourtyardBench(14.0, 16.5, 0.15);
+    makeCourtyardBench(14.0, 22.5, 0.15);
+    makeCourtyardBench(32.0, 22.5, -0.15);
+
+    // Bồn hoa thấp viền vàng ngăn khuôn viên hai bên
+    [-1, 1].forEach(side => {
+      const bx = 23 + side * 9.6;
+      addBox(bx, 0.25, 18.5, 0.45, 0.5, 18.0, wallGoldMat, grounds);
+      for (let k = 0; k < 7; k++) {
+        const hz = 10.5 + k * 2.6;
+        const hedge = addBall(bx + side * 0.9, 0.55, hz, 0.85, mat(0x286334, 0.9), grounds);
+        hedge.scale.set(1.2, 0.75, 1.2);
+        const hf = addBall(bx + side * 0.8, 0.9, hz, 0.35, flowerPinkMat, grounds);
+        hf.scale.set(1.1, 0.5, 1.1);
+      }
+    });
+
+    // Cành hoa giấy rủ tiền cảnh ở góc trên bên phải khung hình (đúng ảnh mẫu)
+    const bougainvilleaCanopy = new THREE.Group();
+    bougainvilleaCanopy.position.set(25.8, 3.2, 21.2); grounds.add(bougainvilleaCanopy);
+    const cBranch = addCyl(0, 0, 0, 0.08, 2.6, mat(0x5A3D26, 0.9), bougainvilleaCanopy);
+    cBranch.rotation.z = 0.85; cBranch.rotation.x = -0.3;
+    for (let k = 0; k < 12; k++) {
+      const a = (k / 12) * Math.PI * 2;
+      const lx = Math.cos(a) * 0.7 + (k * 0.08);
+      const ly = -0.3 - (k * 0.06);
+      const lz = Math.sin(a) * 0.6;
+      const lf = addBall(lx, ly, lz, 0.38, mat(0x2E6B38, 0.85), bougainvilleaCanopy); lf.scale.set(1.1, 0.5, 1.0);
+      const fl = addBall(lx + 0.1, ly - 0.15, lz, 0.28, flowerPinkMat, bougainvilleaCanopy); fl.scale.set(1.2, 0.7, 1.2);
+    }
+
+    // Lư hương chính S2 trên thềm trước Chánh điện
+    const burnerMain = new THREE.Group(); burnerMain.position.set(23, 0.7, 5.4); burnerMain.scale.setScalar(1.2); grounds.add(burnerMain);
     addCyl(0, 0.5, 0, 0.9, 1.0, mat(0x8C5E32, 0.35, 0.8), burnerMain);
     addCyl(0, 1.05, 0, 1.05, 0.25, mat(0x8C5E32, 0.35, 0.8), burnerMain);
-    addCyl(0, 1.15, 0, 0.8, 0.12, mat(0xB8B0A0, 0.9), burnerMain); // lớp tro sáng
-    addCyl(0, 1.2, 0, 1.08, 0.08, fenceGoldMat, burnerMain); // vành vàng
+    addCyl(0, 1.15, 0, 0.8, 0.12, mat(0xB8B0A0, 0.9), burnerMain);
+    addCyl(0, 1.2, 0, 1.08, 0.08, fenceGoldMat, burnerMain);
     const burnerSticks = new THREE.Group(); burnerSticks.position.set(0, 1.2, 0); burnerSticks.visible = false;
     for (let i = -1; i <= 1; i++) {
       const st = addCyl(i * 0.14, 0.5, 0, 0.02, 1.0, mat(0xE63946, 0.6), burnerSticks);
@@ -320,14 +455,14 @@
       addBall(i * 0.14, 1.02, 0, 0.035, mat(0xFFAA00, 0.2, 0, 1, 2.0), burnerSticks);
     }
     burnerMain.add(burnerSticks);
-    colCircle(23, 11, 1.8);
-    // Đèn dầu cạnh lư (châm nhang từ đèn dầu — vật tương tác màu vàng đồng)
-    const oilLamp = new THREE.Group(); oilLamp.position.set(24.7, 0, 12.1); grounds.add(oilLamp);
+    colCircle(23, 5.4, 1.2);
+    // Đèn dầu cạnh lư
+    const oilLamp = new THREE.Group(); oilLamp.position.set(24.5, 0.7, 5.4); grounds.add(oilLamp);
     addCyl(0, 0.45, 0, 0.09, 0.9, fenceGoldMat, oilLamp);
     addCyl(0, 0.95, 0, 0.3, 0.1, fenceGoldMat, oilLamp);
     const lampGlass = addBall(0, 1.2, 0, 0.17, mat(0xFFD9A0, 0.2, 0, 1, 0.7), oilLamp); lampGlass.scale.set(1, 1.25, 1);
     const lampFlame = addBall(0, 1.22, 0, 0.07, mat(0xFFAA00, 0.1, 0, 1, 2.2), oilLamp);
-    colCircle(24.7, 12.1, 0.45);
+    colCircle(24.5, 5.4, 0.45);
     function makeSmallBurner(x, z) {
       const b = new THREE.Group(); b.position.set(x, 0, z); grounds.add(b);
       addCyl(0, 0.4, 0, 0.45, 0.8, mat(0x8C5E32, 0.35, 0.8), b);
@@ -400,13 +535,13 @@
     brSign.position.set(0, 2.05, 1.05); bookRoom.add(brSign);
     colRect(33 - 2.4, -12 - 1.3, 33 + 2.4, -12 + 1.3);
 
-    // --- Quầy lưu niệm S7 (gần cổng 2) ---
-    const shopKiosk = new THREE.Group(); shopKiosk.position.set(40, 0, 38); grounds.add(shopKiosk);
-    addBox(0, 1.8, 0, 7, 3.6, 5, woodSignMat, shopKiosk);
-    const skRoof = addBox(0, 3.9, 0, 8, 0.3, 6, roofMat, shopKiosk); skRoof.rotation.x = 0;
-    const shopSign = plaque(['CỬA HÀNG', 'LƯU NIỆM'], 4.5, 1.5, { w: 512, h: 256, bg: '#1C5A34', fg: '#FFD166', font: 'bold 64px Georgia, serif' });
-    shopSign.position.set(0, 2.6, 2.56); shopKiosk.add(shopSign);
-    colRect(40 - 3.5, 38 - 2.5, 40 + 3.5, 38 + 2.5);
+    // --- Quầy lưu niệm S7 (đặt trong hoa viên bên phải Chánh điện theo ảnh mẫu) ---
+    const shopKiosk = new THREE.Group(); shopKiosk.position.set(35, 0, 16); grounds.add(shopKiosk);
+    addBox(0, 1.8, 0, 5.4, 3.6, 4.2, woodSignMat, shopKiosk);
+    const skRoof = addBox(0, 3.8, 0, 6.2, 0.35, 5.0, roofMat, shopKiosk); skRoof.rotation.x = 0;
+    const shopSign = plaque(['CỬA HÀNG', 'LƯU NIỆM'], 3.8, 1.2, { w: 512, h: 256, bg: '#1C5A34', fg: '#FFD166', font: 'bold 64px Georgia, serif' });
+    shopSign.position.set(0, 2.5, 2.15); shopKiosk.add(shopSign);
+    colRect(35 - 2.8, 16 - 2.2, 35 + 2.8, 16 + 2.2);
 
     // --- Thùng công đức (27.9, 4.9) ---
     const meritBox = new THREE.Group(); meritBox.position.set(27.9, 0, 4.9); grounds.add(meritBox);

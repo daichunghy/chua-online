@@ -222,8 +222,8 @@
     scene.background = new THREE.Color(0x74b4fa); // Trời xanh thanh khiết ban mai
     scene.fog = new THREE.Fog(0xe6f0f8, 55, 220); // Sương mù sáng khí quyển, hòa quyện chân trời
     const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 600);
-    camera.position.set(23, 4.5, 52);
-    camera.lookAt(23, 2, 38);
+    camera.position.set(23, 1.75, 24.2);
+    camera.lookAt(23, 2.6, 7.0);
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(window.innerWidth, window.innerHeight);

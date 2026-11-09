@@ -676,10 +676,16 @@
     });
     const tray = document.getElementById('explore-tray');
     document.getElementById('nav-explore').addEventListener('click', () => tray.classList.toggle('open'));
-    document.getElementById('nav-learn').addEventListener('click', () => { tray.classList.remove('open'); if (window.openLessons) window.openLessons(); });
-    document.getElementById('nav-account').addEventListener('click', () => { tray.classList.remove('open'); if (window.openProfiles) window.openProfiles(); });
+    document.getElementById('nav-learn').addEventListener('click', () => {
+      tray.classList.remove('open');
+      openModal('lecture-modal');
+    });
+    document.getElementById('nav-account').addEventListener('click', () => {
+      tray.classList.remove('open');
+      document.getElementById('settings-pop').classList.toggle('open');
+    });
     document.getElementById('tray-chant').addEventListener('click', () => { tray.classList.remove('open'); if (window.openChant) window.openChant(); });
-    document.getElementById('tray-lessons').addEventListener('click', () => { tray.classList.remove('open'); if (window.openLessons) window.openLessons(); });
+    document.getElementById('tray-lessons').addEventListener('click', () => { tray.classList.remove('open'); openModal('lecture-modal'); });
     document.getElementById('tray-fortune').addEventListener('click', () => { tray.classList.remove('open'); if (window.__openFortune) window.__openFortune(); });
     document.getElementById('tray-books').addEventListener('click', () => { tray.classList.remove('open'); openBooks(); });
     document.getElementById('tray-shop').addEventListener('click', () => { tray.classList.remove('open'); openModal('shop-modal'); });
@@ -695,13 +701,12 @@
     });
     document.getElementById('act-incense')?.addEventListener('click', () => {
       cancelAutoWalk();
-      if (!V4.bought) {
-        showToast('Chưa có nhang hoa. Đang dẫn bạn tới sạp nhang hoa ngoài cổng...');
-        const s = stationById('stall');
-        if (s) startAutoWalk(s);
+      const s = stationById('burner');
+      if (s) {
+        showToast('Bước tới lư hương sân trước Chánh điện để dâng hương...');
+        startAutoWalk(s);
       } else {
-        const s = stationById('burner');
-        if (s) startAutoWalk(s);
+        openIncense();
       }
     });
     document.getElementById('act-flower')?.addEventListener('click', () => {
@@ -726,7 +731,7 @@
     renderPetals();
     if (routeComplete()) document.body.classList.add('free');
     refreshVerb();
-    setTimeout(() => sayAn('Nam mô A Di Đà Phật. An sẽ đi cùng bạn một vòng chùa. Mời bấm nút “Vào cổng”.'), 900);
+    setTimeout(() => sayAn('Nam mô A Di Đà Phật. Chào mừng bạn đến với Chùa Vĩnh Tràng.'), 900);
 
     // Debug/kiem thu (chi doc trang thai + di bo thu cong)
     window.__v6debug = {

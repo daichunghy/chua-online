@@ -28,7 +28,7 @@ data_script = ('  <script>\n    window.__GLB_B64 = {'
 
 parts = []
 parts.append(open(os.path.join(D, 'head_css.html'), encoding='utf-8').read())
-for p in ['modal_shop.html', 'modal_order.html', 'modal_so.html']:
+for p in ['modal_shop.html', 'modal_order.html', 'modal_so.html', 'modal_lecture.html']:
     parts.append(open(os.path.join(D, p), encoding='utf-8').read())
 parts.append(data_script)
 parts.append('\n  <script type="module">\n')

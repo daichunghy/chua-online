@@ -1,19 +1,38 @@
-
-  <!-- Modal: Cửa hàng lưu niệm S7 (giá CHỈ ở đây — không giá trong UI lễ) -->
+  <!-- Modal: Cửa hàng lưu niệm S7 (chuẩn thiết kế cua-hang-luu-niem-de-xuat-02.png) -->
   <div class="modal-overlay" id="shop-modal">
-    <div class="modal">
+    <div class="modal" style="max-width:520px; background:#FCF9F2; border:2px solid #D8C69A; border-radius:28px; padding:22px 20px 18px; box-shadow:0 16px 48px rgba(0,0,0,0.38);">
       <button class="modal-close" onclick="closeModal('shop-modal')">✕</button>
-      <div class="modal-title">Cửa hàng lưu niệm</div>
-      <div class="modal-desc">Quà lưu niệm &amp; đồ tu học của chùa — giao tận nhà, kiểm tra rồi thanh toán (COD).</div>
-      <div class="shop-tabs">
-        <button class="shop-tab active" data-cat="souvenir">Quà lưu niệm</button>
-        <button class="shop-tab" data-cat="study">Đồ tu học</button>
-        <button class="shop-tab" data-cat="3d">Vật phẩm 3D</button>
+      <div style="text-align:center; margin-bottom:14px;">
+        <!-- Lotus Icon -->
+        <svg width="42" height="32" viewBox="0 0 48 36" fill="none" style="margin:0 auto 4px; display:block;">
+          <path d="M24 4 C24 14 18 24 10 26 C16 27 22 25 24 21 C26 25 32 27 38 26 C30 24 24 14 24 4 Z" fill="#E86C8D" />
+          <path d="M24 14 C20 18 17 25 24 30 C31 25 28 18 24 14 Z" fill="#FFB7C5" />
+          <path d="M12 28 C18 31 30 31 36 28" stroke="#3A754F" stroke-width="2.5" stroke-linecap="round" />
+        </svg>
+        <div style="font-size:23px; font-weight:800; color:#1C5A34; letter-spacing:0.3px;">Cửa hàng lưu niệm</div>
+        <div style="font-size:13.5px; color:#6B4226; margin-top:2px;">Chọn món quà gợi nhớ chuyến đi chùa</div>
       </div>
-      <div id="shop-list" style="max-height:340px; overflow-y:auto;"></div>
-      <div style="display:flex; gap:8px; margin-top:10px;">
-        <button class="btn-submit" id="btn-view-cart" style="margin-top:0; flex:1;">Giỏ hàng <span class="cart-badge" id="cart-count">0</span></button>
-        <button class="btn-submit" id="btn-checkout" style="margin-top:0; flex:1; background:var(--terra);">Đặt hàng</button>
+
+      <div class="shop-tabs" style="display:flex; gap:8px; margin-bottom:14px;">
+        <button class="shop-tab active" data-cat="souvenir" style="flex:1; border-radius:999px; padding:8px 6px; font-size:13px; font-weight:700;">🪷 Quà lưu niệm</button>
+        <button class="shop-tab" data-cat="study" style="flex:1; border-radius:999px; padding:8px 6px; font-size:13px; font-weight:700;">📖 Đồ tu học</button>
+        <button class="shop-tab" data-cat="3d" style="flex:1; border-radius:999px; padding:8px 6px; font-size:13px; font-weight:700;">📦 Vật phẩm 3D</button>
+      </div>
+
+      <div id="shop-list" style="max-height:360px; overflow-y:auto; padding-right:4px;"></div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; padding-top:10px; border-top:1px solid #EADBBE;">
+        <button style="background:transparent; border:none; color:#6B4226; font-size:13px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:5px;" onclick="showToast('Ban Hộ tự chùa Vĩnh Tràng sẵn sàng hỗ trợ quý Phật tử.')">
+          🎧 Cần hỗ trợ?
+        </button>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-submit" id="btn-view-cart" style="margin-top:0; padding:9px 18px; font-size:13.5px; background:#1C5A34;">
+            🛒 Giỏ hàng <span class="cart-badge" id="cart-count">0</span>
+          </button>
+          <button class="btn-submit" id="btn-checkout" style="margin-top:0; padding:9px 18px; font-size:13.5px; background:var(--terra);">
+            Đặt hàng
+          </button>
+        </div>
       </div>
     </div>
   </div>

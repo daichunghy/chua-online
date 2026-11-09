@@ -236,13 +236,17 @@
         camera.position.lerp(camTmp, Math.min(1, dt * 3));
         camera.lookAt(camOverride.lx, camOverride.ly, camOverride.lz);
       } else {
-        const dist = inside ? 3.5 : 5, height = inside ? 2.3 : 3.0;
+        const dist = inside ? 3.2 : 4.7, height = inside ? 1.8 : 1.75;
         camTmp.set(
           player.pos.x + Math.sin(player.camYaw) * dist,
           height,
           player.pos.z + Math.cos(player.camYaw) * dist);
         camera.position.lerp(camTmp, Math.min(1, dt * 6));
-        camera.lookAt(player.pos.x, 1.4, player.pos.z);
+        const lookAheadDist = inside ? 6.0 : 12.0;
+        const lookHeight = inside ? 1.5 : 2.7;
+        const lookX = player.pos.x - Math.sin(player.camYaw) * lookAheadDist;
+        const lookZ = player.pos.z - Math.cos(player.camYaw) * lookAheadDist;
+        camera.lookAt(lookX, lookHeight, lookZ);
       }
       // Cập nhật tọa độ chiếu 3D cho Pin "📍 Chánh điện"
       const pinEl = document.getElementById('pin-chanhdien');
@@ -250,15 +254,22 @@
         if (inside) {
           pinEl.style.display = 'none';
         } else {
-          // Tọa độ vòm cửa chính Chánh điện (x: 23, y: 5.8, z: 4.2)
-          const pinPos = new THREE.Vector3(23, 5.8, 4.2);
-          pinPos.project(camera);
-          if (pinPos.z > -1 && pinPos.z < 1) {
-            const screenX = (pinPos.x * 0.5 + 0.5) * window.innerWidth;
-            const screenY = (-(pinPos.y * 0.5) + 0.5) * window.innerHeight;
-            pinEl.style.left = screenX + 'px';
-            pinEl.style.top = screenY + 'px';
-            pinEl.style.display = 'flex';
+          // Tọa độ vòm cửa chính Chánh điện (x: 23, y: 5.2, z: 4.2)
+          const pinPos = new THREE.Vector3(23, 5.2, 4.2);
+          const camToPin = pinPos.clone().sub(camera.position);
+          const forward = new THREE.Vector3();
+          camera.getWorldDirection(forward);
+          if (camToPin.dot(forward) > 0) {
+            pinPos.project(camera);
+            if (pinPos.z > -1 && pinPos.z < 1) {
+              const screenX = (pinPos.x * 0.5 + 0.5) * window.innerWidth;
+              const screenY = (-(pinPos.y * 0.5) + 0.5) * window.innerHeight;
+              pinEl.style.left = screenX + 'px';
+              pinEl.style.top = screenY + 'px';
+              pinEl.style.display = 'inline-flex';
+            } else {
+              pinEl.style.display = 'none';
+            }
           } else {
             pinEl.style.display = 'none';
           }

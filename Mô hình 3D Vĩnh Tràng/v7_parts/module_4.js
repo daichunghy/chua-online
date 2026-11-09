@@ -76,4 +76,5 @@
       scene.add(g);
       return { group: g, wL, wR, state: 'perch', tx: x, tz: z, seed: Math.random() * 10, peck: Math.random() * 2 };
     }
-    [[20, 14], [26, 16], [18, 8], [28, 7], [22, 20], [16, 18], [30, 18], [24, 5]].forEach(([x, z]) => pigeons.push(makePigeon(x, z)));
+    // Bồ câu sân vườn bên hai rặng cây
+    [[11, 14], [35, 14], [12, 20], [34, 20], [10, 26], [36, 26], [9, 8], [37, 8]].forEach(([x, z]) => pigeons.push(makePigeon(x, z)));
