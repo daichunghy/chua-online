@@ -828,3 +828,117 @@ Script vòng này: layout/build_v12.py, fix_v12.py, fix_v12b.py,
 verify_v12.py, diag_gate_v12.py, diag_gate2_v12.py, audit_verts_v12.py,
 audit_nn_v12.py, scripts/render_v12.py, render_v12_driver.sh;
 audit thô: layout/v12_audit.json.
+
+## V13 — NẮN TAI TƯỢNG VỀ PHÍA ẢNH THẬT (09/11/2026, layout_v15_v13.blend)
+
+**Lệnh Chung Hy 20:04 09/11: "Làm vòng nắn mặt tượng theo đúng ảnh thật".**
+Luật cứng vòng này: chỉ sửa cái ĐO ĐƯỢC là lệch so với ảnh thật (mỗi sửa
+ghi căn cứ đo); cấm stylize/cute hóa; chỉ đụng vùng mặt/đầu; base
+layout_v14_v12.blend → layout_v15_v13.blend, không ghi đè nguồn; kiểm
+chứng bằng audit script độc lập, không tự chấm bằng mắt.
+
+### Định nghĩa đo (ghi rõ vì đã gây lỗi — xem "Lỗi bắt được" dưới)
+Chiều cao đầu = **CẰM → ĐỈNH ĐẦU**, khớp định nghĩa đo trên ảnh:
+Di Lặc cằm 6,0501 → đỉnh sọ 7,8902 = **1,8401 m**; A Di Đà đáy sọ
+9,8126 → đỉnh ushnisha 11,0514 = **1,2388 m** (GLB, Y-up). Tỉ lệ
+tai/đầu, đỉnh tai, đáy tai đều tính trên mẫu số này. Head_neck /
+Head_neckring thấp hơn cằm 0,19–0,22 m và TAI (sau khi kéo dài, đáy
+tai A Di Đà thấp hơn cằm) KHÔNG được tính vào mẫu số.
+
+### Bảng đo ảnh ↔ model ↔ sau nắn (tỉ lệ theo chiều cao đầu)
+| Tượng / chỉ số | Ảnh thật | Model V14 | Sau nắn V15 | Kết luận |
+|---|---|---|---|---|
+| **Di Lặc** (ref5) tai/đầu | 0,664 | 0,486 | **0,664** | NẮN — tai ngắn ~27% |
+| Di Lặc đỉnh tai (từ đỉnh đầu) | 0,321 | 0,402 | **0,321** | NẮN cùng phép biến đổi |
+| Di Lặc đáy tai (so cằm) | +0,015 (≈ ngang cằm) | +0,112 | **+0,015** | NẮN cùng phép biến đổi |
+| **A Di Đà** (ref3) tai/đầu | 0,507 | 0,407 | **0,507** | NẮN — tai ngắn ~20% |
+| A Di Đà đỉnh tai | 0,632 | 0,534 | **0,632** | NẮN cùng phép biến đổi |
+| A Di Đà đáy tai (so cằm) | −0,140 (dưới cằm) | +0,059 | **−0,139** | NẮN cùng phép biến đổi |
+| **Phật nằm** (ref7) tai/đầu | ≈0,53 ± 0,06 | 0,489 | 0,489 | KHÔNG NẮN — lệch ~8% trong sai số đo |
+| Di Lặc mắt / mũi / miệng / má | — | lệch 3% / 7% / 6% / ~0% | giữ nguyên | KHÔNG SỬA — ≤7%, nhiều chiều bị nhiễu phối cảnh |
+| Di Lặc đầu/thân | 0,29 | 0,304 (5%) | giữ nguyên | KHÔNG SỬA |
+| A Di Đà đầu/thân | không đo vững (0,12–0,26) | — | giữ nguyên | KHÔNG SỬA — số liệu mâu thuẫn giữa các lần đo |
+| Di Lặc hạt tràng | ≈0,08 đầu | 0,114 đầu | giữ nguyên | KHÔNG SỬA — lệch chưa rõ |
+
+Phương pháp đo ảnh: visual grounding landmarks trên crop phóng to bằng
+PIL + parser bbox GLB thuần Python (/tmp/v13/glb_dump.py — đã mất theo
+VM restart, xem cuối mục); tỉ lệ theo chiều dọc nên vững trước phối
+cảnh góc 3/4.
+
+### Cách nắn (chỉ ma trận, không chạm mesh)
+Biến đổi `z' = k·z + b` trên matrix_world của mảnh tai (chỉ trục dọc),
+đo lại sau biến đổi, assert tỉ lệ + đỉnh tai trong ±0,01 mục tiêu:
+- **Di Lặc** (Head_earL.001 / Head_earR.001): k = **1,3667**, b = −3,6465;
+  tai 0,894 → **1,2218 m**; đỉnh 10,3506 → 10,4995; đáy 9,4566 → 9,2777.
+- **A Di Đà** (Head_earL / Head_earR): k = **1,2467**, b = −2,6846;
+  tai 0,5038 → **0,6281 m**; đỉnh 10,3899 → 10,2685; đáy 9,8861 → 9,6404.
+- **2 tượng hốc cổng**: truyền bằng phép liên hợp `A' = Mc·A·Mc⁻¹`
+  (Mc scale đều 0,1953; tai cổng có sẵn cả 2 mảnh, không phải tạo mới);
+  Mc trước 0,000002/0,000004 → sau sửa **0,000004** cả 2 cổng; tỉ lệ
+  tai cổng đo lại = **0,5070** (mục tiêu 0,507).
+
+### Lỗi bắt được trong vòng (đã sửa tận gốc trước khi giao)
+1. **Kiểm tra Mc cổng quá chặt + sai mốc**: build v1 lấy Mc từ pairs[0]
+   tùy ý và chạy SAU khi tai chính đã đổi → báo Mc lệch 0,650852 và
+   chết ở cổng PT. Chẩn đoán: (a) cặp tai lệch Mc ~0,65 là HỢP LỆ sau
+   khi tai chính đổi (chính phép liên hợp sẽ sửa); (b) 4 mảnh tay trái
+   bản sao cổng (HandL, FingerL0/1/2) lệch Mc **0,06–0,08 có từ V14**
+   — tâm khớp Mc chính xác (diff 0,0000 m), chỉ xoay nhỏ quanh tâm
+   riêng từ lúc sao chép V10, ngoài phạm vi V13 nên loại khỏi kiểm tra,
+   KHÔNG sửa. Sửa script: Mc lấy từ Head_ushnisha, kiểm tra trước loại
+   tai + tay, kiểm tra sau chỉ loại tay.
+2. **Mẫu số chiều cao đầu sai (nghiêm trọng, suýt giao tai dài thừa)**:
+   bản build đầu tính head_h trên TẤT CẢ mảnh Head_* — gồm Head_neck
+   thấp hơn cằm 0,19–0,22 m — nên k Di Lặc ra 1,5328 thay vì 1,3667,
+   tai dài thừa **12–15%** so với ảnh (vượt luật "không phóng đại quá
+   ảnh thật"). Bắt được khi đối chiếu k thực tế với k kế hoạch trong
+   header script + đo lại bbox từng mảnh GLB. Sửa tận gốc: loại cổ +
+   tai khỏi bbox đầu ở CẢ build_v13.py VÀ verify_v13.py (verify bản
+   đầu cũng mắc lỗi này theo chiều ngược: đo trên V15, đáy tai đã kéo
+   dài tự định nghĩa lại đáy đầu → báo sai A Di Đà 0,4451 trong khi
+   build đúng 0,507). Sau sửa: k = 1,3667 / 1,2467 khớp đúng kế hoạch
+   1,367 / 1,247; verify độc lập ĐẠT cả 2 tượng.
+
+### Kiểm chứng độc lập (verify_v13.py, chạy lại trên file đã lưu)
+- Di Lặc: ratio 0,664 / topfrac 0,321 / lobefrac 0,015 → **OK** (2 tai).
+- A Di Đà: ratio 0,507 / topfrac 0,632 / lobefrac −0,139 → **OK** (2 tai).
+- Cổng PT + TD: Mc_maxdev 0,000004; head_h cổng 0,2419 (= 0,1953 ×
+  1,2388); tai cổng 0,5070 → **OK**.
+- Toàn cảnh V15 vs V14: 2568 = 2568 object, không thêm/bớt; mesh
+  checksum lệch: **rỗng** (không mảnh mesh nào bị chạm); ma trận lệch
+  ngoài nhóm tai chính: **rỗng**; ma trận cổng đổi: đúng 4 mảnh tai
+  cổng (dev 0,0482); tai chính đổi: đúng Head_earL/R + .001.
+- File: layout_v15_v13.blend 97.698.093 byte (V14: 97.679.559);
+  audit thô: layout/v13_audit.json.
+
+### Render nghiệm thu
+CHƯA RENDER lúc ghi mục này (14:41 09/11: ffmpeg Lục Phán + Blender
+snow-globe đang chạy, load 10,14 — không có khe CPU). Driver chờ khe
+đã chuẩn bị: layout/render_v13_driver.sh (đợi ffmpeg=0 + không Blender
+lạ + load<7 + MemAvailable≥2200 MB, rồi render facebase V14 → full V15
+→ pixeldiff_v13.py). Render gồm: cận mặt Di Lặc + A Di Đà (camera
+tính từ bbox đầu thật), dilac/adida/niche/flycam chuẩn V12. Sau khi
+render xong sẽ soi cạnh ref5/ref3 và bổ sung verdict ảnh vào mục này.
+
+### Verdict từng tượng (theo số đo; render ảnh chờ bổ sung)
+- **Di Lặc: ĐÃ NẮN — tai khớp ảnh** (0,664 / 0,321 / +0,015, cả 3 số
+  khớp mục tiêu trong ±0,01). Còn lại: nét mặt vẫn là giới hạn của bản
+  dựng gốc (mắt/mũi/miệng tối giản) — vòng này không đụng.
+- **A Di Đà chính: ĐÃ NẮN — tai khớp ảnh** (0,507 / 0,632 / −0,139).
+- **2 tượng hốc cổng: ĐÃ TRUYỀN** — tai khớp 0,5070, Mc 0,000004.
+- **Phật nằm: KHÔNG NẮN** — lệch trong sai số đo, giữ nguyên bản V12.
+- **Giới hạn còn lại**: tai là phần duy nhất nắn được bằng đo vững;
+  mắt nhắm/độ cong môi/má/cằm chưa đo vững được từ ảnh 3/4 nên chưa
+  đụng — muốn vượt phải có ảnh chính diện độ phân giải cao hơn hoặc
+  dựng lại mặt từ ảnh thật.
+
+### Ghi chú vận hành
+VM restart 14:38 09/11 xóa toàn bộ /tmp/v13 (log build/verify, script
+chẩn đoán, crop ảnh đo, pipeline.sh). File bền trong workspace còn đủ:
+layout_v15_v13.blend, v13_audit.json, build/verify/pixeldiff_v13.py,
+render_v13.py (đã sửa xong). Bài học: log + script chẩn đoán của vòng
+sau nên ghi vào workspace/layout/ thay vì /tmp.
+
+Script vòng này: layout/build_v13.py, verify_v13.py, pixeldiff_v13.py,
+inspect_v13.py, scripts/render_v13.py, render_v13_driver.sh;
+audit thô: layout/v13_audit.json; log verify: layout/verify_v13_run2.log.

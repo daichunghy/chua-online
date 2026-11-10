@@ -1,0 +1,121 @@
+{
+ "steps": [
+  "groups: dilac 94 adida 79",
+  "dilac Head_earL.001 k= 1.3667 post_ratio= 0.664 post_topfrac= 0.321 post_lobefrac= 0.015",
+  "dilac Head_earR.001 k= 1.3667 post_ratio= 0.664 post_topfrac= 0.321 post_lobefrac= 0.015",
+  "adida Head_earL k= 1.2467 post_ratio= 0.507 post_topfrac= 0.632 post_lobefrac= -0.139",
+  "adida Head_earR k= 1.2467 post_ratio= 0.507 post_topfrac= 0.632 post_lobefrac= -0.139",
+  "gate PT: parts=39 Mc_maxdev(non-ear,non-hand)=0.000002 sv=[0.1953, 0.1953, 0.1953]",
+  "gate PT: da truyen A' cho 2 manh tai co san",
+  "gate PT: Mc_maxdev SAU sua (tru tay) = 0.000004",
+  "gate TD: parts=39 Mc_maxdev(non-ear,non-hand)=0.000004 sv=[0.1953, 0.1953, 0.1953]",
+  "gate TD: da truyen A' cho 2 manh tai co san",
+  "gate TD: Mc_maxdev SAU sua (tru tay) = 0.000004",
+  "cleanup done",
+  "SAVED /home/hatch/workspace/chua-online-work/layout_v15_v13.blend"
+ ],
+ "statues": {
+  "dilac": {
+   "head_h": 1.8401,
+   "head_top_z": 11.0902,
+   "ears": {
+    "Head_earL.001": {
+     "pre_h": 0.894,
+     "pre_top_z": 10.3506,
+     "pre_bot_z": 9.4566,
+     "k": 1.3667,
+     "b": -3.6465,
+     "post_h": 1.2218,
+     "post_top_z": 10.4995,
+     "post_bot_z": 9.2777,
+     "post_ratio": 0.664,
+     "post_topfrac": 0.321,
+     "post_lobefrac": 0.015
+    },
+    "Head_earR.001": {
+     "pre_h": 0.894,
+     "pre_top_z": 10.3506,
+     "pre_bot_z": 9.4566,
+     "k": 1.3667,
+     "b": -3.6465,
+     "post_h": 1.2218,
+     "post_top_z": 10.4995,
+     "post_bot_z": 9.2777,
+     "post_ratio": 0.664,
+     "post_topfrac": 0.321,
+     "post_lobefrac": 0.015
+    }
+   }
+  },
+  "adida": {
+   "head_h": 1.2388,
+   "head_top_z": 11.0514,
+   "ears": {
+    "Head_earL": {
+     "pre_h": 0.5038,
+     "pre_top_z": 10.3899,
+     "pre_bot_z": 9.8861,
+     "k": 1.2467,
+     "b": -2.6846,
+     "post_h": 0.6281,
+     "post_top_z": 10.2685,
+     "post_bot_z": 9.6404,
+     "post_ratio": 0.507,
+     "post_topfrac": 0.632,
+     "post_lobefrac": -0.139
+    },
+    "Head_earR": {
+     "pre_h": 0.5038,
+     "pre_top_z": 10.3899,
+     "pre_bot_z": 9.8861,
+     "k": 1.2467,
+     "b": -2.6846,
+     "post_h": 0.6281,
+     "post_top_z": 10.2685,
+     "post_bot_z": 9.6404,
+     "post_ratio": 0.507,
+     "post_topfrac": 0.632,
+     "post_lobefrac": -0.139
+    }
+   }
+  }
+ },
+ "gates": {
+  "PT": {
+   "parts": 39,
+   "Mc_maxdev_pre": 2e-06,
+   "Mc_maxdev_post": 4e-06,
+   "singular": [
+    0.1953,
+    0.1953,
+    0.1953
+   ],
+   "gear_existing": 2,
+   "created": [],
+   "hand_excluded_preexisting": [
+    "FingerL0",
+    "FingerL1",
+    "FingerL2",
+    "HandL"
+   ]
+  },
+  "TD": {
+   "parts": 39,
+   "Mc_maxdev_pre": 4e-06,
+   "Mc_maxdev_post": 4e-06,
+   "singular": [
+    0.1953,
+    0.1953,
+    0.1953
+   ],
+   "gear_existing": 2,
+   "created": [],
+   "hand_excluded_preexisting": [
+    "FingerL0",
+    "FingerL1",
+    "FingerL2",
+    "HandL"
+   ]
+  }
+ }
+}

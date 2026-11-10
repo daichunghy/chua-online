@@ -128,3 +128,37 @@ học gốc verified_v2, 0 stylize còn sót.** Nợ tượng còn lại chỉ l
 hạn của bản dựng gốc (nét mặt tối giản, thân khối mượt). Ghi chú thêm:
 thân tượng trong hốc cổng đọc tối trên render (có từ V10) — vấn đề
 ánh sáng hốc, không phải tượng, chờ Chung Hy quyết có làm riêng không.
+
+## V13 — NẮN TAI TƯỢNG VỀ PHÍA ẢNH THẬT (09/11/2026, layout_v15_v13.blend)
+
+**Lệnh Chung Hy 20:04 09/11: "Làm vòng nắn mặt tượng theo đúng ảnh thật".**
+Chỉ nắn cái đo được là lệch, bằng ma trận `z' = k·z + b` trên mảnh tai
+(không chạm mesh); chiều cao đầu định nghĩa cằm → đỉnh (Di Lặc 1,8401 m,
+A Di Đà 1,2388 m).
+
+1. **Di Lặc — ĐÃ NẮN, khớp ảnh:** tai/đầu ảnh 0,664 vs model 0,486
+   (ngắn ~27%) → k = 1,3667, tai 0,894 → 1,2218 m; đỉnh tai 0,321,
+   đáy tai +0,015 (ngang cằm) — cả 3 số khớp mục tiêu ±0,01.
+2. **A Di Đà — ĐÃ NẮN, khớp ảnh:** tai/đầu ảnh 0,507 vs model 0,407
+   (ngắn ~20%) → k = 1,2467, tai 0,5038 → 0,6281 m; đỉnh tai 0,632,
+   đáy tai −0,139 (dưới cằm 0,14 đầu) — khớp mục tiêu ±0,01.
+3. **2 tượng hốc cổng — ĐÃ TRUYỀN** bằng phép liên hợp A' = Mc·A·Mc⁻¹
+   (scale đều 0,1953); tai cổng 0,5070; Mc sau sửa 0,000004.
+4. **Phật nằm — KHÔNG NẮN:** lệch ~8% trong sai số đo. Mắt/mũi/miệng/
+   má lệch ≤7% (nhiễu phối cảnh) → không sửa; đầu/thân, hạt tràng
+   chưa đo vững → không sửa.
+
+Verify độc lập (verify_v13.py) ĐẠT toàn bộ: 2 tượng chính OK cả 3 số,
+cổng OK, 2568 = 2568 object, mesh checksum lệch rỗng, ma trận lệch
+ngoài tai chính rỗng, cổng chỉ đổi đúng 4 mảnh tai. **2 lỗi bắt được
+trước khi giao:** (a) kiểm tra Mc cổng sai mốc + quá chặt (tay trái
+bản sao cổng lệch Mc 0,06–0,08 có từ V14 — xoay nhỏ quanh tâm, ngoài
+phạm vi, không sửa); (b) mẫu số đầu tính cả cổ → tai dài thừa 12–15%,
+sửa tận gốc ở cả build lẫn verify (k về đúng 1,3667/1,2467 như kế
+hoạch). Chi tiết: layout/NOTES.md §V13.
+
+**Thước đo sau V13: tổng thể ~74% (từ ~73% sau V12) — tai là lệch rõ
+nhất trên mặt tượng và nay đã khớp ảnh; CHƯA CHỐT vì render nghiệm thu
+(cận mặt + flycam) đang chờ khe CPU** (ffmpeg Lục Phán + Blender
+snow-globe đang chạy lúc 14:41). Nợ tượng còn: nét mặt tối giản của
+bản dựng gốc; mắt/mũi/miệng/má chưa đo vững từ ảnh 3/4.
