@@ -208,6 +208,11 @@
       });
     }
     for (let fx = -13; fx <= 13.01; fx += 2) addBall(fx, 6.12, 5.3, 0.11, fenceGoldMat, hall).castShadow = false; // v7.3: hàng chóp vàng nhỏ dưới mép mái (silhouette như mẫu)
+    // v8: DẢI MOSAIC COBALT dưới mép mái tầng 1 — tiệm cận tông vàng+lam của
+    // ảnh tham chiếu V8 bằng đúng mã lam mosaic của cổng (#2C4A8A, palette đã
+    // khóa). Mái giữ đỏ nâu theo ảnh thật Vĩnh Tràng, KHÔNG đổi theo mockup.
+    addBox(0, 6.30, 5.28, 28.6, 0.30, 0.30, mat(0x2C4A8A, 0.55), hall);
+    for (let fx = -12.5; fx <= 12.51; fx += 2.5) addBox(fx, 6.30, 5.45, 0.5, 0.34, 0.06, fenceGoldMat, hall); // ô vàng xen trên dải lam
     // Mái 2 tầng cong + rêu
     const roof1 = addBox(0, 6.5, 0, 31, 0.7, 11.6, roofMat, hall); roof1.rotation.x = 0.18; // v7.3: nâng + rút sâu, hết che biển
     const roof2 = addBox(0, 8.6, 0, 26, 0.6, 11, roofMat, hall); roof2.rotation.x = 0.18;
@@ -250,6 +255,7 @@
       cap.position.set(tx, 6.25, 3); cap.rotation.y = Math.PI / 4; cap.castShadow = true; hall.add(cap);
       addBall(tx, 7.25, 3, 0.26, fenceGoldMat, hall);
       addBox(tx, 3.1, 4.25, 1.1, 2.2, 0.12, mat(0x1E1410, 0.9), hall); // ô cửa tối mặt trước tháp
+      addBox(tx, 4.62, 4.26, 1.2, 0.55, 0.1, mat(0x2C4A8A, 0.55), hall); // v8: ô mosaic cobalt trên mặt tháp (cùng dải lam mặt tiền)
     });
     colRect(23 - 14, -1 - 12, 23 + 14, -1 + 2.2);
     colRect(23 - 16.8, -1 + 1.8, 23 - 14.4, -1 + 4.2); // tháp trái (world)
@@ -351,6 +357,16 @@
     const lSign = plaque(['GIẢNG ĐƯỜNG', 'HUỆ ĐĂNG'], 5.0, 1.4, { w: 512, h: 160, bg: '#1C5A34', fg: '#FFF6E5', font: 'bold 48px Georgia, serif' });
     lSign.position.set(0, 3.2, 4.6); lecture.add(lSign);
     colRect(44 - 7, -20 - 4.5, 44 + 7, -20 + 4.5);
+    // v8: trang trí trước Giảng đường (trục 4 — học viện phải là một nơi tử
+    // tế trong cảnh): 2 tháp đèn đá + cặp bonsai chầu cửa + bảng gỗ lịch
+    // giảng. Đã đo khoảng hở với tuyến đi của sư (44,-16)->(37,-23) và
+    // (39,-7)->(44,-16): mọi vật cách tuyến >= 1,75m, không chồng hình.
+    makeStoneLantern72(39, -13.8); makeStoneLantern72(49, -13.8);
+    makeBonsai72(41, -14.2, 1); makeBonsai72(47, -14.2, 1);
+    const lecBoard = plaque(['LỊCH GIẢNG', 'HUỆ ĐĂNG'], 2.6, 1.0, { w: 512, h: 192, bg: '#5A3D26', fg: '#FFD166', font: 'bold 52px Georgia, serif' });
+    lecBoard.position.set(44, 1.7, -13.0); grounds.add(lecBoard);
+    addBox(43.2, 0.8, -13.05, 0.14, 1.6, 0.14, woodSignMat, grounds);
+    addBox(44.8, 0.8, -13.05, 0.14, 1.6, 0.14, woodSignMat, grounds);
 
     // --- Cây + hoa giấy + bonsai ---
     function makeTree(x, z, s, leafTex) {
@@ -437,7 +453,8 @@
       colCircle(x, z, 0.42);
       return g;
     }
-    [[19.6, 26], [26.4, 26], [19.6, 17.5], [26.4, 17.5]].forEach(([x, z]) => makeStoneLantern72(x, z));
+    [[19.6, 26], [26.4, 26], [19.6, 17.5], [26.4, 17.5],
+     [19.6, 34], [26.4, 34], [19.6, 9.5], [26.4, 9.5]].forEach(([x, z]) => makeStoneLantern72(x, z)); // v8: thêm 2 cặp -> hai hàng đèn đá dọc lối chính như ảnh tham chiếu
     // v7.2 — DỪA CAO cạnh chánh điện + sau tượng (cọ cũ chỉ cao 4,4 — mẫu/ref3 dừa vút cao)
     function makeTallPalm72(x, z, h, lean) {
       const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.z = lean || 0; grounds.add(g);
@@ -627,6 +644,55 @@
       addBox(x, 0.05, z, 0.28, 0.08, 0.7, mat(0x2B2320, 0.8), shoePairs);
       addBox(x + 0.35, 0.05, z, 0.28, 0.08, 0.7, mat(0x2B2320, 0.8), shoePairs);
     });
+
+    // v8 — BỒ ĐOÀN sân (ảnh tham chiếu: người quỳ lễ hai bên lư hương): đĩa
+    // trụ đỏ sẫm viền vàng; 2 cái có khách quỳ (avatar ở module_5, cùng tọa
+    // độ), 2 cái trống hai bên; thêm 1 trước Di Lặc. Collider nhỏ r 0,45 —
+    // đã đo không chạm điểm đứng trạm lư (25,3; 13,7) và các via tuyến.
+    const cushionMat8 = mat(0x7A1F1F, 0.75);
+    function makeCushion8(x, z) {
+      const g = new THREE.Group(); g.position.set(x, 0, z); grounds.add(g);
+      addCyl(0, 0.09, 0, 0.55, 0.18, cushionMat8, g);
+      addCyl(0, 0.20, 0, 0.47, 0.05, mat(0x9D0208, 0.7), g);
+      addCyl(0, 0.02, 0, 0.58, 0.04, fenceGoldMat, g);
+      colCircle(x, z, 0.45);
+      return g;
+    }
+    makeCushion8(20.4, 15.6); makeCushion8(24.8, 14.8);
+    // ^ Vị trí tây (20,4; 15,6): bản đầu (21,2; 14,8) bị dời vì đường chéo
+    // (23,16)->(15,8) của tuyến books (verify tailB) đi qua cách tâm nó
+    // 0,42m — kẹp giữa bồ đoàn và lư sân (r 1,8) gây FF-TIMEOUT hop books
+    // 15,8 ở lượt tailB đầu. Vị trí mới hở 1,56m với tuyến đó.
+    makeCushion8(19.8, 15.2);
+    // Bồ đoàn trống thứ 4 đặt ở (28,5; 12,5) phía đông-nam lư — vị trí đầu
+    // tiên dự kiến (26,2; 15,2) bị LOẠI vì đường thẳng lư -> quầy lưu niệm
+    // (tuyến verify tailB) đi qua cách tâm nó 0,04m: avatar đâm trực diện
+    // collider tròn và kẹt (FF-TIMEOUT hop shop 30,22 đo được ở lượt tailB
+    // đầu). Vị trí mới hở 3,4m với tuyến đó và với điểm đứng trạm lư.
+    makeCushion8(28.5, 12.5);
+    makeCushion8(-24, 4.2);
+
+    // v8 — NÚI MỜ sau chùa (phông xa của ảnh tham chiếu: núi + sương sớm).
+    // Khối nón thấp màu xanh sương nhạt; FogExp2 của cảnh tự làm mềm thêm.
+    [[-45, -108, 34, 26], [0, -118, 42, 32], [48, -110, 36, 27], [-85, -96, 30, 21], [88, -100, 32, 23]].forEach(([mx, mz, mr, mh]) => {
+      const mt = new THREE.Mesh(new THREE.ConeGeometry(mr, mh, 7), new THREE.MeshStandardMaterial({ color: 0xA8C4E4, roughness: 1, flatShading: true }));
+      mt.position.set(mx, mh / 2 - 0.5, mz); mt.castShadow = false; mt.receiveShadow = false;
+      grounds.add(mt);
+    });
+
+    // v8 — CÂY HOA ĐÀO/HỒNG cạnh hai hồ (ảnh tham chiếu: cây hoa hồng bên hồ
+    // sen): thân nâu + 3 tán cầu phủ hoa hồng hai tông của theme.
+    function makeBlossom8(x, z, s) {
+      const g = new THREE.Group(); g.position.set(x, 0, z); grounds.add(g);
+      addCyl(0, 1.5 * s, 0, 0.16 * s, 3.0 * s, mat(0x5A3D26, 0.9), g);
+      const c1 = addBall(0, 3.6 * s, 0, 1.5 * s, mat(0xEE7FAE, 0.65), g); c1.scale.set(1.2, 0.75, 1.2);
+      const c2 = addBall(0.9 * s, 4.3 * s, 0.3 * s, 1.0 * s, mat(0xF2A0C4, 0.65), g); c2.scale.set(1.15, 0.7, 1.15);
+      const c3 = addBall(-0.9 * s, 4.1 * s, -0.3 * s, 0.9 * s, mat(0xE86A9C, 0.65), g); c3.scale.set(1.1, 0.7, 1.1);
+      colCircle(x, z, 0.5 * s);
+      return g;
+    }
+    makeBlossom8(-2, 24.5, 1.0);
+    makeBlossom8(34, 27, 1.1);
 
     // --- Ghế đá nghỉ chân (v6: khách ngồi nghỉ — hành vi lễ tĩnh) ---
     // BENCH_SEATS được module_5 dùng để đặt khách ngồi: [x, z, yaw mặt hướng]

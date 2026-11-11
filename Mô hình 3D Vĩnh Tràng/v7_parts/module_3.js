@@ -414,6 +414,17 @@
     addCylT(-0.8, 2.55, 0.4, 0.16, 0.35, mat(0x8C5E32, 0.35, 0.8), toShrine);
     addCylT(0.8, 2.55, 0.4, 0.16, 0.35, mat(0x8C5E32, 0.35, 0.8), toShrine);
 
+    // v8 — BỒ ĐOÀN trong điện: 6 khách quỳ thiền (module_5) trước đây ngồi
+    // thẳng trên sàn (toàn module_3 không có cushion nào). Đĩa đỏ sẫm viền
+    // vàng dưới đúng 6 vị trí quỳ (local temple), mặt bồ đoàn ~0,325 khớp
+    // group.y = 0,32 của avatar quỳ.
+    const cushionInMat8 = mat(0x7A1F1F, 0.75);
+    [[-4.5, -4], [0, -4], [4.5, -4], [-4.5, 2], [0, 2], [4.5, 2]].forEach(([cx, cz]) => {
+      addCylT(cx, 0.19, cz, 0.55, 0.18, cushionInMat8);
+      addCylT(cx, 0.30, cz, 0.47, 0.05, mat(0x9D0208, 0.7));
+      addCylT(cx, 0.12, cz, 0.58, 0.04, goldMat);
+    });
+
     // Nội điện đặt ở không gian riêng (300, 0, 300), layer 1 (đèn riêng, tối hơn)
     temple.position.set(300, 0, 300);
     setLayerRecursive(temple, 1);

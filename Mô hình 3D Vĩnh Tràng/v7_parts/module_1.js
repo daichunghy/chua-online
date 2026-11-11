@@ -220,7 +220,7 @@
     const canvas = document.getElementById('three-canvas');
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x2B7DE1); // v7.2: trời xanh cobalt như ảnh mẫu (palette #0155C9–#4F97F9)
-    scene.fog = new THREE.FogExp2(0xBDD7F2, 0.0028); // v7.2: sương sáng xanh — bỏ sương nâu 0x2a1a10 làm xỉn/tối toàn cảnh
+    scene.fog = new THREE.FogExp2(0xBDD7F2, 0.0032); // v8: 0,0028 -> 0,0032 — phông xa mềm sương sớm như ảnh tham chiếu (giữ nguyên cobalt sky + exposure 1,12 đã nghiệm thu) // v7.2: sương sáng xanh — bỏ sương nâu 0x2a1a10 làm xỉn/tối toàn cảnh
     const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 600);
     camera.position.set(23, 4.5, 52);
     camera.lookAt(23, 2, 38);

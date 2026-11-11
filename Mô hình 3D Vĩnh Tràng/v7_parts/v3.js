@@ -246,27 +246,46 @@
     reflect: 'Lần gần nhất bạn thấy lòng mình “lạc hướng”, điều gì đã giúp bạn bình tĩnh lại?',
     practice: 'Mở mục Niệm kinh và tụng một thời Tâm Kinh 5 phút.'
   };
+  // v8: bài đầy đủ THỨ HAI (D3) — nội dung CHỈ lắp từ các thẻ "Tìm hiểu thêm"
+  // đã có nguồn trong chính trải nghiệm (module_6b INFO_CARDS: A Di Đà 18 m /
+  // khánh thành 2008; Di Lặc 2010, ~20 m, hơn 250 tấn; tượng nhập Niết Bàn
+  // ~32 m / 2013; Bảo tháp Thất Phật 2015, 35 m, tầng bảy tôn trí 15 bộ Diệu
+  // Pháp Liên Hoa; phép lễ: nhang thắp một lần ở lư sân, không chỉ trỏ/sờ
+  // tượng). Không thêm dữ kiện hay giáo lý nào ngoài các nguồn đó.
+  var LESSON_D3 = {
+    path: 'D', idx: 3, title: 'Các tượng lớn trong khuôn viên chùa',
+    summary: 'Trong khuôn viên Vĩnh Tràng có bốn công trình tượng và tháp lớn. <b>Phật A Di Đà</b> cao 18 mét, khánh thành năm 2008, đứng trên đài sen trong hoa viên; trước tượng ta chỉ vái — nhang chỉ thắp một lần ở lư hương giữa sân. <b>Phật Di Lặc</b> khánh thành năm 2010, cao khoảng 20 mét, nặng hơn 250 tấn; theo các điều kiêng kỵ khi đi lễ chùa, không chỉ trỏ và không sờ vào tượng. <b>Tượng Phật nhập Niết Bàn</b> dài khoảng 32 mét, khánh thành năm 2013, ở khu phía sau — khoảng lặng yên tĩnh nhất của chùa. <b>Bảo tháp Thất Phật</b> xây năm 2015, cao 35 mét, một tầng trệt và bảy lầu; tầng bảy tôn trí 15 bộ kinh Diệu Pháp Liên Hoa.',
+    example: 'Thứ tự một vòng như người đi chùa thật: từ cổng vào, gặp A Di Đà và Di Lặc ở hoa viên trước; lễ Phật trong chánh điện; ra phía sau đứng lặng trước Phật Niết Bàn; khép vòng ở Bảo tháp Thất Phật rồi hồi hướng.',
+    quiz: [
+      { q: 'Tượng Phật A Di Đà trong hoa viên cao bao nhiêu, khánh thành năm nào?', opts: ['18 mét — năm 2008', '20 mét — năm 2010', '32 mét — năm 2013'], ans: 0, why: 'Đúng: tượng cao 18 mét, khánh thành năm 2008.' },
+      { q: 'Trước tượng Di Lặc, phép đúng là…', opts: ['Sờ vào tượng để cầu lộc', 'Chỉ vái trang nghiêm, không chỉ trỏ hay sờ vào tượng', 'Thắp thêm nhang ngay trước tượng'], ans: 1, why: 'Đúng: không chỉ trỏ, không sờ vào tượng; nhang chỉ thắp một lần ở lư giữa sân.' },
+      { q: 'Bảo tháp Thất Phật cao bao nhiêu, xây năm nào?', opts: ['25 mét — năm 2010', '35 mét — năm 2015', '45 mét — năm 2020'], ans: 1, why: 'Đúng: tháp xây năm 2015, cao 35 mét, tầng bảy tôn trí 15 bộ kinh Pháp Hoa.' }
+    ],
+    reflect: 'Trong bốn nơi — hoa viên A Di Đà, tượng Di Lặc, Phật Niết Bàn, Bảo tháp Thất Phật — nơi nào bạn muốn đứng lại lâu nhất? Vì sao?',
+    practice: 'Đi trọn một vòng chùa trong trải nghiệm này, mở thẻ “Tìm hiểu thêm” ở mỗi trạm tượng và đọc một lượt.'
+  };
+  var LESSONS_FULL = { A0: SAMPLE_LESSON, D3: LESSON_D3 };
   function openLessons() {
     var h = '<h2>Giảng đường Huệ Đăng</h2><p class="v3-note">Nơi chùa Vĩnh Tràng tổ chức các lễ khai giảng, tốt nghiệp của Trường Phật học Tiền Giang. Trong trải nghiệm này, đây là lớp học Phật pháp cho cư sĩ: 4 lộ trình, mỗi bài theo 6 phần — nghe giảng, tóm tắt, thí dụ, quiz, suy ngẫm, hành trì. Bài giảng âm thanh sẽ bổ sung khi có nguồn được phép phổ biến.</p>';
     PATHS.forEach(function (p) {
       h += '<h3>' + p.name + '</h3>';
       p.lessons.forEach(function (t, i) {
         var done = S.lessonsDone[p.id + i];
-        var isSample = (p.id === SAMPLE_LESSON.path && i === SAMPLE_LESSON.idx);
+        var isSample = !!LESSONS_FULL[p.id + i]; // v8: A0 + D3 có nội dung đầy đủ
         h += '<div class="v3-lesson"><b>' + (done ? '✓ ' : '') + t + '</b>' +
           (isSample ? ' <button class="v3-btn" data-lesson="' + p.id + i + '">Vào học</button>' : ' <span class="v3-note">— sắp mở</span>') + '</div>';
       });
     });
     var m = modal(h);
-    m.querySelectorAll('[data-lesson]').forEach(function (b) { b.onclick = function () { openSampleLesson(m); }; });
+    m.querySelectorAll('[data-lesson]').forEach(function (b) { b.onclick = function () { openSampleLesson(m, b.getAttribute('data-lesson')); }; });
   }
-  function openSampleLesson(m) {
-    var L = SAMPLE_LESSON;
-    var h = '<h2>' + L.title + '</h2><p class="v3-note">Lộ trình A · Bài 1 · Thầy giảng sư thỉnh chuông mở lớp (bấm “Vào học” là chuông đã thỉnh ở lớp học chính).</p>' +
+  function openSampleLesson(m, key) {
+    var L = LESSONS_FULL[key] || SAMPLE_LESSON; key = key || 'A0';
+    var h = '<h2>' + L.title + '</h2><p class="v3-note">Lộ trình ' + L.path + ' · Bài ' + (L.idx + 1) + ' · Thầy giảng sư thỉnh chuông mở lớp (bấm “Vào học” là chuông đã thỉnh ở lớp học chính).</p>' +
       '<h3>2) Tóm tắt</h3><p>' + L.summary + '</p>' +
       '<h3>3) Thí dụ</h3><p>' + L.example + '</p>' +
       '<h3>4) Quiz — 3 câu</h3><div class="v3-quiz" id="v3-quiz"></div>' +
-      '<h3>5) Suy ngẫm</h3><p>' + L.reflect + '</p><textarea class="v3-refl" id="v3-refl" placeholder="Viết 1–3 dòng của bạn (chỉ lưu trên máy này)…">' + (S.reflections['A0'] || '') + '</textarea>' +
+      '<h3>5) Suy ngẫm</h3><p>' + L.reflect + '</p><textarea class="v3-refl" id="v3-refl" placeholder="Viết 1–3 dòng của bạn (chỉ lưu trên máy này)…">' + (S.reflections[key] || '') + '</textarea>' +
       '<h3>6) Hành trì gợi ý</h3><p>' + L.practice + '</p>' +
       '<div style="margin-top:12px"><button class="v3-btn" id="v3-done">Hoàn thành bài học</button></div><div id="v3-quiz-msg"></div>';
     m.querySelector('.v3-card').innerHTML = '<button class="v3-close" title="Đóng">✕</button>' + h;
@@ -288,7 +307,7 @@
     m.querySelector('#v3-done').onclick = function () {
       var answered = Object.keys(score).length, right = Object.values(score).filter(Boolean).length;
       if (answered < 3) { m.querySelector('#v3-quiz-msg').innerHTML = '<p>Bạn trả lời đủ 3 câu quiz trước khi hoàn thành (' + answered + '/3).</p>'; return; }
-      S.reflections['A0'] = m.querySelector('#v3-refl').value; S.lessonsDone['A0'] = true; save();
+      S.reflections[key] = m.querySelector('#v3-refl').value; S.lessonsDone[key] = true; save();
       m.querySelector('#v3-quiz-msg').innerHTML = '<p>Hoàn thành. Quiz đúng ' + right + '/3. Dấu ấn bài học đã lưu vào hồ sơ.</p>';
     };
   }

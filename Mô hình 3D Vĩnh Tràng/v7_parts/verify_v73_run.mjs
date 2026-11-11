@@ -340,7 +340,14 @@ const camCase = async (px, pz, yaw) => {
   return camMinDist();
 };
 // Vào lại chánh điện: đi vòng phía nam (z ~ 6.8, ngoài rect chánh điện) tới trạm hall rồi bấm nút.
-for (const [hx, hz] of [[38.5, -4], [38.5, 6], [30, 6], [17.5, 6.8]]) {
+// v8 (đo hop_test/probe_test): làn cũ x=38,5 XUYÊN THÂN THÁP ĐÔNG — vùng cấm
+// tháp (x>=36,9; z>=0,3 sau biên 0,5) và vùng cấm điện (x<=37,5; z<=1,7)
+// chồng nhau, dải x=38,5 bịt kín về hình học (V7.3 từng lọt nhờ cắt góc).
+// Làn mới vòng qua khe đông THẬT (x>40,3, dưới cây (40,6) R=1,0 và trên
+// tháp z<=3,7), về làn trước điện z~3,3 (trên điện 1,7, dưới thùng công
+// đức (27,9;4,9) R=1,3) rồi tới điểm đứng trạm. CHỈ đổi hop đệm di chuyển;
+// các verdict (station=hall, inside, kẹp cột) giữ nguyên như V7.3.
+for (const [hx, hz] of [[42, 4.3], [30, 4.5], [28, 2.8], [17.5, 6.8]]) {
   await ev(`window.__v6debug.walkTo(${hx}, ${hz})`);
   await ffUntil(`hop hall ${hx},${hz}`, () => near(hx, hz, 2.5), 120);
 }

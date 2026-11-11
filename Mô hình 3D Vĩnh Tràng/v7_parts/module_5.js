@@ -8,7 +8,7 @@
     //   'Di bo'      1.24s -> đang di chuyển
     //   'Chắp tay'   3.20s -> đứng chắp tay lặng (NPC trước tượng; người chơi trong nhịp lễ)
     //   'Vái'        3.80s -> vái/lạy — CÓ action riêng, dùng cho mọi nhịp startBow
-    //   'Quỳ'        5.80s -> giữ khung gần cuối cho khách ngồi thiền trong điện
+    //   'Quỳ'        5.80s -> ghim khung GIỮ QUỲ ở 2,6s (đo GLB: giữ quỳ ở 2,09–3,13s; khung cuối là đang đứng dậy)
     //   'Thắp nhang' 4.70s -> nhịp 4 cắm nhang ở lư sân (playOnce)
     //   'Lên/Xuống cầu thang' -> không dùng (khuôn viên bằng phẳng)
     const CHAR_HEIGHT = { nu: 1.62, nam: 1.72, tre: 1.26 }; // chiều cao hiển thị (m)
@@ -71,20 +71,34 @@
     // Biến thể áo chư Tăng: nhuộm lại cụm vertex-color áo tràng của model nam.
     // Số đo từ GLB nam: áo = (43,20,20) 62% + (20,0,0) 22% đỉnh; da (191,128,84),
     // tóc (0,0,0), giày (171,171,148) đều nằm ngoài ngưỡng dưới đây -> không lem.
+    // v8 (theo ảnh tham chiếu V8): áo tràng XÁM + DẢI VAI CAM vắt chéo ngực.
+    // Dải nhuộm theo tọa độ bind-pose của chính đỉnh áo (đo offline từ GLB:
+    // áo Y -0,92..0,88, mặt trước = +Z — tâm da đầu Z = +0,074; vùng ngực 35%
+    // trên của áo có 17.095 đỉnh, đủ mịn cho dải rộng 0,15). Nhuộm theo đỉnh
+    // nên dải đi theo MỌI action (skin), không gắn xương, không đổi mesh/nét.
     function recolorMonkRobe(model, tone) {
       model.traverse(o => {
         if (!o.isMesh) return;
         o.geometry = o.geometry.clone();
         const col = o.geometry.getAttribute('color');
         if (!col || !col.array || col.itemSize < 3) return;
+        const posA = o.geometry.getAttribute('position');
         const a = col.array, st = col.itemSize;
         for (let i = 0; i < col.count; i++) {
           const r = a[i * st], g = a[i * st + 1], b = a[i * st + 2];
           if (r >= 12 && r <= 78 && g <= 38 && b <= 38 && r > g + 5) {
             const dark = r < 30;
-            a[i * st] = Math.round((dark ? 96 : 138) * tone);
-            a[i * st + 1] = Math.round((dark ? 58 : 86) * tone);
-            a[i * st + 2] = Math.round((dark ? 22 : 34) * tone);
+            let cr = (dark ? 96 : 138) * tone, cg = (dark ? 96 : 138) * tone, cb = (dark ? 100 : 142) * tone;
+            if (posA) {
+              const px = posA.getX(i), py = posA.getY(i), pz = posA.getZ(i);
+              // Dải chéo: mặt trước (Z > 0,04), từ vai (Y 0,78 · X -0,20)
+              // xuống hông đối diện (Y 0,05 · X +0,25), bề rộng 0,15.
+              if (pz > 0.04 && py > 0.02 && py < 0.80) {
+                const xc = -0.20 + (0.78 - py) / 0.73 * 0.45;
+                if (Math.abs(px - xc) < 0.075) { cr = dark ? 214 : 240; cg = dark ? 104 : 130; cb = dark ? 22 : 32; }
+              }
+            }
+            a[i * st] = Math.round(cr); a[i * st + 1] = Math.round(cg); a[i * st + 2] = Math.round(cb);
           }
         }
         col.needsUpdate = true;
@@ -166,7 +180,11 @@
       if (av.kneel) {
         const a = av.actions['Quỳ'];
         if (a) {
-          a.reset().play(); a.time = 5.15;
+          a.reset().play(); a.time = 2.6; // v8 (ĐO GLB cả 3 model): đường cong
+          // Pelvis của action 'Quỳ' — đứng -0,110 ở 0s/5,80s; GIỮ QUỲ -0,570
+          // ở đoạn 2,09–3,13s; 5,15s (bản cũ) là giữa đoạn ĐỨNG DẬY (-0,27)
+          // nên khách "quỳ" mà như đứng (đo __v7chars: h chỉ giảm ~0,1m).
+          // Ghim 2,6 = giữa đoạn giữ quỳ đã đo.
           av.mixer.update(0.01); // áp pose quỳ trước khi đo
           a.paused = true; av.pose = 'Quỳ';
           // Căn đáy pose quỳ (gối/shin) chạm đúng mặt group: đo box thật rồi
@@ -256,7 +274,7 @@
       [[45, 40], [40, 30], [23, 14], [-24, 8], [23, 38]],
       [[-14, 30], [-14, 22.6], [23, 14], [23, 7], [12, -38]],
       [[23, 38], [23, 14], [12, -40], [-2, -34], [23, 38]],
-      [[45, 40], [23, 30], [23, 14], [23, 7], [44, -16]],
+      [[45, 40], [23, 30], [23, 14], [23, 7], [36, -11]], // v8: waypoint cuối cũ (44,-16) nằm TRONG hộp đặc giảng đường (x 37..51, z -24,5..-15,5) -> dời ra đất trống phía nam nhà
       [[23, 38], [-24, 8], [-24, -16], [23, 14]],
       [[23, 40], [23, 14], [23, 7], [-14, 22.6]],
       [[-14, 30], [23, 14], [23, 7], [23, 38]],
@@ -289,20 +307,40 @@
       av.group.rotation.y = byaw;
       scene.add(av.group);
     });
-    // Chư Tăng: model nam với áo nhuộm nâu vàng từ vertex color (xem recolorMonkRobe);
-    // một vị đi chậm qua sân khu giảng đường, một vị đứng lặng chắp tay
+    // Chư Tăng: model nam với áo nhuộm từ vertex color (xem recolorMonkRobe —
+    // v8: XÁM + dải vai cam); một vị đi chậm qua sân khu giảng đường, một vị
+    // đứng lặng chắp tay.
+    // v8 SỬA LỖI ĐO ĐƯỢC: tuyến + điểm đứng CŨ nằm TRONG hộp đặc của giảng
+    // đường (hộp 14x9 tại (44,-20) -> x 37..51, z -24,5..-15,5): vị đứng
+    // (38,-18) vô hình trong tường, vị đi bộ xuyên hộp ở (44,-16)/(37,-23)
+    // (bằng chứng: charsWorld before + ảnh v8_3_su chỉ thấy tường trơn).
+    // Tuyến/điểm MỚI chạy hoàn toàn trên đất trống phía nam/tây của nhà
+    // (đã đo khoảng hở tới đèn đá/bonsai/bảng/quầy kinh sách >= 2,4m).
     const monks = [];
     {
       const avA = makeAvatar({ kind: 'nam', hat: false, robeVariant: 1.0 });
       scene.add(avA.group);
-      avA.group.position.set(44, 0, -16);
-      monks.push({ av: avA, route: [[44, -16], [37, -23], [31, -13], [39, -7]], wp: 1, speed: 0.45, pause: 0, faceYaw: null, walkPhase: 0, pauseBase: 3.5 });
+      avA.group.position.set(35, 0, -12);
+      monks.push({ av: avA, route: [[35, -12], [30, -18], [33, -24], [38, -9]], wp: 1, speed: 0.45, pause: 0, faceYaw: null, walkPhase: 0, pauseBase: 3.5 });
       const avB = makeAvatar({ kind: 'nam', hat: false, robeVariant: 0.72, initPose: 'Chắp tay' });
       scene.add(avB.group);
-      avB.group.position.set(38, 0, -18);
-      avB.group.rotation.y = Math.atan2(44 - 38, -20 + 18); // mặt hướng giảng đường
+      // v8b: điểm (34.5,-14) trùng cây treeSpots [34,-14] — sư bị thân cây
+      // che khuất trong cả 2 góc chụp (nam + tây). Điểm (31,-11): cách thân
+      // cây 4,24m, cách hộp giảng đường 6m, cách đèn đá (39,-13,8) 8,4m.
+      avB.group.position.set(31, 0, -11);
+      avB.group.rotation.y = Math.atan2(44 - 31, -20 + 11); // mặt hướng giảng đường
       monks.push({ av: avB, still: true });
     }
+    // v8: khách QUỲ trên bồ đoàn hai bên lư sân + trước Di Lặc (ảnh tham chiếu
+    // V8: người quỳ lễ hai bên lư hương). Bồ đoàn (mesh) dựng ở module_2 cùng
+    // tọa độ; group.y = mặt bồ đoàn 0,18 — code căn pose quỳ trong
+    // buildCharModel tự đo đáy pose chạm đúng mặt group.
+    [[20.4, 15.6, 'nu', 2.63], [24.8, 14.8, 'nam', -2.70], [-24, 4.2, 'nu', -3.07]].forEach(([kx, kz, kind, kyaw]) => {
+      const av = makeAvatar({ kind, hat: false, kneel: true });
+      av.group.position.set(kx, 0.18, kz);
+      av.group.rotation.y = kyaw; // mặt hướng về lư sân / tượng Di Lặc
+      scene.add(av.group);
+    });
     const sweeper = makeAvatar({ kind: 'nam', hat: true });
     scene.add(sweeper.group);
     sweeper.group.position.set(19, 0, 8);
@@ -313,7 +351,12 @@
     const seatedNPCs = [];
     [[-4.5, -4], [0, -4], [4.5, -4], [-4.5, 2], [0, 2], [4.5, 2]].forEach(([x, z], i) => {
       const av = makeAvatar({ kind: ['nu', 'nam', 'nu', 'nam', 'tre', 'nu'][i], hat: false, kneel: true });
-      av.group.position.set(300 + x, 0.32, 300 + z);
+      // v8 SỬA LỖI ĐO ĐƯỢC: trước đây position ghi (300+x, 300+z) trong khi
+      // group là CON của temple (đã +300,+300) -> thế giới thành (600+x,
+      // 600+z), 6 khách quỳ vô hình ngoài điện (đo charsWorld ở
+      // v8_shots/before/chars.json: 595..604 / 596..602). Nay ghi tọa độ
+      // LOCAL của temple cho khớp 6 bồ đoàn ở module_3.
+      av.group.position.set(x, 0.32, z);
       av.group.rotation.y = Math.PI; // quay mặt về bàn Tam Bảo (-Z)
       setLayerRecursive(av.group, 1);
       temple.add(av.group);

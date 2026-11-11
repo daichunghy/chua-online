@@ -37,10 +37,10 @@
           const y = this.origin.y + p.age * p.rise * (1 + p.age * 0.04);
           const x = this.origin.x + 0.08 * p.age + Math.sin(p.age * 1.4 + p.seed) * 0.12 * p.age;
           const z = this.origin.z + Math.cos(p.age * 1.1 + p.seed) * 0.06 * p.age;
-          const size = 0.08 + k * 1.2;
+          const size = 0.10 + k * 1.5; // v8: sprite lớn hơn cho cột khói đọc rõ ở cỡ ảnh sân — vẫn trong spec khói đã khóa (90–140 sprite, rise 0,25–0,40, life 6–10s giữ nguyên)
           p.sp.position.set(x, y, z);
           p.sp.scale.set(size, size, 1);
-          p.sp.material.opacity = this.fade * Math.sin(Math.PI * Math.min(1, k)) * 0.36;
+          p.sp.material.opacity = this.fade * Math.sin(Math.PI * Math.min(1, k)) * 0.38; // v8: 0,36 -> 0,38 = đúng trần spec khói đã khóa
           p.sp.visible = show && p.sp.material.opacity > 0.01;
         }
       }

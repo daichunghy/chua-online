@@ -4,6 +4,7 @@
     const camTmp = new THREE.Vector3();
     let zoneCheckT = 0;
     let stepAcc = 0;
+    let moveBlend = 0; // v8: hệ số hòa tốc người chơi (0 = đứng yên, 1 = đủ tốc)
     let autoStuck = 0, autoLastD = 1e9;
 
     function updatePlayer(dt, t) {
@@ -59,7 +60,12 @@
       const len = Math.hypot(mx, mz);
       if (len > 0.01) {
         mx /= len; mz /= len;
-        const step = (autoSpeed || player.speed) * dt;
+        // v8: hòa tốc — bước đi nhân hệ số blend tăng dần (đạt đủ tốc sau
+        // ~0,2s game) thay cho đạt tốc tối đa ngay tick đầu; sàn 0,35 giữ
+        // cho auto-walk không bao giờ đứng chờ blend ở cuối chặng.
+        moveBlend = Math.min(1, moveBlend + dt * 5);
+        const blendK = 0.35 + 0.65 * moveBlend;
+        const step = (autoSpeed || player.speed) * dt * blendK;
         tryMove(player.pos.x + mx * step, player.pos.z + mz * step);
         // Quay mặt theo hướng đi
         const targetYaw = Math.atan2(mx, mz);
@@ -67,11 +73,12 @@
         while (dy > Math.PI) dy -= Math.PI * 2;
         while (dy < -Math.PI) dy += Math.PI * 2;
         player.yaw += dy * Math.min(1, dt * 10);
-        player.walkPhase += dt * 6.2;
+        player.walkPhase += dt * 6.2 * blendK;
         player.moving = true;
         stepAcc += dt;
         if (stepAcc > 0.45) { stepAcc = 0; playStep(); }
       } else {
+        moveBlend = Math.max(0, moveBlend - dt * 7);
         player.moving = false;
       }
       playerAv.group.position.x = player.pos.x;
@@ -161,7 +168,15 @@
         }
         g.position.x += (dx / d) * n.speed * dt;
         g.position.z += (dz / d) * n.speed * dt;
-        g.rotation.y = Math.atan2(dx, dz);
+        // v8: rẽ GIẢM CHẤN thay cho snap tức thì — bản cũ gán thẳng
+        // rotation.y = atan2 mỗi tick nên NPC giật cục khi đổi hướng ở
+        // waypoint (đo ở v8_shots/before/measure.json). Lerp dt*4 như nhịp
+        // rẽ của người chơi, bọc wrap ±π.
+        const wantYaw = Math.atan2(dx, dz);
+        let dyaw = wantYaw - g.rotation.y;
+        while (dyaw > Math.PI) dyaw -= Math.PI * 2;
+        while (dyaw < -Math.PI) dyaw += Math.PI * 2;
+        g.rotation.y += dyaw * Math.min(1, dt * 4);
         n.av.setPose('Di bo'); // V7: model thật đi bằng action 'Di bo'
       };
       for (const n of npcs) stepNPC(n);

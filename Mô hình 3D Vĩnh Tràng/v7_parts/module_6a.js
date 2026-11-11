@@ -59,6 +59,9 @@
       }
       return d;
     }
+    // v8: dấu hướng trượt thoát kẹt của lần thoát gần nhất (+1/-1, 0 = chưa
+    // có) — xem ghi chú hysteresis trong nhánh thoát chéo bên dưới.
+    let escSign = 0;
     function tryMove(nx, nz) {
       const px = player.pos.x, pz = player.pos.z;
       const cur = blockDepth(px, pz);
@@ -80,7 +83,19 @@
       }
       if (!pointBlocked(nx, pz)) player.pos.x = nx;
       if (!pointBlocked(px, nz)) player.pos.z = nz;
-      if (player.pos.x === px && player.pos.z === pz) {
+      // v8 (gốc rễ đoạn tháp đông, đo hop_test A/B/C + đọc code): điều kiện
+      // vào nhánh thoát trước đây là pos.x === px && pos.z === pz (bằng
+      // tuyệt đối) — khi hướng đi có thành phần ngang NHỎ (đích x=38,5 vs
+      // vị trí x=38,51), bước đơn trục ngang "thành công" ~0,0001m/tick nên
+      // điều kiện bằng không bao giờ đúng, nhánh thoát không chạy, avatar
+      // bò 0,1mm/tick và kẹt vĩnh viễn ở mép vùng cấm (z~0,28, đo: nhích
+      // 0,01m/30 game-giây). Nay vào nhánh thoát khi TIẾN ĐỘ THẬT < 25%
+      // bước định đi: hai trục đều thông thì tiến độ ~100% (không đổi hành
+      // vi cũ), một trục bị chặn + trục kia chỉ nhích vi mô thì thoát chéo.
+      const intentLen = Math.hypot(nx - px, nz - pz);
+      const progressLen = Math.hypot(player.pos.x - px, player.pos.z - pz);
+      if (intentLen > 1e-6 && progressLen >= 0.99 * intentLen) escSign = 0; // đi thông hẳn: quên hướng trượt cũ
+      if (intentLen > 1e-6 && progressLen < 0.25 * intentLen) {
         // v7.3 (chẩn đoán P12): kẹt CHÉO ở mép collider tròn / góc lõm — cả hai
         // bước đơn trục đều bị chặn nhưng vị trí chưa lún vào trong (blockDepth
         // = 0) nên thoát nêm ở trên không kích hoạt; avatar đứng chết tại chỗ
@@ -89,10 +104,22 @@
         // đích đến vẫn qua pointBlocked nên không bao giờ xuyên vật.
         const dx = nx - px, dz = nz - pz;
         if (Math.hypot(dx, dz) > 1e-6) {
-          for (const adeg of [35, -35, 70, -70, 110, -110, 150, -150]) { // v7.3: thêm ±150 — trượt ngang mặt vật khi kẹt góc (không sửa được góc lõm khép kín, đường via mới lo phần đó)
+          // v8: HYSTERESIS hướng trượt (đo hop_test D): chỉ sửa điều kiện
+          // vào nhánh (ở trên) thì avatar trượt được vài bước rồi dao động
+          // đông-tây triệt tiêu nhau ở mép biên (x: 37,87 -> 37,78 trong
+          // 600 tick) vì góc thoát thắng thay đổi theo từng tick. Nay ưu
+          // tiên thử các góc CÙNG PHÍA với lần thoát thành công gần nhất
+          // (escSign) trước — avatar trượt nhất quán một chiều dọc mặt vật
+          // như người chơi thật; phía ngược vẫn được thử sau. Mọi đích vẫn
+          // qua pointBlocked, không bao giờ xuyên vật.
+          const baseAngles = [35, 70, 90, 110, 150];
+          const angles = escSign === 0
+            ? [35, -35, 70, -70, 90, -90, 110, -110, 150, -150] // v7.3: thêm ±150 — trượt ngang mặt vật khi kẹt góc; v8: thêm ±90 trượt ngang thuần
+            : [...baseAngles.map(a => a * escSign), ...baseAngles.map(a => -a * escSign)];
+          for (const adeg of angles) {
             const a = adeg * Math.PI / 180, ca = Math.cos(a), sa = Math.sin(a);
             const cx = px + dx * ca - dz * sa, cz = pz + dx * sa + dz * ca;
-            if (!pointBlocked(cx, cz)) { player.pos.x = cx; player.pos.z = cz; break; }
+            if (!pointBlocked(cx, cz)) { player.pos.x = cx; player.pos.z = cz; escSign = Math.sign(adeg); break; }
           }
         }
       }

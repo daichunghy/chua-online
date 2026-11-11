@@ -82,18 +82,28 @@
       if (trailLine) { scene.remove(trailLine); trailLine.geometry.dispose(); trailLine = null; }
       if (destRing) { scene.remove(destRing); destRing.geometry.dispose(); destRing = null; }
     }
+    // v8: dòng mục tiêu — cho người chơi biết đang tự đi TỚI ĐÂU trong lúc
+    // auto-walk chạy (trước đây chỉ có vệt sáng, tới nơi mới có lời An).
+    // Chỉ là chỉ đường như breadcrumb của bản chốt V5 — không điểm/EXP.
+    function setObjLine(txt) {
+      const el = document.getElementById('obj-line');
+      if (!el) return;
+      el.textContent = txt || '';
+      el.classList.toggle('show', !!txt);
+    }
     function startAutoWalk(station) {
       const path = [];
       (station.via || []).forEach(p => path.push({ x: p[0], z: p[1] }));
       path.push({ x: station.pos[0], z: station.pos[1] });
       autoWalk = { path, station };
       player.target = null;
+      setObjLine('Đang tới: ' + station.name);
       showTrail([[player.pos.x, player.pos.z]].concat(path.map(p => [p.x, p.z])));
       // V7.1: câu hướng dẫn di chuyển — chỉ phát MỘT LẦN DUY NHẤT khi vòng đích
       // lần đầu xuất hiện (lần đầu bấm nút động từ để tự đi).
       if (!dayDiSaid) { dayDiSaid = true; playVoice('day_di'); }
     }
-    function cancelAutoWalk() { if (autoWalk) { autoWalk = null; hideTrail(); } }
+    function cancelAutoWalk() { if (autoWalk) { autoWalk = null; hideTrail(); setObjLine(''); } }
 
     // ---- Trạm (thứ tự MỚI theo nghiên cứu đi chùa thật) ----
     const STATIONS = [
@@ -210,7 +220,7 @@
       else ctxBtn.textContent = (st.id === 'in' && V4.journey.hall) ? 'Niệm kinh (không bắt buộc)' : st.verb;
       refreshInfoBtn();
     }
-    function runStationAction(st) { if (st && st.action) st.action(); }
+    function runStationAction(st) { setObjLine(''); if (st && st.action) st.action(); }
     function doContextAction() {
       if (document.body.classList.contains('panel-open')) return;
       const st = pickVerbStation();
@@ -531,9 +541,11 @@
         <div class="book-item"><span class="thumb">Phổ</span><div><b>Kinh Phổ Môn</b><small>Phẩm Quan Thế Âm — gieo duyên</small></div></div>
         <div class="book-item"><span class="thumb">Bi</span><div><b>Chú Đại Bi</b><small>Bản in chữ lớn, dễ đọc — gieo duyên</small></div></div>
         <div class="book-item"><span class="thumb">Đà</span><div><b>Kinh A Di Đà</b><small>Kèm phần sớ lược Tịnh Độ — gieo duyên</small></div></div>
-        <div class="modal-desc" style="margin-top:8px">Muốn học sâu thêm, mở mục <b>Bài giảng Huệ Đăng</b> trong Khám phá.</div>
+        <div class="modal-desc" style="margin-top:8px">Muốn học sâu thêm, vào thẳng lớp học của Giảng đường:</div>
+        <button class="btn-submit" id="books-open-lessons">Mở Bài giảng Huệ Đăng</button>
       </div>`;
       m.querySelector('.modal-close').onclick = () => m.remove();
+      m.querySelector('#books-open-lessons').onclick = () => { m.remove(); if (window.openLessons) window.openLessons(); }; // v8: nối thẳng phòng kinh sách -> bài giảng (trước đây chỉ nhắc miệng)
       m.addEventListener('click', e => { if (e.target === m) m.remove(); });
       document.body.appendChild(m);
     }
@@ -555,7 +567,7 @@
         <rect x="${SX(18.5)}" y="${SY(-1)}" width="${SX(27.5) - SX(18.5)}" height="${SY(42) - SY(-1)}" fill="#D8C9A3"/>
         ${dot(-14, 27, 'A Di Đà')} ${dot(-24.5, -3, 'Di Lặc')} ${dot(-27, 21, 'Quan Âm')}
         ${dot(23, 11, 'Lư sân', '#C0392B')} ${dot(12, -47, 'Phật nằm')} ${dot(-2, -41, 'Bảo tháp')}
-        ${dot(44, -20, 'Giảng đường')} ${dot(33, -12, 'Kinh sách')} ${dot(40, 38, 'Lưu niệm')}
+        ${dot(44, -20, 'Giảng đường')} ${dot(42, -10.5, 'Kinh sách')} ${dot(40, 38, 'Lưu niệm')}
         ${dot(34, 47, 'Sạp nhang')} ${dot(23, 40.7, 'Cổng Phương Tiện', '#1C5A34')} ${dot(45, 40.7, 'Cổng Tịnh Độ', '#1C5A34')}
       </svg>`;
       const m = document.createElement('div');
@@ -697,7 +709,13 @@
 
     // Debug/kiem thu (chi doc trang thai + di bo thu cong)
     window.__v6debug = {
-      state: () => ({ pos: [player.pos.x, player.pos.z], inside, journey: V4.journey, lit: V4.lit, bought: V4.bought, verb: ctxBtn.textContent, station: currentStation ? currentStation.id : null, cartQty: cart.reduce((a, c) => a + c.qty, 0), silenceLeft, silenceDone, ritualDim: document.body.classList.contains('ritual-dim'), cam: [+camera.position.x.toFixed(2), +camera.position.z.toFixed(2)], camYaw: +player.camYaw.toFixed(3) }),
+      state: () => ({ pos: [player.pos.x, player.pos.z], inside, journey: V4.journey, lit: V4.lit, bought: V4.bought, verb: ctxBtn.textContent, station: currentStation ? currentStation.id : null, cartQty: cart.reduce((a, c) => a + c.qty, 0), silenceLeft, silenceDone, ritualDim: document.body.classList.contains('ritual-dim'), cam: [+camera.position.x.toFixed(2), +camera.position.z.toFixed(2)], camYaw: +player.camYaw.toFixed(3),
+        // v8 (công cụ đo vòng V8): góc quay người chơi + góc quay NPC + vị trí
+        // THẾ GIỚI của mọi nhân vật (bắt lỗi con-của-group bị cộng dồn tọa độ).
+        yaw: +player.yaw.toFixed(3),
+        npcYaw: npcs.map(n => +n.av.group.rotation.y.toFixed(3)),
+        monkYaw: monks.map(n => +n.av.group.rotation.y.toFixed(3)),
+        charsWorld: charRegistry.map(av => { const p = new THREE.Vector3(); av.group.getWorldPosition(p); return [+p.x.toFixed(1), +p.z.toFixed(1)]; }) }),
       walkTo: (x, z) => { cancelAutoWalk(); player.target = { x, z }; },
       // V7.1: đặt góc máy + dịch chuyển tức thời (chỉ dùng để kiểm thử camera trong điện)
       setCamYaw: y => { player.camYaw = y; },
