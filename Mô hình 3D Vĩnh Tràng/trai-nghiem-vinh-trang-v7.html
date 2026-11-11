@@ -69,6 +69,13 @@
     pointer-events:none;opacity:0;transition:opacity .35s;text-align:center}
   #an-bubble.show{opacity:1}
   #an-bubble b{color:var(--green)}
+  /* v8: dòng mục tiêu khi tự đi — chỉ đường thuần túy, không điểm số */
+  #obj-line{position:fixed;left:50%;bottom:146px;transform:translateX(-50%);z-index:27;
+    background:rgba(28,90,52,.92);color:var(--cream);border-radius:999px;padding:5px 16px;
+    font-size:13px;font-weight:700;letter-spacing:.02em;box-shadow:0 3px 10px rgba(0,0,0,.22);
+    pointer-events:none;opacity:0;transition:opacity .3s;white-space:nowrap;max-width:92vw}
+  #obj-line.show{opacity:1}
+  body.ritual-dim #obj-line{opacity:0}
   /* Nút động từ lớn — bấm là LỆNH DI CHUYỂN */
   #btn-context{position:fixed;left:50%;bottom:88px;transform:translateX(-50%);z-index:31;
     background:var(--green);color:var(--cream);border:2.5px solid var(--gold);border-radius:999px;
@@ -244,6 +251,7 @@
   </div>
 
   <div id="an-bubble"><b>An:</b> <span id="an-text"></span></div>
+  <div id="obj-line"></div>
 
   <button id="btn-context">Vào cổng</button>
   <button id="btn-quiet">Tiếp</button>
@@ -586,7 +594,7 @@
     const canvas = document.getElementById('three-canvas');
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x2B7DE1); // v7.2: trời xanh cobalt như ảnh mẫu (palette #0155C9–#4F97F9)
-    scene.fog = new THREE.FogExp2(0xBDD7F2, 0.0028); // v7.2: sương sáng xanh — bỏ sương nâu 0x2a1a10 làm xỉn/tối toàn cảnh
+    scene.fog = new THREE.FogExp2(0xBDD7F2, 0.0032); // v8: 0,0028 -> 0,0032 — phông xa mềm sương sớm như ảnh tham chiếu (giữ nguyên cobalt sky + exposure 1,12 đã nghiệm thu) // v7.2: sương sáng xanh — bỏ sương nâu 0x2a1a10 làm xỉn/tối toàn cảnh
     const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 600);
     camera.position.set(23, 4.5, 52);
     camera.lookAt(23, 2, 38);
@@ -1079,6 +1087,11 @@
       });
     }
     for (let fx = -13; fx <= 13.01; fx += 2) addBall(fx, 6.12, 5.3, 0.11, fenceGoldMat, hall).castShadow = false; // v7.3: hàng chóp vàng nhỏ dưới mép mái (silhouette như mẫu)
+    // v8: DẢI MOSAIC COBALT dưới mép mái tầng 1 — tiệm cận tông vàng+lam của
+    // ảnh tham chiếu V8 bằng đúng mã lam mosaic của cổng (#2C4A8A, palette đã
+    // khóa). Mái giữ đỏ nâu theo ảnh thật Vĩnh Tràng, KHÔNG đổi theo mockup.
+    addBox(0, 6.30, 5.28, 28.6, 0.30, 0.30, mat(0x2C4A8A, 0.55), hall);
+    for (let fx = -12.5; fx <= 12.51; fx += 2.5) addBox(fx, 6.30, 5.45, 0.5, 0.34, 0.06, fenceGoldMat, hall); // ô vàng xen trên dải lam
     // Mái 2 tầng cong + rêu
     const roof1 = addBox(0, 6.5, 0, 31, 0.7, 11.6, roofMat, hall); roof1.rotation.x = 0.18; // v7.3: nâng + rút sâu, hết che biển
     const roof2 = addBox(0, 8.6, 0, 26, 0.6, 11, roofMat, hall); roof2.rotation.x = 0.18;
@@ -1121,6 +1134,7 @@
       cap.position.set(tx, 6.25, 3); cap.rotation.y = Math.PI / 4; cap.castShadow = true; hall.add(cap);
       addBall(tx, 7.25, 3, 0.26, fenceGoldMat, hall);
       addBox(tx, 3.1, 4.25, 1.1, 2.2, 0.12, mat(0x1E1410, 0.9), hall); // ô cửa tối mặt trước tháp
+      addBox(tx, 4.62, 4.26, 1.2, 0.55, 0.1, mat(0x2C4A8A, 0.55), hall); // v8: ô mosaic cobalt trên mặt tháp (cùng dải lam mặt tiền)
     });
     colRect(23 - 14, -1 - 12, 23 + 14, -1 + 2.2);
     colRect(23 - 16.8, -1 + 1.8, 23 - 14.4, -1 + 4.2); // tháp trái (world)
@@ -1222,6 +1236,16 @@
     const lSign = plaque(['GIẢNG ĐƯỜNG', 'HUỆ ĐĂNG'], 5.0, 1.4, { w: 512, h: 160, bg: '#1C5A34', fg: '#FFF6E5', font: 'bold 48px Georgia, serif' });
     lSign.position.set(0, 3.2, 4.6); lecture.add(lSign);
     colRect(44 - 7, -20 - 4.5, 44 + 7, -20 + 4.5);
+    // v8: trang trí trước Giảng đường (trục 4 — học viện phải là một nơi tử
+    // tế trong cảnh): 2 tháp đèn đá + cặp bonsai chầu cửa + bảng gỗ lịch
+    // giảng. Đã đo khoảng hở với tuyến đi của sư (44,-16)->(37,-23) và
+    // (39,-7)->(44,-16): mọi vật cách tuyến >= 1,75m, không chồng hình.
+    makeStoneLantern72(39, -13.8); makeStoneLantern72(49, -13.8);
+    makeBonsai72(41, -14.2, 1); makeBonsai72(47, -14.2, 1);
+    const lecBoard = plaque(['LỊCH GIẢNG', 'HUỆ ĐĂNG'], 2.6, 1.0, { w: 512, h: 192, bg: '#5A3D26', fg: '#FFD166', font: 'bold 52px Georgia, serif' });
+    lecBoard.position.set(44, 1.7, -13.0); grounds.add(lecBoard);
+    addBox(43.2, 0.8, -13.05, 0.14, 1.6, 0.14, woodSignMat, grounds);
+    addBox(44.8, 0.8, -13.05, 0.14, 1.6, 0.14, woodSignMat, grounds);
 
     // --- Cây + hoa giấy + bonsai ---
     function makeTree(x, z, s, leafTex) {
@@ -1308,7 +1332,8 @@
       colCircle(x, z, 0.42);
       return g;
     }
-    [[19.6, 26], [26.4, 26], [19.6, 17.5], [26.4, 17.5]].forEach(([x, z]) => makeStoneLantern72(x, z));
+    [[19.6, 26], [26.4, 26], [19.6, 17.5], [26.4, 17.5],
+     [19.6, 34], [26.4, 34], [19.6, 9.5], [26.4, 9.5]].forEach(([x, z]) => makeStoneLantern72(x, z)); // v8: thêm 2 cặp -> hai hàng đèn đá dọc lối chính như ảnh tham chiếu
     // v7.2 — DỪA CAO cạnh chánh điện + sau tượng (cọ cũ chỉ cao 4,4 — mẫu/ref3 dừa vút cao)
     function makeTallPalm72(x, z, h, lean) {
       const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.z = lean || 0; grounds.add(g);
@@ -1498,6 +1523,55 @@
       addBox(x, 0.05, z, 0.28, 0.08, 0.7, mat(0x2B2320, 0.8), shoePairs);
       addBox(x + 0.35, 0.05, z, 0.28, 0.08, 0.7, mat(0x2B2320, 0.8), shoePairs);
     });
+
+    // v8 — BỒ ĐOÀN sân (ảnh tham chiếu: người quỳ lễ hai bên lư hương): đĩa
+    // trụ đỏ sẫm viền vàng; 2 cái có khách quỳ (avatar ở module_5, cùng tọa
+    // độ), 2 cái trống hai bên; thêm 1 trước Di Lặc. Collider nhỏ r 0,45 —
+    // đã đo không chạm điểm đứng trạm lư (25,3; 13,7) và các via tuyến.
+    const cushionMat8 = mat(0x7A1F1F, 0.75);
+    function makeCushion8(x, z) {
+      const g = new THREE.Group(); g.position.set(x, 0, z); grounds.add(g);
+      addCyl(0, 0.09, 0, 0.55, 0.18, cushionMat8, g);
+      addCyl(0, 0.20, 0, 0.47, 0.05, mat(0x9D0208, 0.7), g);
+      addCyl(0, 0.02, 0, 0.58, 0.04, fenceGoldMat, g);
+      colCircle(x, z, 0.45);
+      return g;
+    }
+    makeCushion8(20.4, 15.6); makeCushion8(24.8, 14.8);
+    // ^ Vị trí tây (20,4; 15,6): bản đầu (21,2; 14,8) bị dời vì đường chéo
+    // (23,16)->(15,8) của tuyến books (verify tailB) đi qua cách tâm nó
+    // 0,42m — kẹp giữa bồ đoàn và lư sân (r 1,8) gây FF-TIMEOUT hop books
+    // 15,8 ở lượt tailB đầu. Vị trí mới hở 1,56m với tuyến đó.
+    makeCushion8(19.8, 15.2);
+    // Bồ đoàn trống thứ 4 đặt ở (28,5; 12,5) phía đông-nam lư — vị trí đầu
+    // tiên dự kiến (26,2; 15,2) bị LOẠI vì đường thẳng lư -> quầy lưu niệm
+    // (tuyến verify tailB) đi qua cách tâm nó 0,04m: avatar đâm trực diện
+    // collider tròn và kẹt (FF-TIMEOUT hop shop 30,22 đo được ở lượt tailB
+    // đầu). Vị trí mới hở 3,4m với tuyến đó và với điểm đứng trạm lư.
+    makeCushion8(28.5, 12.5);
+    makeCushion8(-24, 4.2);
+
+    // v8 — NÚI MỜ sau chùa (phông xa của ảnh tham chiếu: núi + sương sớm).
+    // Khối nón thấp màu xanh sương nhạt; FogExp2 của cảnh tự làm mềm thêm.
+    [[-45, -108, 34, 26], [0, -118, 42, 32], [48, -110, 36, 27], [-85, -96, 30, 21], [88, -100, 32, 23]].forEach(([mx, mz, mr, mh]) => {
+      const mt = new THREE.Mesh(new THREE.ConeGeometry(mr, mh, 7), new THREE.MeshStandardMaterial({ color: 0xA8C4E4, roughness: 1, flatShading: true }));
+      mt.position.set(mx, mh / 2 - 0.5, mz); mt.castShadow = false; mt.receiveShadow = false;
+      grounds.add(mt);
+    });
+
+    // v8 — CÂY HOA ĐÀO/HỒNG cạnh hai hồ (ảnh tham chiếu: cây hoa hồng bên hồ
+    // sen): thân nâu + 3 tán cầu phủ hoa hồng hai tông của theme.
+    function makeBlossom8(x, z, s) {
+      const g = new THREE.Group(); g.position.set(x, 0, z); grounds.add(g);
+      addCyl(0, 1.5 * s, 0, 0.16 * s, 3.0 * s, mat(0x5A3D26, 0.9), g);
+      const c1 = addBall(0, 3.6 * s, 0, 1.5 * s, mat(0xEE7FAE, 0.65), g); c1.scale.set(1.2, 0.75, 1.2);
+      const c2 = addBall(0.9 * s, 4.3 * s, 0.3 * s, 1.0 * s, mat(0xF2A0C4, 0.65), g); c2.scale.set(1.15, 0.7, 1.15);
+      const c3 = addBall(-0.9 * s, 4.1 * s, -0.3 * s, 0.9 * s, mat(0xE86A9C, 0.65), g); c3.scale.set(1.1, 0.7, 1.1);
+      colCircle(x, z, 0.5 * s);
+      return g;
+    }
+    makeBlossom8(-2, 24.5, 1.0);
+    makeBlossom8(34, 27, 1.1);
 
     // --- Ghế đá nghỉ chân (v6: khách ngồi nghỉ — hành vi lễ tĩnh) ---
     // BENCH_SEATS được module_5 dùng để đặt khách ngồi: [x, z, yaw mặt hướng]
@@ -1926,6 +2000,17 @@
     addCylT(-0.8, 2.55, 0.4, 0.16, 0.35, mat(0x8C5E32, 0.35, 0.8), toShrine);
     addCylT(0.8, 2.55, 0.4, 0.16, 0.35, mat(0x8C5E32, 0.35, 0.8), toShrine);
 
+    // v8 — BỒ ĐOÀN trong điện: 6 khách quỳ thiền (module_5) trước đây ngồi
+    // thẳng trên sàn (toàn module_3 không có cushion nào). Đĩa đỏ sẫm viền
+    // vàng dưới đúng 6 vị trí quỳ (local temple), mặt bồ đoàn ~0,325 khớp
+    // group.y = 0,32 của avatar quỳ.
+    const cushionInMat8 = mat(0x7A1F1F, 0.75);
+    [[-4.5, -4], [0, -4], [4.5, -4], [-4.5, 2], [0, 2], [4.5, 2]].forEach(([cx, cz]) => {
+      addCylT(cx, 0.19, cz, 0.55, 0.18, cushionInMat8);
+      addCylT(cx, 0.30, cz, 0.47, 0.05, mat(0x9D0208, 0.7));
+      addCylT(cx, 0.12, cz, 0.58, 0.04, goldMat);
+    });
+
     // Nội điện đặt ở không gian riêng (300, 0, 300), layer 1 (đèn riêng, tối hơn)
     temple.position.set(300, 0, 300);
     setLayerRecursive(temple, 1);
@@ -2055,10 +2140,10 @@
           const y = this.origin.y + p.age * p.rise * (1 + p.age * 0.04);
           const x = this.origin.x + 0.08 * p.age + Math.sin(p.age * 1.4 + p.seed) * 0.12 * p.age;
           const z = this.origin.z + Math.cos(p.age * 1.1 + p.seed) * 0.06 * p.age;
-          const size = 0.08 + k * 1.2;
+          const size = 0.10 + k * 1.5; // v8: sprite lớn hơn cho cột khói đọc rõ ở cỡ ảnh sân — vẫn trong spec khói đã khóa (90–140 sprite, rise 0,25–0,40, life 6–10s giữ nguyên)
           p.sp.position.set(x, y, z);
           p.sp.scale.set(size, size, 1);
-          p.sp.material.opacity = this.fade * Math.sin(Math.PI * Math.min(1, k)) * 0.36;
+          p.sp.material.opacity = this.fade * Math.sin(Math.PI * Math.min(1, k)) * 0.38; // v8: 0,36 -> 0,38 = đúng trần spec khói đã khóa
           p.sp.visible = show && p.sp.material.opacity > 0.01;
         }
       }
@@ -2106,7 +2191,7 @@
     //   'Di bo'      1.24s -> đang di chuyển
     //   'Chắp tay'   3.20s -> đứng chắp tay lặng (NPC trước tượng; người chơi trong nhịp lễ)
     //   'Vái'        3.80s -> vái/lạy — CÓ action riêng, dùng cho mọi nhịp startBow
-    //   'Quỳ'        5.80s -> giữ khung gần cuối cho khách ngồi thiền trong điện
+    //   'Quỳ'        5.80s -> ghim khung GIỮ QUỲ ở 2,6s (đo GLB: giữ quỳ ở 2,09–3,13s; khung cuối là đang đứng dậy)
     //   'Thắp nhang' 4.70s -> nhịp 4 cắm nhang ở lư sân (playOnce)
     //   'Lên/Xuống cầu thang' -> không dùng (khuôn viên bằng phẳng)
     const CHAR_HEIGHT = { nu: 1.62, nam: 1.72, tre: 1.26 }; // chiều cao hiển thị (m)
@@ -2169,20 +2254,34 @@
     // Biến thể áo chư Tăng: nhuộm lại cụm vertex-color áo tràng của model nam.
     // Số đo từ GLB nam: áo = (43,20,20) 62% + (20,0,0) 22% đỉnh; da (191,128,84),
     // tóc (0,0,0), giày (171,171,148) đều nằm ngoài ngưỡng dưới đây -> không lem.
+    // v8 (theo ảnh tham chiếu V8): áo tràng XÁM + DẢI VAI CAM vắt chéo ngực.
+    // Dải nhuộm theo tọa độ bind-pose của chính đỉnh áo (đo offline từ GLB:
+    // áo Y -0,92..0,88, mặt trước = +Z — tâm da đầu Z = +0,074; vùng ngực 35%
+    // trên của áo có 17.095 đỉnh, đủ mịn cho dải rộng 0,15). Nhuộm theo đỉnh
+    // nên dải đi theo MỌI action (skin), không gắn xương, không đổi mesh/nét.
     function recolorMonkRobe(model, tone) {
       model.traverse(o => {
         if (!o.isMesh) return;
         o.geometry = o.geometry.clone();
         const col = o.geometry.getAttribute('color');
         if (!col || !col.array || col.itemSize < 3) return;
+        const posA = o.geometry.getAttribute('position');
         const a = col.array, st = col.itemSize;
         for (let i = 0; i < col.count; i++) {
           const r = a[i * st], g = a[i * st + 1], b = a[i * st + 2];
           if (r >= 12 && r <= 78 && g <= 38 && b <= 38 && r > g + 5) {
             const dark = r < 30;
-            a[i * st] = Math.round((dark ? 96 : 138) * tone);
-            a[i * st + 1] = Math.round((dark ? 58 : 86) * tone);
-            a[i * st + 2] = Math.round((dark ? 22 : 34) * tone);
+            let cr = (dark ? 96 : 138) * tone, cg = (dark ? 96 : 138) * tone, cb = (dark ? 100 : 142) * tone;
+            if (posA) {
+              const px = posA.getX(i), py = posA.getY(i), pz = posA.getZ(i);
+              // Dải chéo: mặt trước (Z > 0,04), từ vai (Y 0,78 · X -0,20)
+              // xuống hông đối diện (Y 0,05 · X +0,25), bề rộng 0,15.
+              if (pz > 0.04 && py > 0.02 && py < 0.80) {
+                const xc = -0.20 + (0.78 - py) / 0.73 * 0.45;
+                if (Math.abs(px - xc) < 0.075) { cr = dark ? 214 : 240; cg = dark ? 104 : 130; cb = dark ? 22 : 32; }
+              }
+            }
+            a[i * st] = Math.round(cr); a[i * st + 1] = Math.round(cg); a[i * st + 2] = Math.round(cb);
           }
         }
         col.needsUpdate = true;
@@ -2264,7 +2363,11 @@
       if (av.kneel) {
         const a = av.actions['Quỳ'];
         if (a) {
-          a.reset().play(); a.time = 5.15;
+          a.reset().play(); a.time = 2.6; // v8 (ĐO GLB cả 3 model): đường cong
+          // Pelvis của action 'Quỳ' — đứng -0,110 ở 0s/5,80s; GIỮ QUỲ -0,570
+          // ở đoạn 2,09–3,13s; 5,15s (bản cũ) là giữa đoạn ĐỨNG DẬY (-0,27)
+          // nên khách "quỳ" mà như đứng (đo __v7chars: h chỉ giảm ~0,1m).
+          // Ghim 2,6 = giữa đoạn giữ quỳ đã đo.
           av.mixer.update(0.01); // áp pose quỳ trước khi đo
           a.paused = true; av.pose = 'Quỳ';
           // Căn đáy pose quỳ (gối/shin) chạm đúng mặt group: đo box thật rồi
@@ -2354,7 +2457,7 @@
       [[45, 40], [40, 30], [23, 14], [-24, 8], [23, 38]],
       [[-14, 30], [-14, 22.6], [23, 14], [23, 7], [12, -38]],
       [[23, 38], [23, 14], [12, -40], [-2, -34], [23, 38]],
-      [[45, 40], [23, 30], [23, 14], [23, 7], [44, -16]],
+      [[45, 40], [23, 30], [23, 14], [23, 7], [36, -11]], // v8: waypoint cuối cũ (44,-16) nằm TRONG hộp đặc giảng đường (x 37..51, z -24,5..-15,5) -> dời ra đất trống phía nam nhà
       [[23, 38], [-24, 8], [-24, -16], [23, 14]],
       [[23, 40], [23, 14], [23, 7], [-14, 22.6]],
       [[-14, 30], [23, 14], [23, 7], [23, 38]],
@@ -2387,20 +2490,40 @@
       av.group.rotation.y = byaw;
       scene.add(av.group);
     });
-    // Chư Tăng: model nam với áo nhuộm nâu vàng từ vertex color (xem recolorMonkRobe);
-    // một vị đi chậm qua sân khu giảng đường, một vị đứng lặng chắp tay
+    // Chư Tăng: model nam với áo nhuộm từ vertex color (xem recolorMonkRobe —
+    // v8: XÁM + dải vai cam); một vị đi chậm qua sân khu giảng đường, một vị
+    // đứng lặng chắp tay.
+    // v8 SỬA LỖI ĐO ĐƯỢC: tuyến + điểm đứng CŨ nằm TRONG hộp đặc của giảng
+    // đường (hộp 14x9 tại (44,-20) -> x 37..51, z -24,5..-15,5): vị đứng
+    // (38,-18) vô hình trong tường, vị đi bộ xuyên hộp ở (44,-16)/(37,-23)
+    // (bằng chứng: charsWorld before + ảnh v8_3_su chỉ thấy tường trơn).
+    // Tuyến/điểm MỚI chạy hoàn toàn trên đất trống phía nam/tây của nhà
+    // (đã đo khoảng hở tới đèn đá/bonsai/bảng/quầy kinh sách >= 2,4m).
     const monks = [];
     {
       const avA = makeAvatar({ kind: 'nam', hat: false, robeVariant: 1.0 });
       scene.add(avA.group);
-      avA.group.position.set(44, 0, -16);
-      monks.push({ av: avA, route: [[44, -16], [37, -23], [31, -13], [39, -7]], wp: 1, speed: 0.45, pause: 0, faceYaw: null, walkPhase: 0, pauseBase: 3.5 });
+      avA.group.position.set(35, 0, -12);
+      monks.push({ av: avA, route: [[35, -12], [30, -18], [33, -24], [38, -9]], wp: 1, speed: 0.45, pause: 0, faceYaw: null, walkPhase: 0, pauseBase: 3.5 });
       const avB = makeAvatar({ kind: 'nam', hat: false, robeVariant: 0.72, initPose: 'Chắp tay' });
       scene.add(avB.group);
-      avB.group.position.set(38, 0, -18);
-      avB.group.rotation.y = Math.atan2(44 - 38, -20 + 18); // mặt hướng giảng đường
+      // v8b: điểm (34.5,-14) trùng cây treeSpots [34,-14] — sư bị thân cây
+      // che khuất trong cả 2 góc chụp (nam + tây). Điểm (31,-11): cách thân
+      // cây 4,24m, cách hộp giảng đường 6m, cách đèn đá (39,-13,8) 8,4m.
+      avB.group.position.set(31, 0, -11);
+      avB.group.rotation.y = Math.atan2(44 - 31, -20 + 11); // mặt hướng giảng đường
       monks.push({ av: avB, still: true });
     }
+    // v8: khách QUỲ trên bồ đoàn hai bên lư sân + trước Di Lặc (ảnh tham chiếu
+    // V8: người quỳ lễ hai bên lư hương). Bồ đoàn (mesh) dựng ở module_2 cùng
+    // tọa độ; group.y = mặt bồ đoàn 0,18 — code căn pose quỳ trong
+    // buildCharModel tự đo đáy pose chạm đúng mặt group.
+    [[20.4, 15.6, 'nu', 2.63], [24.8, 14.8, 'nam', -2.70], [-24, 4.2, 'nu', -3.07]].forEach(([kx, kz, kind, kyaw]) => {
+      const av = makeAvatar({ kind, hat: false, kneel: true });
+      av.group.position.set(kx, 0.18, kz);
+      av.group.rotation.y = kyaw; // mặt hướng về lư sân / tượng Di Lặc
+      scene.add(av.group);
+    });
     const sweeper = makeAvatar({ kind: 'nam', hat: true });
     scene.add(sweeper.group);
     sweeper.group.position.set(19, 0, 8);
@@ -2411,7 +2534,12 @@
     const seatedNPCs = [];
     [[-4.5, -4], [0, -4], [4.5, -4], [-4.5, 2], [0, 2], [4.5, 2]].forEach(([x, z], i) => {
       const av = makeAvatar({ kind: ['nu', 'nam', 'nu', 'nam', 'tre', 'nu'][i], hat: false, kneel: true });
-      av.group.position.set(300 + x, 0.32, 300 + z);
+      // v8 SỬA LỖI ĐO ĐƯỢC: trước đây position ghi (300+x, 300+z) trong khi
+      // group là CON của temple (đã +300,+300) -> thế giới thành (600+x,
+      // 600+z), 6 khách quỳ vô hình ngoài điện (đo charsWorld ở
+      // v8_shots/before/chars.json: 595..604 / 596..602). Nay ghi tọa độ
+      // LOCAL của temple cho khớp 6 bồ đoàn ở module_3.
+      av.group.position.set(x, 0.32, z);
       av.group.rotation.y = Math.PI; // quay mặt về bàn Tam Bảo (-Z)
       setLayerRecursive(av.group, 1);
       temple.add(av.group);
@@ -2500,6 +2628,9 @@
       }
       return d;
     }
+    // v8: dấu hướng trượt thoát kẹt của lần thoát gần nhất (+1/-1, 0 = chưa
+    // có) — xem ghi chú hysteresis trong nhánh thoát chéo bên dưới.
+    let escSign = 0;
     function tryMove(nx, nz) {
       const px = player.pos.x, pz = player.pos.z;
       const cur = blockDepth(px, pz);
@@ -2521,7 +2652,19 @@
       }
       if (!pointBlocked(nx, pz)) player.pos.x = nx;
       if (!pointBlocked(px, nz)) player.pos.z = nz;
-      if (player.pos.x === px && player.pos.z === pz) {
+      // v8 (gốc rễ đoạn tháp đông, đo hop_test A/B/C + đọc code): điều kiện
+      // vào nhánh thoát trước đây là pos.x === px && pos.z === pz (bằng
+      // tuyệt đối) — khi hướng đi có thành phần ngang NHỎ (đích x=38,5 vs
+      // vị trí x=38,51), bước đơn trục ngang "thành công" ~0,0001m/tick nên
+      // điều kiện bằng không bao giờ đúng, nhánh thoát không chạy, avatar
+      // bò 0,1mm/tick và kẹt vĩnh viễn ở mép vùng cấm (z~0,28, đo: nhích
+      // 0,01m/30 game-giây). Nay vào nhánh thoát khi TIẾN ĐỘ THẬT < 25%
+      // bước định đi: hai trục đều thông thì tiến độ ~100% (không đổi hành
+      // vi cũ), một trục bị chặn + trục kia chỉ nhích vi mô thì thoát chéo.
+      const intentLen = Math.hypot(nx - px, nz - pz);
+      const progressLen = Math.hypot(player.pos.x - px, player.pos.z - pz);
+      if (intentLen > 1e-6 && progressLen >= 0.99 * intentLen) escSign = 0; // đi thông hẳn: quên hướng trượt cũ
+      if (intentLen > 1e-6 && progressLen < 0.25 * intentLen) {
         // v7.3 (chẩn đoán P12): kẹt CHÉO ở mép collider tròn / góc lõm — cả hai
         // bước đơn trục đều bị chặn nhưng vị trí chưa lún vào trong (blockDepth
         // = 0) nên thoát nêm ở trên không kích hoạt; avatar đứng chết tại chỗ
@@ -2530,10 +2673,22 @@
         // đích đến vẫn qua pointBlocked nên không bao giờ xuyên vật.
         const dx = nx - px, dz = nz - pz;
         if (Math.hypot(dx, dz) > 1e-6) {
-          for (const adeg of [35, -35, 70, -70, 110, -110, 150, -150]) { // v7.3: thêm ±150 — trượt ngang mặt vật khi kẹt góc (không sửa được góc lõm khép kín, đường via mới lo phần đó)
+          // v8: HYSTERESIS hướng trượt (đo hop_test D): chỉ sửa điều kiện
+          // vào nhánh (ở trên) thì avatar trượt được vài bước rồi dao động
+          // đông-tây triệt tiêu nhau ở mép biên (x: 37,87 -> 37,78 trong
+          // 600 tick) vì góc thoát thắng thay đổi theo từng tick. Nay ưu
+          // tiên thử các góc CÙNG PHÍA với lần thoát thành công gần nhất
+          // (escSign) trước — avatar trượt nhất quán một chiều dọc mặt vật
+          // như người chơi thật; phía ngược vẫn được thử sau. Mọi đích vẫn
+          // qua pointBlocked, không bao giờ xuyên vật.
+          const baseAngles = [35, 70, 90, 110, 150];
+          const angles = escSign === 0
+            ? [35, -35, 70, -70, 90, -90, 110, -110, 150, -150] // v7.3: thêm ±150 — trượt ngang mặt vật khi kẹt góc; v8: thêm ±90 trượt ngang thuần
+            : [...baseAngles.map(a => a * escSign), ...baseAngles.map(a => -a * escSign)];
+          for (const adeg of angles) {
             const a = adeg * Math.PI / 180, ca = Math.cos(a), sa = Math.sin(a);
             const cx = px + dx * ca - dz * sa, cz = pz + dx * sa + dz * ca;
-            if (!pointBlocked(cx, cz)) { player.pos.x = cx; player.pos.z = cz; break; }
+            if (!pointBlocked(cx, cz)) { player.pos.x = cx; player.pos.z = cz; escSign = Math.sign(adeg); break; }
           }
         }
       }
@@ -2718,18 +2873,28 @@
       if (trailLine) { scene.remove(trailLine); trailLine.geometry.dispose(); trailLine = null; }
       if (destRing) { scene.remove(destRing); destRing.geometry.dispose(); destRing = null; }
     }
+    // v8: dòng mục tiêu — cho người chơi biết đang tự đi TỚI ĐÂU trong lúc
+    // auto-walk chạy (trước đây chỉ có vệt sáng, tới nơi mới có lời An).
+    // Chỉ là chỉ đường như breadcrumb của bản chốt V5 — không điểm/EXP.
+    function setObjLine(txt) {
+      const el = document.getElementById('obj-line');
+      if (!el) return;
+      el.textContent = txt || '';
+      el.classList.toggle('show', !!txt);
+    }
     function startAutoWalk(station) {
       const path = [];
       (station.via || []).forEach(p => path.push({ x: p[0], z: p[1] }));
       path.push({ x: station.pos[0], z: station.pos[1] });
       autoWalk = { path, station };
       player.target = null;
+      setObjLine('Đang tới: ' + station.name);
       showTrail([[player.pos.x, player.pos.z]].concat(path.map(p => [p.x, p.z])));
       // V7.1: câu hướng dẫn di chuyển — chỉ phát MỘT LẦN DUY NHẤT khi vòng đích
       // lần đầu xuất hiện (lần đầu bấm nút động từ để tự đi).
       if (!dayDiSaid) { dayDiSaid = true; playVoice('day_di'); }
     }
-    function cancelAutoWalk() { if (autoWalk) { autoWalk = null; hideTrail(); } }
+    function cancelAutoWalk() { if (autoWalk) { autoWalk = null; hideTrail(); setObjLine(''); } }
 
     // ---- Trạm (thứ tự MỚI theo nghiên cứu đi chùa thật) ----
     const STATIONS = [
@@ -2846,7 +3011,7 @@
       else ctxBtn.textContent = (st.id === 'in' && V4.journey.hall) ? 'Niệm kinh (không bắt buộc)' : st.verb;
       refreshInfoBtn();
     }
-    function runStationAction(st) { if (st && st.action) st.action(); }
+    function runStationAction(st) { setObjLine(''); if (st && st.action) st.action(); }
     function doContextAction() {
       if (document.body.classList.contains('panel-open')) return;
       const st = pickVerbStation();
@@ -3167,9 +3332,11 @@
         <div class="book-item"><span class="thumb">Phổ</span><div><b>Kinh Phổ Môn</b><small>Phẩm Quan Thế Âm — gieo duyên</small></div></div>
         <div class="book-item"><span class="thumb">Bi</span><div><b>Chú Đại Bi</b><small>Bản in chữ lớn, dễ đọc — gieo duyên</small></div></div>
         <div class="book-item"><span class="thumb">Đà</span><div><b>Kinh A Di Đà</b><small>Kèm phần sớ lược Tịnh Độ — gieo duyên</small></div></div>
-        <div class="modal-desc" style="margin-top:8px">Muốn học sâu thêm, mở mục <b>Bài giảng Huệ Đăng</b> trong Khám phá.</div>
+        <div class="modal-desc" style="margin-top:8px">Muốn học sâu thêm, vào thẳng lớp học của Giảng đường:</div>
+        <button class="btn-submit" id="books-open-lessons">Mở Bài giảng Huệ Đăng</button>
       </div>`;
       m.querySelector('.modal-close').onclick = () => m.remove();
+      m.querySelector('#books-open-lessons').onclick = () => { m.remove(); if (window.openLessons) window.openLessons(); }; // v8: nối thẳng phòng kinh sách -> bài giảng (trước đây chỉ nhắc miệng)
       m.addEventListener('click', e => { if (e.target === m) m.remove(); });
       document.body.appendChild(m);
     }
@@ -3191,7 +3358,7 @@
         <rect x="${SX(18.5)}" y="${SY(-1)}" width="${SX(27.5) - SX(18.5)}" height="${SY(42) - SY(-1)}" fill="#D8C9A3"/>
         ${dot(-14, 27, 'A Di Đà')} ${dot(-24.5, -3, 'Di Lặc')} ${dot(-27, 21, 'Quan Âm')}
         ${dot(23, 11, 'Lư sân', '#C0392B')} ${dot(12, -47, 'Phật nằm')} ${dot(-2, -41, 'Bảo tháp')}
-        ${dot(44, -20, 'Giảng đường')} ${dot(33, -12, 'Kinh sách')} ${dot(40, 38, 'Lưu niệm')}
+        ${dot(44, -20, 'Giảng đường')} ${dot(42, -10.5, 'Kinh sách')} ${dot(40, 38, 'Lưu niệm')}
         ${dot(34, 47, 'Sạp nhang')} ${dot(23, 40.7, 'Cổng Phương Tiện', '#1C5A34')} ${dot(45, 40.7, 'Cổng Tịnh Độ', '#1C5A34')}
       </svg>`;
       const m = document.createElement('div');
@@ -3333,7 +3500,13 @@
 
     // Debug/kiem thu (chi doc trang thai + di bo thu cong)
     window.__v6debug = {
-      state: () => ({ pos: [player.pos.x, player.pos.z], inside, journey: V4.journey, lit: V4.lit, bought: V4.bought, verb: ctxBtn.textContent, station: currentStation ? currentStation.id : null, cartQty: cart.reduce((a, c) => a + c.qty, 0), silenceLeft, silenceDone, ritualDim: document.body.classList.contains('ritual-dim'), cam: [+camera.position.x.toFixed(2), +camera.position.z.toFixed(2)], camYaw: +player.camYaw.toFixed(3) }),
+      state: () => ({ pos: [player.pos.x, player.pos.z], inside, journey: V4.journey, lit: V4.lit, bought: V4.bought, verb: ctxBtn.textContent, station: currentStation ? currentStation.id : null, cartQty: cart.reduce((a, c) => a + c.qty, 0), silenceLeft, silenceDone, ritualDim: document.body.classList.contains('ritual-dim'), cam: [+camera.position.x.toFixed(2), +camera.position.z.toFixed(2)], camYaw: +player.camYaw.toFixed(3),
+        // v8 (công cụ đo vòng V8): góc quay người chơi + góc quay NPC + vị trí
+        // THẾ GIỚI của mọi nhân vật (bắt lỗi con-của-group bị cộng dồn tọa độ).
+        yaw: +player.yaw.toFixed(3),
+        npcYaw: npcs.map(n => +n.av.group.rotation.y.toFixed(3)),
+        monkYaw: monks.map(n => +n.av.group.rotation.y.toFixed(3)),
+        charsWorld: charRegistry.map(av => { const p = new THREE.Vector3(); av.group.getWorldPosition(p); return [+p.x.toFixed(1), +p.z.toFixed(1)]; }) }),
       walkTo: (x, z) => { cancelAutoWalk(); player.target = { x, z }; },
       // V7.1: đặt góc máy + dịch chuyển tức thời (chỉ dùng để kiểm thử camera trong điện)
       setCamYaw: y => { player.camYaw = y; },
@@ -3350,6 +3523,7 @@
     const camTmp = new THREE.Vector3();
     let zoneCheckT = 0;
     let stepAcc = 0;
+    let moveBlend = 0; // v8: hệ số hòa tốc người chơi (0 = đứng yên, 1 = đủ tốc)
     let autoStuck = 0, autoLastD = 1e9;
 
     function updatePlayer(dt, t) {
@@ -3405,7 +3579,12 @@
       const len = Math.hypot(mx, mz);
       if (len > 0.01) {
         mx /= len; mz /= len;
-        const step = (autoSpeed || player.speed) * dt;
+        // v8: hòa tốc — bước đi nhân hệ số blend tăng dần (đạt đủ tốc sau
+        // ~0,2s game) thay cho đạt tốc tối đa ngay tick đầu; sàn 0,35 giữ
+        // cho auto-walk không bao giờ đứng chờ blend ở cuối chặng.
+        moveBlend = Math.min(1, moveBlend + dt * 5);
+        const blendK = 0.35 + 0.65 * moveBlend;
+        const step = (autoSpeed || player.speed) * dt * blendK;
         tryMove(player.pos.x + mx * step, player.pos.z + mz * step);
         // Quay mặt theo hướng đi
         const targetYaw = Math.atan2(mx, mz);
@@ -3413,11 +3592,12 @@
         while (dy > Math.PI) dy -= Math.PI * 2;
         while (dy < -Math.PI) dy += Math.PI * 2;
         player.yaw += dy * Math.min(1, dt * 10);
-        player.walkPhase += dt * 6.2;
+        player.walkPhase += dt * 6.2 * blendK;
         player.moving = true;
         stepAcc += dt;
         if (stepAcc > 0.45) { stepAcc = 0; playStep(); }
       } else {
+        moveBlend = Math.max(0, moveBlend - dt * 7);
         player.moving = false;
       }
       playerAv.group.position.x = player.pos.x;
@@ -3507,7 +3687,15 @@
         }
         g.position.x += (dx / d) * n.speed * dt;
         g.position.z += (dz / d) * n.speed * dt;
-        g.rotation.y = Math.atan2(dx, dz);
+        // v8: rẽ GIẢM CHẤN thay cho snap tức thì — bản cũ gán thẳng
+        // rotation.y = atan2 mỗi tick nên NPC giật cục khi đổi hướng ở
+        // waypoint (đo ở v8_shots/before/measure.json). Lerp dt*4 như nhịp
+        // rẽ của người chơi, bọc wrap ±π.
+        const wantYaw = Math.atan2(dx, dz);
+        let dyaw = wantYaw - g.rotation.y;
+        while (dyaw > Math.PI) dyaw -= Math.PI * 2;
+        while (dyaw < -Math.PI) dyaw += Math.PI * 2;
+        g.rotation.y += dyaw * Math.min(1, dt * 4);
         n.av.setPose('Di bo'); // V7: model thật đi bằng action 'Di bo'
       };
       for (const n of npcs) stepNPC(n);
@@ -3970,27 +4158,46 @@
     reflect: 'Lần gần nhất bạn thấy lòng mình “lạc hướng”, điều gì đã giúp bạn bình tĩnh lại?',
     practice: 'Mở mục Niệm kinh và tụng một thời Tâm Kinh 5 phút.'
   };
+  // v8: bài đầy đủ THỨ HAI (D3) — nội dung CHỈ lắp từ các thẻ "Tìm hiểu thêm"
+  // đã có nguồn trong chính trải nghiệm (module_6b INFO_CARDS: A Di Đà 18 m /
+  // khánh thành 2008; Di Lặc 2010, ~20 m, hơn 250 tấn; tượng nhập Niết Bàn
+  // ~32 m / 2013; Bảo tháp Thất Phật 2015, 35 m, tầng bảy tôn trí 15 bộ Diệu
+  // Pháp Liên Hoa; phép lễ: nhang thắp một lần ở lư sân, không chỉ trỏ/sờ
+  // tượng). Không thêm dữ kiện hay giáo lý nào ngoài các nguồn đó.
+  var LESSON_D3 = {
+    path: 'D', idx: 3, title: 'Các tượng lớn trong khuôn viên chùa',
+    summary: 'Trong khuôn viên Vĩnh Tràng có bốn công trình tượng và tháp lớn. <b>Phật A Di Đà</b> cao 18 mét, khánh thành năm 2008, đứng trên đài sen trong hoa viên; trước tượng ta chỉ vái — nhang chỉ thắp một lần ở lư hương giữa sân. <b>Phật Di Lặc</b> khánh thành năm 2010, cao khoảng 20 mét, nặng hơn 250 tấn; theo các điều kiêng kỵ khi đi lễ chùa, không chỉ trỏ và không sờ vào tượng. <b>Tượng Phật nhập Niết Bàn</b> dài khoảng 32 mét, khánh thành năm 2013, ở khu phía sau — khoảng lặng yên tĩnh nhất của chùa. <b>Bảo tháp Thất Phật</b> xây năm 2015, cao 35 mét, một tầng trệt và bảy lầu; tầng bảy tôn trí 15 bộ kinh Diệu Pháp Liên Hoa.',
+    example: 'Thứ tự một vòng như người đi chùa thật: từ cổng vào, gặp A Di Đà và Di Lặc ở hoa viên trước; lễ Phật trong chánh điện; ra phía sau đứng lặng trước Phật Niết Bàn; khép vòng ở Bảo tháp Thất Phật rồi hồi hướng.',
+    quiz: [
+      { q: 'Tượng Phật A Di Đà trong hoa viên cao bao nhiêu, khánh thành năm nào?', opts: ['18 mét — năm 2008', '20 mét — năm 2010', '32 mét — năm 2013'], ans: 0, why: 'Đúng: tượng cao 18 mét, khánh thành năm 2008.' },
+      { q: 'Trước tượng Di Lặc, phép đúng là…', opts: ['Sờ vào tượng để cầu lộc', 'Chỉ vái trang nghiêm, không chỉ trỏ hay sờ vào tượng', 'Thắp thêm nhang ngay trước tượng'], ans: 1, why: 'Đúng: không chỉ trỏ, không sờ vào tượng; nhang chỉ thắp một lần ở lư giữa sân.' },
+      { q: 'Bảo tháp Thất Phật cao bao nhiêu, xây năm nào?', opts: ['25 mét — năm 2010', '35 mét — năm 2015', '45 mét — năm 2020'], ans: 1, why: 'Đúng: tháp xây năm 2015, cao 35 mét, tầng bảy tôn trí 15 bộ kinh Pháp Hoa.' }
+    ],
+    reflect: 'Trong bốn nơi — hoa viên A Di Đà, tượng Di Lặc, Phật Niết Bàn, Bảo tháp Thất Phật — nơi nào bạn muốn đứng lại lâu nhất? Vì sao?',
+    practice: 'Đi trọn một vòng chùa trong trải nghiệm này, mở thẻ “Tìm hiểu thêm” ở mỗi trạm tượng và đọc một lượt.'
+  };
+  var LESSONS_FULL = { A0: SAMPLE_LESSON, D3: LESSON_D3 };
   function openLessons() {
     var h = '<h2>Giảng đường Huệ Đăng</h2><p class="v3-note">Nơi chùa Vĩnh Tràng tổ chức các lễ khai giảng, tốt nghiệp của Trường Phật học Tiền Giang. Trong trải nghiệm này, đây là lớp học Phật pháp cho cư sĩ: 4 lộ trình, mỗi bài theo 6 phần — nghe giảng, tóm tắt, thí dụ, quiz, suy ngẫm, hành trì. Bài giảng âm thanh sẽ bổ sung khi có nguồn được phép phổ biến.</p>';
     PATHS.forEach(function (p) {
       h += '<h3>' + p.name + '</h3>';
       p.lessons.forEach(function (t, i) {
         var done = S.lessonsDone[p.id + i];
-        var isSample = (p.id === SAMPLE_LESSON.path && i === SAMPLE_LESSON.idx);
+        var isSample = !!LESSONS_FULL[p.id + i]; // v8: A0 + D3 có nội dung đầy đủ
         h += '<div class="v3-lesson"><b>' + (done ? '✓ ' : '') + t + '</b>' +
           (isSample ? ' <button class="v3-btn" data-lesson="' + p.id + i + '">Vào học</button>' : ' <span class="v3-note">— sắp mở</span>') + '</div>';
       });
     });
     var m = modal(h);
-    m.querySelectorAll('[data-lesson]').forEach(function (b) { b.onclick = function () { openSampleLesson(m); }; });
+    m.querySelectorAll('[data-lesson]').forEach(function (b) { b.onclick = function () { openSampleLesson(m, b.getAttribute('data-lesson')); }; });
   }
-  function openSampleLesson(m) {
-    var L = SAMPLE_LESSON;
-    var h = '<h2>' + L.title + '</h2><p class="v3-note">Lộ trình A · Bài 1 · Thầy giảng sư thỉnh chuông mở lớp (bấm “Vào học” là chuông đã thỉnh ở lớp học chính).</p>' +
+  function openSampleLesson(m, key) {
+    var L = LESSONS_FULL[key] || SAMPLE_LESSON; key = key || 'A0';
+    var h = '<h2>' + L.title + '</h2><p class="v3-note">Lộ trình ' + L.path + ' · Bài ' + (L.idx + 1) + ' · Thầy giảng sư thỉnh chuông mở lớp (bấm “Vào học” là chuông đã thỉnh ở lớp học chính).</p>' +
       '<h3>2) Tóm tắt</h3><p>' + L.summary + '</p>' +
       '<h3>3) Thí dụ</h3><p>' + L.example + '</p>' +
       '<h3>4) Quiz — 3 câu</h3><div class="v3-quiz" id="v3-quiz"></div>' +
-      '<h3>5) Suy ngẫm</h3><p>' + L.reflect + '</p><textarea class="v3-refl" id="v3-refl" placeholder="Viết 1–3 dòng của bạn (chỉ lưu trên máy này)…">' + (S.reflections['A0'] || '') + '</textarea>' +
+      '<h3>5) Suy ngẫm</h3><p>' + L.reflect + '</p><textarea class="v3-refl" id="v3-refl" placeholder="Viết 1–3 dòng của bạn (chỉ lưu trên máy này)…">' + (S.reflections[key] || '') + '</textarea>' +
       '<h3>6) Hành trì gợi ý</h3><p>' + L.practice + '</p>' +
       '<div style="margin-top:12px"><button class="v3-btn" id="v3-done">Hoàn thành bài học</button></div><div id="v3-quiz-msg"></div>';
     m.querySelector('.v3-card').innerHTML = '<button class="v3-close" title="Đóng">✕</button>' + h;
@@ -4012,7 +4219,7 @@
     m.querySelector('#v3-done').onclick = function () {
       var answered = Object.keys(score).length, right = Object.values(score).filter(Boolean).length;
       if (answered < 3) { m.querySelector('#v3-quiz-msg').innerHTML = '<p>Bạn trả lời đủ 3 câu quiz trước khi hoàn thành (' + answered + '/3).</p>'; return; }
-      S.reflections['A0'] = m.querySelector('#v3-refl').value; S.lessonsDone['A0'] = true; save();
+      S.reflections[key] = m.querySelector('#v3-refl').value; S.lessonsDone[key] = true; save();
       m.querySelector('#v3-quiz-msg').innerHTML = '<p>Hoàn thành. Quiz đúng ' + right + '/3. Dấu ấn bài học đã lưu vào hồ sơ.</p>';
     };
   }
