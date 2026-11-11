@@ -1,0 +1,13 @@
+{
+  "name": "chua-online",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Chua Online — trai nghiem web 3D chua Vinh Trang",
+  "scripts": {
+    "serve": "serve .",
+    "start": "serve ."
+  },
+  "dependencies": {
+    "serve": "^14.2.4"
+  }
+}

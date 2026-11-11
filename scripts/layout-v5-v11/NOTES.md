@@ -1061,3 +1061,172 @@ dryrun → build → verify → render trong cửa sổ RAM ~01:00–01:31 ngày
   Khoảng cách còn lại là việc ĐIÊU KHẮC lưới (gắn liền nét vào mặt, rãnh thay
   ống nổi, sống mũi/lỗ mũi, tóc xoắn A Di Đà) — ngoài phạm vi phép biến đổi
   ma trận, chờ quyết định mở vòng điêu khắc riêng của Chung Hy.
+
+## §V15 — ĐIÊU KHẮC MẶT TƯỢNG (11–12/11/2026, duyệt mở vòng 19:35 11/11)
+
+Nguồn: `layout_v17_v141.blend` (98.001.265 B). Đích: **`layout_v18_v15.blend`
+(109.000.509 B)** — không ghi đè nguồn, không đẩy GitHub.
+Phương pháp thật (ghi trung thực): Blender Python API không lái được cọ
+sculpt → mọi nét điêu khắc là **dịch chuyển lưới giải tích** trong
+`v15_ops.py` (rãnh theo polyline + falloff Gauss dọc pháp tuyến đỉnh, lõm,
+gờ, hòa về lưới gốc qua BVH, mượt Laplacian cục bộ) — "sculpt bằng script"
+đúng cảnh báo của hồ sơ nghiên cứu. "Khóa Basis" = bản sao ẩn `REF_merged`
+trong file làm việc từng tượng (không dùng shape key). Gắn nhãn chi tiết =
+BVH bề mặt lưới gốc (nhãn = mảnh sở hữu facet gốc gần nhất); bản KD-điểm
+gần nhất đã thử và LOẠI vì chảy nhãn (mũi đọc 0,2671 so với khóa 0,2500;
+BVH bề mặt đọc 0,2499–0,2500).
+
+### Bước 0 — Cổng đo mới: ĐẠT (13:11 UTC 11/11, `v15_gate0.json`)
+Harness mới (`v15_common.py`/`v15_ops.py`) tái lập TOÀN BỘ bảng khóa V14.1
+trên lưới gốc trong ±0,005 cả hai đường (nhãn trực tiếp theo mảnh và nhãn
+trên lưới đã nối): Di Lặc head_h 1,8401/head_w 1,7148/mũi 0,2500, lồi mày
+0,0063/mắt 0,0173/nếp cười 0,0092/má 0,1004, tai 0,664/0,321/+0,015; A Di Đà
+head_h 1,2388/head_w 0,8419/mũi 0,2720, lồi mày 0,0076/mí 0,0096/mắt
+0,0053/miệng 0,0200/urna 0,0169, tai 0,507/0,632/−0,139. Đỉnh không nhãn
+0/56.224 (Di Lặc), 0/44.788 (A Di Đà). Không cần hằng số hiệu chỉnh.
+Định nghĩa lồi cho lưới hợp nhất = `measure_protr_ref`: ellipsoid tham
+chiếu lấy từ lưới GỐC, front = độ sâu tối đa của cụm nhãn trên lưới đo —
+vì tâm bbox mảnh trôi khi mảnh chìm một phần vào sọ.
+**Phát hiện đo (diag4):** số khóa mắt Di Lặc +0,0173 tính cả đỉnh CHÌM —
+75,8%/79,8% đỉnh tấm mắt nằm TRONG khối sọ; lồi trên phần lộ thật =
+**0,0040**. Cổng hợp nhất dùng "mục tiêu lộ" này cho mắt Di Lặc (ghi
+target_source từng dòng); mày/má giữ khóa (đỉnh lộ). A Di Đà không cần
+hiệu chỉnh lộ (mọi đỉnh đều lộ).
+
+### Bước 1 — Hợp nhất mặt: ĐẠT cả 2 tượng
+Solver Exact của Blender **im lặng trả 0 đỉnh** ở bước hợp chin+mouth
+(2 cầu dẹt) → đường chạy thật = **MANIFOLD**; tấm mở (mày/mắt/mí/nếp
+cười/nếp miệng — vỏ không kín, 20 cạnh non-manifold sau hàn) bị MANIFOLD
+**thả rơi im lặng** nếu không **Solidify 0,005 offset −1,0** trước (pháp
+tuyến hướng ra khỏi tâm sọ). Công thức: hàn remove_doubles 5e-5 → lật
+mảnh kín có thể tích âm → union MANIFOLD mảnh kín → solidify + union tấm
+mở → dọn dẹp. Tai/ushnisha/cổ/hair GIỮ NGUYÊN mảnh gốc (tai V13 không
+động vào), đúng luật.
+- Di Lặc (`v15_dilac_gate1.json`): 13 mảnh → 1 lưới **26.990 đỉnh**; lệch
+  so với gốc max 0,0050 / trung bình 0,0000 / p99 0,0000; head_h Δ0,0005,
+  head_w Δ0,0000, mũi Δ0,0000, má Δ0,0000, nếp cười Δ0,0027; tai nguyên.
+- A Di Đà (`v15_adida_gate1.json`): 10 mảnh → **14.756 đỉnh**; lệch max
+  0,0050 / p99 0,0048; **MỌI dòng Δ = 0,0000** (kể cả mũi 0,2720).
+Dự phòng Voxel Remesh 0,0055 không phải dùng cho bản chính (đo thử: lệch
+p99 = 0,0000 nhưng 505.921 đỉnh — quá nặng để sculpt).
+
+### Bước 2 — Rãnh âm Di Lặc: ĐẠT theo cổng (bản chốt = pass 5)
+Chuỗi pass trên mặt hợp nhất (chia nhỏ cục bộ 26.990 → 150.040 đỉnh):
+- Pass 1: rãnh/gờ theo đường từ TRUNG BÌNH đỉnh — đường nằm TRONG bề mặt
+  cong nên chỉ đạt một phần (gờ sống mũi 0,00025/0,0045 danh nghĩa). Bài
+  học: đường phải CHIẾU lên bề mặt hiện tại bằng BVH tự thân.
+- Pass 2 (đường đã chiếu): mọi nét đủ độ sâu danh nghĩa — gờ sống mũi
+  0,0045, lõm lỗ mũi 0,0040, rãnh nếp cười 0,0050, nếp cằm 0,0030; nung
+  chảy đường nối mảnh 0,6 mm trên 3.505 đỉnh biên; **thống nhất vật liệu
+  về "WhiteStone.001" của sọ** (boolean giữ vật liệu theo mảnh → từng gây
+  vệt trắng khảm; render pass 1 nhìn như mặt nạ trắng đắp). Số toàn cục
+  nguyên, cổng D-d PASS.
+- Pass 3: vòng hòa ±2 vòng đỉnh quanh biên nhãn + nung 0,4 mm — khóa giữ
+  (lệch so REF max 0,006; 3,25% đỉnh lệch >1 mm).
+- Pass 4 — **BỊ LOẠI BỞI RENDER**: xóa toàn bộ tấm nổi (mày/mắt/nếp/miệng)
+  về mặt sọ và khắc rãnh thay thế đúng chữ hồ sơ "rãnh âm THAY ống nổi".
+  Mọi nét đủ sâu, số toàn cục qua, NHƯNG render cận cho thấy rãnh đọc như
+  **vết xước đen mỏng / vết bẩn**, xấu hơn pass 3; thêm cổng D-d phụ (tâm
+  bbox tấm smile — metric giòn) lệch +0,0071 trong khi khối miệng không
+  hề di chuyển (mouth_frac Δ0,0004). Giữ file làm hồ sơ, không dùng.
+- **Pass 5 (CHỐT)** từ pass 3: chỉ xóa 2 ỐNG nếp cười + khắc rãnh mềm mở
+  rộng (sâu 0,0055, rộng 0,013, đường kéo dài +25% hai đầu). Cổng PASS
+  (ok=True, D-d PASS). Lưu ý đo được: nhãn BVH bề mặt chỉ gán 119 đỉnh
+  cho 2 tấm nếp cười (bề mặt tấm mỏng sau chia nhỏ chủ yếu nhãn sang
+  miệng/má kề) nên phần "xóa ống" chạm rất ít; rãnh khắc dọc đường nếp
+  cười đạt đủ sâu. Pass 5 ≈ pass 3 + rãnh nếp cười.
+- **Cổng D-d miệng Di Lặc: GIỮ ĐÓNG.** Không có cổng đo render khớp
+  camera nào được dựng trong vòng này chứng minh được độ lệch vị trí
+  miệng; không đủ bằng chứng thì không di chuyển miệng — đúng luật đã
+  chốt ở V14.
+- File chốt: `v15_work/dilac_head_sculpt5.blend` (12.004.254 B, 150.040
+  đỉnh, 1 lưới + REF).
+
+### Bước 3 — A Di Đà: ĐẠT (`v15_adida_sculpt.json`), tóc xoắn KHÔNG đạt
+Một pass gộp (14.756 → 72.206 đỉnh, đường chiếu BVH ngay từ đầu): rãnh
+mắt 0,003/0,006, gờ mày 0,002/0,007, gờ sống mũi 0,004/0,009, lõm lỗ mũi
+0,003/0,016, rãnh miệng 0,0025/0,007, vòng hòa, vật liệu thống nhất
+"WhiteStone". Số cuối: head_h/head_w/mũi ĐÚNG khóa (1,2388/0,8419/
+0,2720), miệng giữ (lồi 0,0198), mí/mắt/urna nguyên, mày +0,0016/+0,0009
+do gờ (chủ đích). File: `v15_work/adida_head_sculpt.blend` (9.091.188 B).
+- **Tóc xoắn: CỔNG PHỤ THẤT BẠI → BỎ.** 580 instance cầu dẹt (r 0,0135,
+  nén z 0,72; 430 trên hair + 150 trên ushnisha, 35.960 đỉnh) render ra
+  như **đinh tán/rắc vụn**, không phải lọn xoắn. Đã gỡ object Head_curls
+  khỏi file sculpt (`strip_curls.py`). Tóc xoắn thật (ống helix, mật độ
+  đúng ảnh ref11) ghi nợ riêng — không đắp bản rẻ tiền lên tượng.
+- Dải đen bên trái đầu trong render thử là vật liệu "HairStone" của
+  chính mảnh hair — diag5 xác nhận GIỐNG HỆT V17 (cùng vật liệu, pháp
+  tuyến hướng tâm +0,814, det +1,000 ở cả 2 file): trạng thái cũ của
+  cảnh + rig 1 mặt trời, KHÔNG phải lỗi V15; ghép cảnh để nguyên hair.
+
+### Bước 4 — Truyền cổng + Phật nằm + Light Linking: ĐẠT
+- Mc cổng đo lại từ cặp tai trong cảnh: cổng PT lệch dự đoán **0,0000**
+  trên 4 mảnh kiểm (skull/nose/ushnisha/neck), TD **1e-05** — chặt hơn
+  nhiều so với ngưỡng 0,002. (Lần chạy ghép đầu tiên báo lệch ~46 m là
+  LỖI CỦA SCRIPT KIỂM: dùng tọa độ LOCAL thay vì thế giới; diag7 chứng
+  minh Mc đúng, đã sửa kiểm bằng đỉnh thế giới.)
+- Mặt A Di Đà sculpt nhân bản vào 2 cổng theo Mc (mỗi cổng 72.206 đỉnh,
+  gỡ 10 mảnh cũ/cổng); mặt chính: Di Lặc 150.040 đỉnh (gỡ 13 mảnh), A Di
+  Đà 72.206 đỉnh (gỡ 10 mảnh).
+- Phật nằm: tìm theo VỊ TRÍ (18 mảnh Head_* tại (4,3; 47,3; 7,0) — GLB
+  phat-nam lệch số đỉnh nên match() trượt). Canvas Head_skull.002 chia
+  nhỏ cục bộ → 14.897 đỉnh; 2 nét duy nhất đúng hồ sơ: rãnh mắt trái
+  0,003/0,007 + rãnh miệng 0,0025/0,007, đường tâm PCA 3D (đầu nằm
+  nghiêng, không dùng dải z thế giới).
+- Light Linking: đèn hốc có sẵn V10_NicheFill_PT/TD (140 W) nay gắn
+  receiver_collection riêng (mỗi hốc 30 object = 29 mảnh giữ + mặt mới).
+  Sau linking đo lại bằng MẶT NẠ pixel tượng (3.423 px sáng >130 trong
+  khung Cam_V10_Niche): độ sáng tượng V17 = 177,7 → V18@140 W = 177,2
+  (−0,3%, coi như nguyên) trong khi tấm nền hốc 84,9 → 70,4 (−17%, mất
+  spill đúng thiết kế). Đã nâng fill lên **175 W** (lưu trong V18):
+  tượng = **179,6 (+1,1% so với V17)**, tương phản tượng/nền 2,09 →
+  **2,55**. (Số "tượng tối đi 10,9%" đo nháp ban đầu là lỗi lấy mẫu —
+  vùng đo lẫn nền hốc; số mặt nạ ở trên mới là số chốt.)
+- **Checksum ngoài phạm vi: diff = 0** (2.568 object lưới đối chiếu
+  MD5 đỉnh local + ma trận trước/sau; chỉ 43 mảnh mặt bị gỡ + 4 mặt mới
+  + canvas Phật nằm + 2 đèn nằm trong danh sách thay đổi khai báo).
+
+### Bước 4b — KHÔNG LÀM (ưu tiên thấp, ghi nợ)
+Rêu mái shader AO/Pointiness bake và ~10 cây dừa hero tàu lá hình học:
+chưa thi công trong vòng này — phần lõi tượng + cổng + verify đã kín
+lượt đêm. Giữ nguyên trạng thái V17 cho 2 hạng mục này.
+
+### Bước 5 — Ghép + verify độc lập + render đối chiếu: ĐẠT
+- Verify độc lập trên file ĐÃ LƯU (`verify_v15_final.py`, chạy lại sau
+  cả chỉnh đèn): **23/23 PASS** — số object 2.529 (= 2.568 − 43 + 4);
+  4 object mặt mới tồn tại; không Head_curls, không REF_merged rò vào
+  cảnh; đo lại trong cảnh: Di Lặc head_h 1,8399/head_w 1,7148/mũi 0,2500/
+  má 0,1028/mắt (lộ) 0,0040/tai 0,6641–0,321–0,0149; A Di Đà 1,2388/
+  0,8419/0,2720/miệng 0,0198/urna 0,0169/tai 0,507–0,632/−0,139; bbox
+  mặt 2 cổng = tỉ lệ 0,1953 cả 3 trục; linking đọc lại từ file đủ 30/30.
+- Pixel-diff V17↔V18 (render cùng camera, ánh sáng cảnh): cận mặt Di
+  Lặc đổi **2,29%** px (khoanh đúng vùng đầu), cận mặt A Di Đà **0,94%**,
+  toàn cảnh flycam **0,27%** — thay đổi khoanh đúng mặt/hốc; khung hốc
+  cổng đổi 27,91% px do nền hốc + cột mosaic + mái cổng mất spill của
+  đèn fill (đúng thiết kế linking; tượng trong hốc giữ sáng như trên).
+- Bộ render chuẩn: `layout/v17_*.png` / `layout/v18_*.png` (face_dilac,
+  face_adida, niche, flycam); render làm việc trong `layout/v15_work/`.
+
+### Verdict trung thực so với ảnh thật
+ĐẠT mức đã trình và được duyệt: **hết mảnh ghép rời** — mỗi mặt là MỘT
+lưới liền, một vật liệu đá; rãnh/gờ khắc thật đủ độ sâu danh nghĩa và
+đọc được ở khoảng cách toàn cảnh/bán cận; mọi số khóa V13/V14/V14.1 giữ
+nguyên trong dung sai cổng; tai không bị động vào; ngoài phạm vi không
+đổi một đỉnh. **CHƯA giống thật ở cận cảnh** — và đây là giới hạn của
+chính các số khóa: hình khối nền vẫn là các cầu/đĩa nguyên thủy của chế
+độ đo V13–V14 (mũi Di Lặc vẫn đọc như đĩa tròn, má như 2 khối tròn,
+miệng oval; A Di Đà mũi oval, mắt 3 gờ xếp). Muốn tiến tiếp phải mở vòng
+đo landmark bằng render KHỚP CAMERA với ảnh thật (thành phần thứ 3 của
+Bước 0 — chưa dựng) rồi mới nắn HÌNH KHỐI; vòng này không tự ý làm vì
+luật tượng cấm nắn theo cảm tính.
+Nợ còn lại: (1) hình khối nguyên thủy — chờ vòng đo khớp camera;
+(2) tóc xoắn A Di Đà — cần ống helix mật độ thật, bản instance cầu dẹt
+đã loại; (3) chấm đen nhỏ (~2–3 px ở render cận) trên đỉnh sống mũi Di
+Lặc, xuất hiện từ pass 2 — khả năng là 1 đỉnh bị kéo lệch pháp tuyến khi
+khắc gờ, không thấy ở khoảng cách cảnh, chưa mổ vì phải chạy lại chuỗi
+pass + ghép; (4) Bước 4b (rêu mái, dừa hero) chưa làm; (5) Di Lặc tổng
+cao 11,3 m so với ~20 m thật — giữ nguyên theo hồ sơ nghiên cứu (không
+sửa rẻ được). Các file làm việc + JSON cổng: `layout/v15_*.json`,
+`layout/v15_work/`, script `layout/*_v15.py`, driver `run_v15_driver.sh`
+(checkpoint `layout/v15_run/*.done`; VM reboot 2 lần trong vòng, driver
+tự chạy tiếp từ checkpoint, không mất bước nào).
