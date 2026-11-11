@@ -90,6 +90,28 @@
         col.needsUpdate = true;
       });
     }
+    // v7.2: biến thể ÁO DÀI PASTEL cho NPC nữ — nhuộm vertex-color như sư áo nâu.
+    // Số đo từ GLB nữ: cụm áo tràng xám = (96,87,100) chiếm 82,4% đỉnh; da
+    // (198,124,85), giày be (179,161,139), tóc (4,3,2) đều ngoài ngưỡng -> không lem.
+    function recolorPastelDress(model, rgb) {
+      model.traverse(o => {
+        if (!o.isMesh) return;
+        o.geometry = o.geometry.clone();
+        const col = o.geometry.getAttribute('color');
+        if (!col || !col.array || col.itemSize < 3) return;
+        const a = col.array, st = col.itemSize;
+        for (let i = 0; i < col.count; i++) {
+          const r = a[i * st], g = a[i * st + 1], b = a[i * st + 2];
+          if (r >= 78 && r <= 114 && g >= 68 && g <= 106 && b >= 82 && b <= 118 && (r - g) >= 0 && (r - g) <= 20) {
+            a[i * st] = rgb[0]; a[i * st + 1] = rgb[1]; a[i * st + 2] = rgb[2];
+          }
+        }
+        col.needsUpdate = true;
+      });
+    }
+    const DRESS_PASTEL = {
+      hong: [240, 186, 203], tim: [206, 186, 233], trang: [244, 239, 230], dao: [246, 205, 190],
+    };
     // Nón lá: phụ kiện fit theo công thức ĐÃ KIỂM CHỨNG của dự án
     // (TRANG_PHUC_MAC_DINH_3_NHAN_VAT: vành R = 0.126 x H, chóp cụt) — gắn vào
     // xương Head bằng attach() để nón đi theo đầu qua mọi action.
@@ -130,6 +152,7 @@
       if (!tpl || av.model) return;
       const model = skeletonClone(tpl.root);
       if (av.robeVariant) recolorMonkRobe(model, av.robeVariant);
+      if (av.dressVariant) recolorPastelDress(model, av.dressVariant);
       model.scale.setScalar(tpl.scale);
       model.position.y = tpl.footOff;
       // Layer của group có thể đã set trước khi model nạp xong (khách trong điện)
@@ -163,6 +186,7 @@
       const av = {
         group: g, kind: opt.kind || 'nu',
         hat: !!opt.hat, kneel: !!opt.kneel, robeVariant: opt.robeVariant || 0,
+        dressVariant: opt.dressVariant || null,
         mixer: null, actions: {}, model: null, pose: null, _want: opt.initPose || 'Dung',
         onceName: null, onceT: 0,
         setPose(name) { if (this._want !== name) { this._want = name; if (!this.onceName) applyCharPose(this); } },
@@ -213,10 +237,10 @@
 
     // Người chơi — model theo profile đã chọn (mặc định nữ như ảnh mẫu)
     let S_profile = (window.getProfile && window.getProfile()) || 'nu';
-    const playerAv = makeAvatar({ kind: CHAR_HEIGHT[S_profile] ? S_profile : 'nu', hat: false });
+    const playerAv = makeAvatar({ kind: CHAR_HEIGHT[S_profile] ? S_profile : 'nu', hat: true });
     scene.add(playerAv.group);
     const player = {
-      pos: new THREE.Vector3(23, 0, 19.5), yaw: Math.PI, camYaw: 0, speed: 1.15,
+      pos: new THREE.Vector3(23, 0, 50), yaw: Math.PI, camYaw: 0, speed: 1.05,
       target: null, moving: false, walkPhase: 0, layer: 0,
     };
     playerAv.group.position.copy(player.pos);
@@ -227,27 +251,28 @@
     // vái chậm rồi lặng yên một lúc; hai khách đứng nghỉ trước ghế đá.
     const NPC_KINDS = ['nu', 'nam', 'nu', 'tre', 'nam', 'nu', 'nam', 'tre', 'nu', 'nam'];
     const NPC_ROUTES = [
-      [[13, 36], [13, 20], [13, 10], [-10, 10], [-24, 8], [-14, 24]],
-      [[33, 38], [33, 22], [35, 14], [38, 26]],
-      [[42, 38], [35, 20], [33, 12], [42, -10]],
-      [[-14, 30], [-14, 24], [-6, 16], [12, 10], [12, -38]],
-      [[13, 36], [13, 18], [12, -40], [-2, -34], [13, 36]],
-      [[35, 38], [33, 22], [35, 12], [44, -16]],
-      [[13, 36], [-24, 8], [-24, -16], [13, 22]],
-      [[33, 38], [33, 14], [35, 8], [-14, 24]],
-      [[-14, 30], [13, 22], [13, 10], [13, 36]],
-      [[42, 38], [34, 20], [33, 12], [-2, -34]],
+      [[23, 38], [23, 14], [23, 7], [-10, 10], [-24, 8], [-14, 22.6]],
+      [[23, 40], [30, 30], [23, 14], [23, 7]],
+      [[45, 40], [40, 30], [23, 14], [-24, 8], [23, 38]],
+      [[-14, 30], [-14, 22.6], [23, 14], [23, 7], [12, -38]],
+      [[23, 38], [23, 14], [12, -40], [-2, -34], [23, 38]],
+      [[45, 40], [23, 30], [23, 14], [23, 7], [44, -16]],
+      [[23, 38], [-24, 8], [-24, -16], [23, 14]],
+      [[23, 40], [23, 14], [23, 7], [-14, 22.6]],
+      [[-14, 30], [23, 14], [23, 7], [23, 38]],
+      [[45, 40], [30, 20], [23, 14], [-2, -34]],
     ];
     // Waypoint đứng trước tượng/bàn lễ: key "x,z" -> [điểm nhìn về, số giây đứng lặng]
     const NPC_FOCUS = {
-      '-14,24': [[-14, 28.5], 11],   // trước A Di Đà
+      '-14,22.6': [[-14, 27], 11],   // trước A Di Đà
       '-24,8': [[-24, 0], 11],       // trước Di Lặc
-      '35,14': [[35, 16], 9],        // bên sạp lưu niệm
-      '13,10': [[23, 7], 8],         // nhìn về chánh điện
+      '23,14': [[25.3, 13.7], 9],    // trước lư sân
+      '23,7': [[23, -4], 8],         // trước thềm chánh điện
     };
+    const NPC_DRESS = { 0: 'hong', 2: 'tim', 5: 'trang', 8: 'dao' }; // v7.2: NPC nữ mặc áo dài pastel
     const npcs = [];
     for (let i = 0; i < 10; i++) {
-      const av = makeAvatar({ kind: NPC_KINDS[i], hat: i % 2 === 0 });
+      const av = makeAvatar({ kind: NPC_KINDS[i], hat: i % 2 === 0, dressVariant: DRESS_PASTEL[NPC_DRESS[i]] || null });
       scene.add(av.group);
       const route = NPC_ROUTES[i % NPC_ROUTES.length];
       const start = route[i % route.length];
@@ -259,7 +284,7 @@
     }
     // Hai khách đứng chắp tay nghỉ trước ghế đá (module_2 dựng BENCH_SEATS)
     BENCH_SEATS.forEach(([bx, bz, byaw], i) => {
-      const av = makeAvatar({ kind: i ? 'nam' : 'nu', hat: false, initPose: 'Chắp tay' });
+      const av = makeAvatar({ kind: i ? 'nam' : 'nu', hat: false, initPose: 'Chắp tay', dressVariant: i ? null : DRESS_PASTEL.tim });
       av.group.position.set(bx - Math.sin(byaw) * 0.55, 0, bz - Math.cos(byaw) * 0.55);
       av.group.rotation.y = byaw;
       scene.add(av.group);
@@ -280,7 +305,7 @@
     }
     const sweeper = makeAvatar({ kind: 'nam', hat: true });
     scene.add(sweeper.group);
-    sweeper.group.position.set(13.5, 0, 11);
+    sweeper.group.position.set(19, 0, 8);
     const broom = addCyl(-0.42, 0.72, 0.3, 0.03, 1.25, mat(0x8A6D3B, 0.8), sweeper.group);
     broom.rotation.z = 0.5; broom.rotation.x = 0.4;
 

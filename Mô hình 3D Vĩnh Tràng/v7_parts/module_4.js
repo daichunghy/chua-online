@@ -47,7 +47,7 @@
     }
     const smokeMain = new SmokeColumn(new THREE.Vector3(23, 3.0, 11), 120, false);
     const smokeDiLac = new SmokeColumn(new THREE.Vector3(-24, 1.6, 2.2), 90, false);
-    const smokeAdida = new SmokeColumn(new THREE.Vector3(-13, 1.6, 24.2), 90, false);
+    const smokeAdida = new SmokeColumn(new THREE.Vector3(-12.4, 1.7, 22.4), 90, false); // v7.2: khớp vị trí lư A Di Đà mới
     const smokeAltar = new SmokeColumn(new THREE.Vector3(300, 4.6, 300 + altarZ + 1.8), 40, true);
     const smokeColumns = { main: smokeMain, dilac: smokeDiLac, adida: smokeAdida, altar: smokeAltar };
 
@@ -76,5 +76,4 @@
       scene.add(g);
       return { group: g, wL, wR, state: 'perch', tx: x, tz: z, seed: Math.random() * 10, peck: Math.random() * 2 };
     }
-    // Bồ câu sân vườn bên hai rặng cây
-    [[11, 14], [35, 14], [12, 20], [34, 20], [10, 26], [36, 26], [9, 8], [37, 8]].forEach(([x, z]) => pigeons.push(makePigeon(x, z)));
+    [[20, 14], [26, 16], [18, 8], [28, 7], [22, 20], [16, 18], [30, 18], [24, 5]].forEach(([x, z]) => pigeons.push(makePigeon(x, z)));

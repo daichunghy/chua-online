@@ -28,7 +28,14 @@
         const wp = autoWalk.path[0];
         if (!wp) {
           const st = autoWalk.station; autoWalk = null; hideTrail();
-          if (st) runStationAction(st);
+          // v7.3 (chẩn đoán P12): path rỗng cũng có thể do autoStuck bỏ qua hết
+          // waypoint khi avatar bị kẹt — khi đó TUYỆT ĐỐI không chạy hành động
+          // trạm từ xa (V7.2 từng ghi nhận "vái Phật nằm" PASS từ cách trạm
+          // 38m). Chỉ chạy hành động khi avatar thật sự đứng trong vùng trạm.
+          if (st) {
+            const dd = Math.hypot(player.pos.x - st.pos[0], player.pos.z - st.pos[1]);
+            if (dd <= Math.max(2.5, st.r || 0)) runStationAction(st);
+          }
         } else {
           const dx = wp.x - player.pos.x, dz = wp.z - player.pos.z;
           const d = Math.hypot(dx, dz);
@@ -193,6 +200,27 @@
     // tick(dt, render): MỘT bước mô phỏng — toàn bộ logic từng khung hình nằm ở đây.
     // Vòng rAF thật gọi tick với dt thật; bản kiểm thử (TESTLOCAL) có thể gọi tick
     // trực tiếp với dt cố định và render=false để tua nhanh tất định (xem assemble_v6.py).
+    // V7.1: chặn camera xuyên cột đỏ trong điện — cột trong interior.js: trục
+    // r=0,48 tại local x=±8,5, z=-18,-10,-2,6,14,20; temple đặt tại world (300,300)
+    // -> cột world x=291,5/308,5, z=282,290,298,306,314,320. Kẹp camera ngoài hình
+    // trụ r=0,8 (trục + biên 0,32). Chỉ áp khi đang ở trong điện.
+    const HALL_PILLARS = [];
+    for (const pz of [282, 290, 298, 306, 314, 320]) { HALL_PILLARS.push([291.5, pz], [308.5, pz]); }
+    const PILLAR_R = 0.8;
+    function clampCamOutOfPillars(v) {
+      for (const [px, pz] of HALL_PILLARS) {
+        let dx = v.x - px, dz = v.z - pz;
+        let d = Math.hypot(dx, dz);
+        if (d >= PILLAR_R) continue;
+        if (d < 1e-4) { // camera đúng tâm cột: đẩy theo hướng từ người chơi tới camera
+          dx = v.x - player.pos.x; dz = v.z - player.pos.z; d = Math.hypot(dx, dz);
+          if (d < 1e-4) { dx = 1; dz = 0; d = 1; }
+        }
+        const s = PILLAR_R / d;
+        v.x = px + dx * s; v.z = pz + dz * s;
+      }
+      return v;
+    }
     let simT = 0;
     function tick(dt, render = true) {
       simT += dt;
@@ -236,44 +264,15 @@
         camera.position.lerp(camTmp, Math.min(1, dt * 3));
         camera.lookAt(camOverride.lx, camOverride.ly, camOverride.lz);
       } else {
-        const dist = inside ? 3.2 : 4.7, height = inside ? 1.8 : 1.75;
+        const dist = inside ? 3.5 : 5, height = inside ? 2.3 : 3.0;
         camTmp.set(
           player.pos.x + Math.sin(player.camYaw) * dist,
           height,
           player.pos.z + Math.cos(player.camYaw) * dist);
+        if (inside) clampCamOutOfPillars(camTmp); // V7.1: đích camera không nằm trong cột
         camera.position.lerp(camTmp, Math.min(1, dt * 6));
-        const lookAheadDist = inside ? 6.0 : 12.0;
-        const lookHeight = inside ? 1.5 : 2.7;
-        const lookX = player.pos.x - Math.sin(player.camYaw) * lookAheadDist;
-        const lookZ = player.pos.z - Math.cos(player.camYaw) * lookAheadDist;
-        camera.lookAt(lookX, lookHeight, lookZ);
-      }
-      // Cập nhật tọa độ chiếu 3D cho Pin "📍 Chánh điện"
-      const pinEl = document.getElementById('pin-chanhdien');
-      if (pinEl) {
-        if (inside) {
-          pinEl.style.display = 'none';
-        } else {
-          // Tọa độ vòm cửa chính Chánh điện (x: 23, y: 5.2, z: 4.2)
-          const pinPos = new THREE.Vector3(23, 5.2, 4.2);
-          const camToPin = pinPos.clone().sub(camera.position);
-          const forward = new THREE.Vector3();
-          camera.getWorldDirection(forward);
-          if (camToPin.dot(forward) > 0) {
-            pinPos.project(camera);
-            if (pinPos.z > -1 && pinPos.z < 1) {
-              const screenX = (pinPos.x * 0.5 + 0.5) * window.innerWidth;
-              const screenY = (-(pinPos.y * 0.5) + 0.5) * window.innerHeight;
-              pinEl.style.left = screenX + 'px';
-              pinEl.style.top = screenY + 'px';
-              pinEl.style.display = 'inline-flex';
-            } else {
-              pinEl.style.display = 'none';
-            }
-          } else {
-            pinEl.style.display = 'none';
-          }
-        }
+        if (inside) clampCamOutOfPillars(camera.position); // V7.1: kẹp cả vị trí sau lerp
+        camera.lookAt(player.pos.x, 1.4, player.pos.z);
       }
       if (render) renderer.render(scene, camera);
     }

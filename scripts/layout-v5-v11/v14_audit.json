@@ -1,0 +1,727 @@
+{
+ "steps": [
+  "groups: dilac 94 adida 79",
+  "OP dilac Head_browL.001 flatten protr 0.119->0.037 k=0.350 sink=0.051",
+  "OP dilac Head_browR.001 flatten protr 0.119->0.037 k=0.350 sink=0.051",
+  "SKIP flatten dilac Head_eyeL protr da dat 0.0173",
+  "SKIP flatten dilac Head_eyeR protr da dat 0.0173",
+  "OP dilac Head_creaseL flatten protr 0.092->0.037 k=0.438 sink=0.028",
+  "OP dilac Head_creaseR flatten protr 0.092->0.037 k=0.438 sink=0.028",
+  "widen dilac Head_nose cur_w 0.2911 k 1.4727",
+  "OP dilac Head_nose.001 nose widen k=1.473 -> frac 0.25",
+  "OP dilac Head_cheekL cheek deflate k_face=0.80 pivot sau (hieu chinh vong 2)",
+  "OP dilac Head_cheekR cheek deflate k_face=0.80 pivot sau (hieu chinh vong 2)",
+  "OP adida Head_browL flatten protr 0.090->0.025 k=0.350 sink=0.048",
+  "OP adida Head_browR flatten protr 0.090->0.025 k=0.350 sink=0.048",
+  "OP adida Head_lidL flatten protr 0.074->0.025 k=0.350 sink=0.035",
+  "OP adida Head_lidR flatten protr 0.074->0.025 k=0.350 sink=0.035",
+  "OP adida Head_eyeL flatten protr 0.064->0.025 k=0.361 sink=0.020",
+  "OP adida Head_eyeR flatten protr 0.064->0.025 k=0.361 sink=0.020",
+  "OP adida Head_mouth flatten protr 0.034->0.025 k=0.792 sink=0.005",
+  "OP adida Head_urna flatten protr 0.058->0.025 k=0.350 sink=0.026",
+  "widen adida Head_nose cur_w 0.1296 k 1.6",
+  "OP adida Head_nose nose widen k=1.600 -> frac 0.272",
+  "gate PT: parts=39 face pieces se truyen: ['Head_browL', 'Head_browR', 'Head_eyeL', 'Head_eyeR', 'Head_lidL', 'Head_lidR', 'Head_mouth', 'Head_nose', 'Head_urna']",
+  "gate PT: Mc_maxdev(non-face,non-hand)=0.000004 sv=[0.1953, 0.1953, 0.1953]",
+  "gate PT: Mc_maxdev SAU truyen (tru tay) = 0.000004",
+  "gate TD: parts=39 face pieces se truyen: ['Head_browL', 'Head_browR', 'Head_eyeL', 'Head_eyeR', 'Head_lidL', 'Head_lidR', 'Head_mouth', 'Head_nose', 'Head_urna']",
+  "gate TD: Mc_maxdev(non-face,non-hand)=0.000004 sv=[0.1953, 0.1953, 0.1953]",
+  "gate TD: Mc_maxdev SAU truyen (tru tay) = 0.000004",
+  "assert tai + ngoai pham vi: KHONG DOI",
+  "cleanup done",
+  "SAVED /home/hatch/workspace/chua-online-work/layout_v16_v14.blend"
+ ],
+ "ops": [
+  {
+   "statue": "dilac",
+   "piece": "Head_browL.001",
+   "why": "flatten protr 0.119->0.037 k=0.350 sink=0.051",
+   "size_pre": [
+    0.4459,
+    0.0938,
+    0.1227
+   ],
+   "size_pred": [
+    0.4459,
+    0.0328,
+    0.1227
+   ],
+   "A": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.35,
+     0.0,
+     -0.21099
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "statue": "dilac",
+   "piece": "Head_browR.001",
+   "why": "flatten protr 0.119->0.037 k=0.350 sink=0.051",
+   "size_pre": [
+    0.4459,
+    0.0938,
+    0.1227
+   ],
+   "size_pred": [
+    0.4459,
+    0.0328,
+    0.1227
+   ],
+   "A": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.35,
+     0.0,
+     -0.21099
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "statue": "dilac",
+   "piece": "Head_creaseL",
+   "why": "flatten protr 0.092->0.037 k=0.438 sink=0.028",
+   "size_pre": [
+    0.2691,
+    0.0982,
+    0.289
+   ],
+   "size_pred": [
+    0.2691,
+    0.043,
+    0.289
+   ],
+   "A": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.43833,
+     0.0,
+     -0.14966
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "statue": "dilac",
+   "piece": "Head_creaseR",
+   "why": "flatten protr 0.092->0.037 k=0.438 sink=0.028",
+   "size_pre": [
+    0.2691,
+    0.0982,
+    0.289
+   ],
+   "size_pred": [
+    0.2691,
+    0.043,
+    0.289
+   ],
+   "A": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.43833,
+     0.0,
+     -0.14966
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "statue": "dilac",
+   "piece": "Head_nose.001",
+   "why": "nose widen k=1.473 -> frac 0.25",
+   "size_pre": [
+    0.2911,
+    0.2911,
+    0.3954
+   ],
+   "size_pred": [
+    0.4287,
+    0.2911,
+    0.3954
+   ],
+   "A": [
+    [
+     1.47272,
+     0.0,
+     0.0,
+     11.34524
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "statue": "dilac",
+   "piece": "Head_cheekL",
+   "why": "cheek deflate k_face=0.80 pivot sau (hieu chinh vong 2)",
+   "size_pre": [
+    0.6336,
+    0.5137,
+    0.5502
+   ],
+   "size_pred": [
+    0.6336,
+    0.411,
+    0.5502
+   ],
+   "A": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.8,
+     0.0,
+     -0.11785
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "statue": "dilac",
+   "piece": "Head_cheekR",
+   "why": "cheek deflate k_face=0.80 pivot sau (hieu chinh vong 2)",
+   "size_pre": [
+    0.6336,
+    0.5137,
+    0.5502
+   ],
+   "size_pred": [
+    0.6336,
+    0.411,
+    0.5502
+   ],
+   "A": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.8,
+     0.0,
+     -0.11785
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "statue": "adida",
+   "piece": "Head_browL",
+   "why": "flatten protr 0.090->0.025 k=0.350 sink=0.048",
+   "size_pre": [
+    0.214,
+    0.0528,
+    0.0656
+   ],
+   "size_pred": [
+    0.214,
+    0.0185,
+    0.0656
+   ],
+   "A": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.35,
+     0.0,
+     -19.94752
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "statue": "adida",
+   "piece": "Head_browR",
+   "why": "flatten protr 0.090->0.025 k=0.350 sink=0.048",
+   "size_pre": [
+    0.214,
+    0.0528,
+    0.0656
+   ],
+   "size_pred": [
+    0.214,
+    0.0185,
+    0.0656
+   ],
+   "A": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.35,
+     0.0,
+     -19.94752
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "statue": "adida",
+   "piece": "Head_lidL",
+   "why": "flatten protr 0.074->0.025 k=0.350 sink=0.035",
+   "size_pre": [
+    0.198,
+    0.0466,
+    0.0521
+   ],
+   "size_pred": [
+    0.198,
+    0.0163,
+    0.0521
+   ],
+   "A": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.35,
+     0.0,
+     -19.92134
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "statue": "adida",
+   "piece": "Head_lidR",
+   "why": "flatten protr 0.074->0.025 k=0.350 sink=0.035",
+   "size_pre": [
+    0.198,
+    0.0466,
+    0.0521
+   ],
+   "size_pred": [
+    0.198,
+    0.0163,
+    0.0521
+   ],
+   "A": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.35,
+     0.0,
+     -19.92134
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "statue": "adida",
+   "piece": "Head_eyeL",
+   "why": "flatten protr 0.064->0.025 k=0.361 sink=0.020",
+   "size_pre": [
+    0.1846,
+    0.0611,
+    0.058
+   ],
+   "size_pred": [
+    0.1846,
+    0.022,
+    0.058
+   ],
+   "A": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.361,
+     0.0,
+     -19.57586
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "statue": "adida",
+   "piece": "Head_eyeR",
+   "why": "flatten protr 0.064->0.025 k=0.361 sink=0.020",
+   "size_pre": [
+    0.1846,
+    0.0611,
+    0.058
+   ],
+   "size_pred": [
+    0.1846,
+    0.022,
+    0.058
+   ],
+   "A": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.361,
+     0.0,
+     -19.57586
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "statue": "adida",
+   "piece": "Head_mouth",
+   "why": "flatten protr 0.034->0.025 k=0.792 sink=0.005",
+   "size_pre": [
+    0.1694,
+    0.0457,
+    0.0461
+   ],
+   "size_pred": [
+    0.1694,
+    0.0362,
+    0.0461
+   ],
+   "A": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.79171,
+     0.0,
+     -6.37897
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "statue": "adida",
+   "piece": "Head_urna",
+   "why": "flatten protr 0.058->0.025 k=0.350 sink=0.026",
+   "size_pre": [
+    0.0445,
+    0.0243,
+    0.0459
+   ],
+   "size_pred": [
+    0.0445,
+    0.0085,
+    0.0459
+   ],
+   "A": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.35,
+     0.0,
+     -19.90033
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "statue": "adida",
+   "piece": "Head_nose",
+   "why": "nose widen k=1.600 -> frac 0.272",
+   "size_pre": [
+    0.1296,
+    0.2511,
+    0.3715
+   ],
+   "size_pred": [
+    0.2074,
+    0.2511,
+    0.3715
+   ],
+   "A": [
+    [
+     1.6,
+     0.0,
+     0.0,
+     8.4
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  }
+ ],
+ "dry_run": false,
+ "gates": {
+  "PT": {
+   "parts": 39,
+   "Mc_maxdev_pre": 4e-06,
+   "Mc_maxdev_post": 4e-06,
+   "face_propagated": [
+    "Head_browL",
+    "Head_browR",
+    "Head_eyeL",
+    "Head_eyeR",
+    "Head_lidL",
+    "Head_lidR",
+    "Head_mouth",
+    "Head_nose",
+    "Head_urna"
+   ]
+  },
+  "TD": {
+   "parts": 39,
+   "Mc_maxdev_pre": 4e-06,
+   "Mc_maxdev_post": 4e-06,
+   "face_propagated": [
+    "Head_browL",
+    "Head_browR",
+    "Head_eyeL",
+    "Head_eyeR",
+    "Head_lidL",
+    "Head_lidR",
+    "Head_mouth",
+    "Head_nose",
+    "Head_urna"
+   ]
+  }
+ }
+}

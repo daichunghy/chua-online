@@ -1,0 +1,82 @@
+{
+ "steps": [
+  "groups: dilac 94 adida 79",
+  "protected objects (phai khong doi): 248 | ears: 10",
+  "adida head_w 0.8419 head_h 1.2388 nose_w 0.2074 frac_hien_tai 0.2463",
+  "k buoc 2 = 1.1042 (du kien ~1,104)",
+  "frac du doan sau buoc 2 = 0.272 dich 0.272",
+  "da ap A cho Head_nose",
+  "gate PT: Mc_maxdev(non-nose,non-hand)=0.000004 sv=[0.1953, 0.1953, 0.1953]",
+  "gate PT: Mc_maxdev SAU truyen (tru tay) = 0.000004",
+  "gate TD: Mc_maxdev(non-nose,non-hand)=0.000004 sv=[0.1953, 0.1953, 0.1953]",
+  "gate TD: Mc_maxdev SAU truyen (tru tay) = 0.000004",
+  "assert tai + protected: KHONG DOI (worst dev 0.0 )",
+  "cleanup done",
+  "SAVED /home/hatch/workspace/chua-online-work/layout_v17_v141.blend"
+ ],
+ "ops": [],
+ "mode": "BUILD",
+ "src": "/home/hatch/workspace/chua-online-work/layout_v16_v14.blend",
+ "dst": "/home/hatch/workspace/chua-online-work/layout_v17_v141.blend",
+ "target_frac": 0.272,
+ "op": {
+  "statue": "adida",
+  "piece": "Head_nose",
+  "why": "nose widen STEP2 k=1.1042 frac 0.2463->0.272",
+  "k": 1.10417,
+  "frac_pre": 0.2463,
+  "frac_pred": 0.272,
+  "head_w": 0.8419,
+  "head_h": 1.2388,
+  "size_pre": [
+   0.2074,
+   0.2511,
+   0.3715
+  ],
+  "size_pred": [
+   0.229,
+   0.2511,
+   0.3715
+  ],
+  "A": [
+   [
+    1.10417,
+    0.0,
+    0.0,
+    1.45834
+   ],
+   [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    1.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ]
+  ]
+ },
+ "gates": {
+  "PT": {
+   "parts": 39,
+   "Mc_maxdev_pre": 4e-06,
+   "Mc_maxdev_post": 4e-06,
+   "nose_propagated": "V10_GateBuddha_PT_Head_nose"
+  },
+  "TD": {
+   "parts": 39,
+   "Mc_maxdev_pre": 4e-06,
+   "Mc_maxdev_post": 4e-06,
+   "nose_propagated": "V10_GateBuddha_TD_Head_nose"
+  }
+ }
+}

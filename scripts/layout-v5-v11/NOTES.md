@@ -942,3 +942,122 @@ sau nên ghi vào workspace/layout/ thay vì /tmp.
 Script vòng này: layout/build_v13.py, verify_v13.py, pixeldiff_v13.py,
 inspect_v13.py, scripts/render_v13.py, render_v13_driver.sh;
 audit thô: layout/v13_audit.json; log verify: layout/verify_v13_run2.log.
+
+## V14 — NẮN MẶT TƯỢNG CHI TIẾT VỀ PHÍA ẢNH THẬT (10/11/2026, layout_v16_v14.blend)
+
+Thi công theo KE_HOACH_V14.md (đo + kế hoạch đã chốt trước): chỉ ma trận
+object, không chạm mesh; không đụng tai (V13 đạt), thân, bệ, tỉ lệ đầu;
+base layout_v15_v13.blend → layout_v16_v14.blend, không ghi đè nguồn.
+Chạy bằng driver tự chờ khe CPU `run_v14_driver.sh` (checkpoint trong
+`v14_run/`, sống sót qua VM restart 10:48 UTC — driver chết khi chưa chạy
+bước nào nên khởi động lại an toàn; phase A hạ ngưỡng RAM 1500 MB vì chỉ
+đo/dry-run, phase B 1800 MB).
+
+### Cổng 0 + 1 (trước khi áp)
+- measure_v14.py đo lại trong scene: khớp parser GLB mọi chỉ số (<0,5%;
+  lệch lớn nhất ở độ nổi ±0,001 m): head_h 1,8401/1,2388; mũi/head_w
+  0,1698/0,154; độ nổi mày Di Lặc 0,1186, má 0,2032, nếp cười 0,092;
+  cụm A Di Đà 0,090/0,074/0,064; tai giữ 0,664/0,507 đúng V13.
+- DRY_RUN khớp §7 kế hoạch: mũi Di Lặc k=1,473 (≈1,47); mũi A Di Đà
+  k=1,767 bị chặn trần 1,600 (kế hoạch 2 bước); ép dẹt k ∈ [0,350; 0,792];
+  má ×0,60 (vòng 1); mắt Di Lặc bỏ qua vì độ nổi 0,0173 đã ≤ đích 0,0368.
+
+### Kết quả đo sau nắn (verify_v14.py độc lập — vòng 2 PASS 42/42)
+| Mục | Trước | Đích | Sau | Kết luận |
+|---|---|---|---|---|
+| Di Lặc mũi rộng/head_w | 0,170 | 0,250 (ảnh) | **0,2500** | ĐẠT |
+| Di Lặc mày độ nổi (m) | +0,119 | ≤ +0,037 | **+0,0063** | ĐẠT |
+| Di Lặc nếp cười độ nổi | +0,092 | ≤ +0,037 | **+0,0092** | ĐẠT |
+| Di Lặc mắt độ nổi | +0,017 | ≤ +0,037 | +0,0173 (không đụng) | ĐẠT sẵn |
+| Di Lặc má độ nổi | +0,203 | ≈ +0,10 | **+0,1004** | ĐẠT (vòng 2) |
+| A Di Đà mũi rộng/head_w | 0,154 | 0,272 (ảnh), bước 1 trần 1,60 | **0,2463** | ĐẠT bước 1 — còn bước 2 (+0,026) chờ render/coordinator duyệt |
+| A Di Đà mày/mí/mắt độ nổi | +0,090/+0,074/+0,064 | ≤ +0,025 | **+0,0076/+0,0096/+0,0053** | ĐẠT |
+| A Di Đà miệng độ nổi | +0,034 | ≤ +0,025 | **+0,0200** | ĐẠT |
+| A Di Đà urna độ nổi | +0,058 | ≤ +0,025 | **+0,0169** | ĐẠT |
+| Tai 2 tượng (tỉ lệ/đỉnh/đáy) | V13 | giữ nguyên | 0,664/0,321/+0,015 và 0,507/0,632/−0,139 | KHÔNG ĐỔI |
+| 2 cổng PT/TD | — | Mc ≤ 0,002 | **0,000004** cả 2 (18 mảnh mặt truyền liên hợp) | ĐẠT |
+| Toàn cảnh | — | — | 2568 = 2568 object; checksum mesh lệch RỖNG; ma trận lệch ngoài phạm vi RỖNG; tai (chính+cổng) không đổi | ĐẠT |
+
+### Lỗi bắt được trong vòng (đã sửa tận gốc)
+1. **Má ép quá tay ở vòng 1**: kế hoạch dự tính ×0,60 quanh pivot mặt sau
+   làm mặt trước lùi ≈0,10 m, nhưng pivot nằm ở mặt SAU mảnh nên độ lùi
+   thật = (1−k)×depth = 0,4×0,5137 = 0,205 m → độ nổi sau ép −0,0023
+   (sát mặt ellipsoid, mất má phình). Verify vòng 1 FAIL đúng mục này.
+   Hiệu chỉnh từ số đo mới: cần lùi 0,103 m → k = 0,80 → sau ép +0,1004.
+   Render vòng 1 giữ ở layout/v14_iter1/ làm bằng chứng.
+2. **Tiêu chí "bbox mũi không chạm mắt/má" không hợp lệ**: đo baseline
+   trên chính bản nguyên bản V15 (baseline_overlap_v14.py) cho thấy bbox
+   mũi ĐÃ chồng bbox mắt cả 3 trục ở Di Lặc (side +0,0075 / up +0,0158 /
+   facing +0,1111) và 2/3 trục ở A Di Đà — tượng ghép mảnh có khối sống
+   mũi tựa giữa 2 mắt ngay từ gốc. Hạ mục này xuống INFO trong verify;
+   phán quyết "mũi có chạm mắt thật không" bằng render (không chạm —
+   xem ảnh mặt) + tỉ lệ mũi đã khớp ảnh.
+3. verify_v14.py bản đầu crash ReferenceError (dùng tham chiếu Object
+   sau khi dump_all mở lại mainfile) — sửa bằng trích tên mảnh ra string
+   trước khi mở lại file. Sentinel driver vòng 1 cũng lỏng (khớp cả
+   "VERIFY V14 FAIL") — đã siết thành "VERIFY V14 PASS".
+
+### Cổng D-d — miệng Di Lặc lệch dọc: KHÔNG SỬA ở V14 (ghi số chờ quyết V14.1)
+- Render cùng góc ref5 (bản xa: khoảng cách 9× head_h, lens 85, azimut
+  30°; bản cận 2,4× head_h cho số méo 0,93 nên loại) đo bằng visual
+  grounding trên layout_v15_ref5_dilac.png (miệng chưa đụng): đầu
+  277–588, miệng 550–562 → tâm miệng = **0,897** chiều cao đầu ảnh;
+  đáy miệng→cằm = 0,084. Ảnh thật: 0,663 và 0,279. Số 3D nội tại:
+  miệng 0,780 / smile 0,717.
+- Kết luận cổng: phối cảnh góc chụp KHÔNG giải thích được lệch (nó đẩy
+  số đi xa ảnh hơn: 0,780 → 0,897 so với 0,663 của ảnh). Nhưng độ dịch
+  cần để ép khớp render (0,234 head_h ≈ 0,43 m) sẽ đẩy miệng vào dải
+  mũi trong không gian 3D, còn độ dịch theo số nội tại (0,117 head_h ≈
+  0,22 m) lại giả định mẫu số bbox ảnh = mẫu số 3D — điều chưa chứng
+  minh được (bbox đầu trong ảnh có thể gồm cả nọng cằm/cổ). Theo luật
+  tượng + cổng mặc định TẮT của kế hoạch: KHÔNG sửa, để coordinator
+  quyết ở V14.1 với các số trên.
+
+### Render nghiệm thu (Cycles CPU, cùng camera V13)
+layout_v16_{face_dilac, face_adida, ref5_dilac, dilac, adida, niche,
+flycam}.png + layout_v15_ref5_dilac.png (góc ref5 bản xa).
+Pixel-diff V15↔V16: face_dilac 3,441% bbox (491,146)–(962,539) đúng
+vùng mặt; face_adida 1,442% bbox (548,233)–(757,419) vùng mặt; dilac
+toàn thân 0,119%; adida 0,033% bbox vùng đỉnh đầu; niche 0,000%;
+flycam 0,001% — thay đổi khoanh đúng vùng mặt/đầu, không lan.
+Soi bằng mắt (tuyến thi công): Di Lặc — mày hết ống nổi, đọc thành dải
+dẹt sát mặt; mũi rộng rõ về tỉ lệ ảnh; má vòng 2 phình tròn đầy, hết
+"cầu dán" của V15 mà không bẹt như vòng 1; nếp cười còn mẩu ống nhỏ
+(rãnh âm thật thuộc nợ sculpt, mục 6 kế hoạch). A Di Đà — cụm 3 ống
+song song ép thành dải mí liền hơn; mũi rộng bước 1; miệng/urna dẹt
+sát mặt. Tai giữ nguyên V13 ở mọi ảnh.
+
+### Nợ còn lại sau V14
+- A Di Đà mũi bước 2 (0,2463 → 0,272, k thêm ≈1,10): chờ coordinator
+  soi render bước 1 rồi quyết, như kế hoạch 2 bước.
+- Cổng D-d miệng Di Lặc: số đã ghi ở trên, chờ quyết V14.1.
+- Ngoài phạm vi (không tự làm, như kế hoạch §6): hòa khối má–mặt, rãnh
+  âm nếp cười, cong môi, cánh mũi, rộng đầu A Di Đà (nợ đo A1).
+
+File: layout_v16_v14.blend 98.001.099 byte (nguồn V15: 97.698.093,
+nguyên vẹn); audit: layout/v14_audit.json; verify: layout/v14_verify.json
++ verify_v14.log; đo scene: layout/v14_scene_measure.json.
+Script vòng này: layout/measure_v14.py, build_v14.py (DRY_RUN đã tắt sau
+khi qua cổng), verify_v14.py, baseline_overlap_v14.py,
+scripts/render_v14.py, pixeldiff_v14.py, run_v14_driver.sh; log driver:
+layout/v14_driver.log; bằng chứng vòng 1: layout/v14_iter1/.
+
+## §V14.1 — Mũi A Di Đà bước 2 (0,2463 → 0,272) — XONG 01:31 ngày 11/11/2026
+Driver run_v141_driver.sh canh khe RAM (≥1800 MB) suốt từ 19:43 ngày 10/11,
+bị VM reboot giết 2 lần, coordinator khởi động lại; chạy trọn
+dryrun → build → verify → render trong cửa sổ RAM ~01:00–01:31 ngày 11/11.
+- File: layout_v17_v141.blend (98.001.265 byte; nguồn layout_v16_v14.blend
+  nguyên vẹn). Script: layout/build_v141.py, verify_v141.py, render_v141.py.
+- Đo trước: head_w 0,8419, nose_w 0,2074, frac 0,2463 → k = 1,1042.
+  Sau: **frac = 0,2720 = đúng tỉ lệ ảnh thật** (audit v141_audit.json).
+- Verify độc lập **32/32 PASS** (v141_verify.json, verdict PASS): toàn bộ số
+  V14 giữ nguyên (Di Lặc nose 0,2500; protrusion mày/mắt/nếp cười/má;
+  A Di Đà brow/lid/eye/mouth/urna), tai giữ V13 (ratio 0,5070), vật đổi =
+  ĐÚNG 3 object (Head_nose + 2 bản cổng Phương Tiện/Tịnh Độ), cổng Mc
+  deviation 0,000004, object được bảo vệ worst dev 0,0.
+- Render: layout/layout_v17_face_adida.png. **Coordinator soi 03:5x: số đo
+  ĐẠT; tổng thể mặt vẫn CHƯA giống thật** — cùng kết luận V14: mũi vẫn là
+  khối oval rời, mắt 3 vạch trắng xếp chồng, miệng thanh ngang, đầu trứng.
+  Khoảng cách còn lại là việc ĐIÊU KHẮC lưới (gắn liền nét vào mặt, rãnh thay
+  ống nổi, sống mũi/lỗ mũi, tóc xoắn A Di Đà) — ngoài phạm vi phép biến đổi
+  ma trận, chờ quyết định mở vòng điêu khắc riêng của Chung Hy.

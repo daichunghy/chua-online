@@ -61,6 +61,7 @@
 
     // ---- Tự đi (auto-walk) + vệt sen chỉ đường + vòng đích ----
     let autoWalk = null;
+    let dayDiSaid = false; // V7.1: day_di chỉ phát 1 lần duy nhất (xem startAutoWalk)
     let autoSpeedBase = 1.15; // tốc độ tự đi chuẩn (v6: đi chậm); kiểm thử headless tăng qua __v6debug
     let camOverride = null; // góc máy riêng cho sạp nhang (module_7 dùng)
     const trailMat = new THREE.LineBasicMaterial({ color: 0xC9962E, transparent: true, opacity: 0.55 });
@@ -88,6 +89,9 @@
       autoWalk = { path, station };
       player.target = null;
       showTrail([[player.pos.x, player.pos.z]].concat(path.map(p => [p.x, p.z])));
+      // V7.1: câu hướng dẫn di chuyển — chỉ phát MỘT LẦN DUY NHẤT khi vòng đích
+      // lần đầu xuất hiện (lần đầu bấm nút động từ để tự đi).
+      if (!dayDiSaid) { dayDiSaid = true; playVoice('day_di'); }
     }
     function cancelAutoWalk() { if (autoWalk) { autoWalk = null; hideTrail(); } }
 
@@ -106,7 +110,7 @@
         action: () => openStall() },
       { id: 'adida', route: true, name: 'Phật A Di Đà', verb: 'Vái A Di Đà', voice: 's1_adida',
         an: 'Tượng Phật A Di Đà, cao mười tám mét trên bệ cao bảy mét, khánh thành năm 2008. Trước tượng chỉ vái; nhang chỉ thắp ở lư giữa sân.',
-        pos: [-14, 23.2], r: 3.5, via: [[28, 40.6], [28, 36.5], [8, 31], [-6, 27.5]],
+        pos: [-14, 22.4], r: 3.5, via: [[28, 40.6], [28, 36.5], [8, 31], [-6, 27.5]], // v7.2: điểm đứng lùi theo bệ tượng phóng 1.29
         action: () => { startBow(1); playMokugyo(); showToast('Nam mô A Di Đà Phật.'); markStation('adida'); } },
       { id: 'dilac', route: true, name: 'Phật Di Lặc', verb: 'Vái Di Lặc', voice: 's4_dilac',
         an: 'Tượng Phật Di Lặc, khánh thành năm 2010, cao khoảng hai mươi mét, nặng hơn hai trăm năm mươi tấn.',
@@ -161,7 +165,7 @@
         action: () => exitInterior() },
       { id: 'nirvana', route: true, name: 'Phật Niết Bàn', verb: 'Vái Phật nằm', voice: 's5_nirvana',
         an: 'Tượng Phật nhập Niết Bàn, dài khoảng ba mươi hai mét, dựng năm 2013. Nơi đây tĩnh lặng — đứng yên một lát rồi mới vái.',
-        pos: [12, -39.3], r: 7.5, via: [[2, -2], [4, -20], [8, -32]],
+        pos: [12, -39.3], r: 7.5, via: [[15, 8], [5, 5], [2, -2], [4, -20], [8, -32]], // v7.3: via (15,8) né bonsai (diag 1); via (5,5) — ĐO LẠI sau diag 2: đường (15,8)->(2,-2) trượt dọc mặt đông tháp đầu hồi rồi kẹt vĩnh viễn ở GÓC LÕM (9.1,1.7) do collider tháp mở rộng (x≤9.1, z≤3.7) và chánh điện mở rộng (x≥8.5, z≤1.7) khép kín lối z 0.3–1.7 — trượt cục bộ không thoát được góc lõm, phải đi vòng phía BẮC tháp (z=5 > 3.7) rồi mới xuống (2,-2)
         action: () => {
           if (silenceLeft > 0) { showToast('Đang trong phút đứng lặng.'); return; }
           startBow(1); playMokugyo(); showToast('Nam mô Bổn Sư Thích Ca Mâu Ni Phật.'); markStation('nirvana');
@@ -174,11 +178,11 @@
         an: 'Thùng công đức. Tấm lòng tùy tâm, không có mức nào cả.',
         pos: [27.9, 7.0], r: 2.2, via: [],
         action: () => { playBell(); playVoice('merit_box'); showToast('Đã ghi nhận tấm lòng tùy tâm.'); } },
-      { id: 'books', route: false, name: 'Phòng kinh sách', verb: 'Xem kinh sách',
+      { id: 'books', route: false, name: 'Phòng kinh sách', verb: 'Xem kinh sách', voice: 's3_giang_duong',
         an: 'Phòng kinh sách ở phía sau, gần Giảng đường Huệ Đăng.',
-        pos: [33, -8.4], r: 3, via: [],
+        pos: [42, -7.6], r: 3, via: [], // v7.3c: theo bookRoom mới (42,-10.5) — điểm đứng mặt nam của phòng, ngoài rect nới của phòng (z<=-8.7)
         action: () => openBooks() },
-      { id: 'shop', route: false, name: 'Quầy lưu niệm', verb: 'Xem quà lưu niệm',
+      { id: 'shop', route: false, name: 'Quầy lưu niệm', verb: 'Xem quà lưu niệm', voice: 's7_tam_biet',
         an: 'Quầy lưu niệm ở hông phải chùa, trên đường ra.',
         pos: [40, 34.3], r: 3.5, via: [],
         action: () => openModal('shop-modal') },
@@ -604,7 +608,7 @@
       SHOP_PRODUCTS.filter(p => p.cat === shopCat).forEach(p => {
         const div = document.createElement('div');
         div.className = 'shop-item';
-        div.innerHTML = `<div class="thumb">${p.name.charAt(0)}</div><div class="info"><b>${p.name}</b><small>${p.desc}</small><small style="color:var(--green);font-weight:600;">🚚 Giao tận nhà</small></div><div class="price">${fmtVND(p.price)}</div>`;
+        div.innerHTML = `<div class="thumb">${p.name.charAt(0)}</div><div class="info"><b>${p.name}</b><small>${p.desc}</small></div><div class="price">${fmtVND(p.price)}</div>`;
         const btn = document.createElement('button');
         btn.className = 'add'; btn.textContent = 'Thêm';
         btn.onclick = () => {
@@ -662,10 +666,10 @@
     // ---- Cài đặt + nav + khay khám phá ----
     const brightnessSlider = document.getElementById('brightness-slider');
     brightnessSlider.value = V4.brightness || 1.0;
-    renderer.toneMappingExposure = 1.15 * (V4.brightness || 1.0);
+    renderer.toneMappingExposure = 1.12 * (V4.brightness || 1.0); // v7.3: trước đây ghi đè 1.02 làm mất nâng sáng 1.12 của grade V7.2
     brightnessSlider.addEventListener('input', () => {
       V4.brightness = parseFloat(brightnessSlider.value); saveV4();
-      renderer.toneMappingExposure = 1.15 * V4.brightness;
+      renderer.toneMappingExposure = 1.12 * V4.brightness;
     });
     document.getElementById('btn-settings').addEventListener('click', () => {
       document.getElementById('settings-pop').classList.toggle('open');
@@ -676,67 +680,28 @@
     });
     const tray = document.getElementById('explore-tray');
     document.getElementById('nav-explore').addEventListener('click', () => tray.classList.toggle('open'));
-    document.getElementById('nav-learn').addEventListener('click', () => {
-      tray.classList.remove('open');
-      openModal('lecture-modal');
-    });
-    document.getElementById('nav-account').addEventListener('click', () => {
-      tray.classList.remove('open');
-      document.getElementById('settings-pop').classList.toggle('open');
-    });
+    document.getElementById('nav-learn').addEventListener('click', () => { tray.classList.remove('open'); if (window.openLessons) window.openLessons(); });
+    document.getElementById('nav-account').addEventListener('click', () => { tray.classList.remove('open'); if (window.openProfiles) window.openProfiles(); });
     document.getElementById('tray-chant').addEventListener('click', () => { tray.classList.remove('open'); if (window.openChant) window.openChant(); });
-    document.getElementById('tray-lessons').addEventListener('click', () => { tray.classList.remove('open'); openModal('lecture-modal'); });
+    document.getElementById('tray-lessons').addEventListener('click', () => { tray.classList.remove('open'); if (window.openLessons) window.openLessons(); });
     document.getElementById('tray-fortune').addEventListener('click', () => { tray.classList.remove('open'); if (window.__openFortune) window.__openFortune(); });
     document.getElementById('tray-books').addEventListener('click', () => { tray.classList.remove('open'); openBooks(); });
     document.getElementById('tray-shop').addEventListener('click', () => { tray.classList.remove('open'); openModal('shop-modal'); });
     document.getElementById('tray-so').addEventListener('click', () => { tray.classList.remove('open'); openModal('so-modal'); });
 
-    // Gắn sự kiện cho 4 nút hành động nghi lễ góc dưới phải (chuẩn ảnh đề xuất)
-    document.getElementById('act-bow')?.addEventListener('click', () => {
-      cancelAutoWalk();
-      startBow(3);
-      playBell();
-      showToast('🙏 Thành tâm đảnh lễ Chư Phật Tam Bảo (3 lạy).');
-      spawnBlessingText('Kính Lễ Tam Bảo', window.innerWidth * 0.7, window.innerHeight * 0.5);
-    });
-    document.getElementById('act-incense')?.addEventListener('click', () => {
-      cancelAutoWalk();
-      const s = stationById('burner');
-      if (s) {
-        showToast('Bước tới lư hương sân trước Chánh điện để dâng hương...');
-        startAutoWalk(s);
-      } else {
-        openIncense();
-      }
-    });
-    document.getElementById('act-flower')?.addEventListener('click', () => {
-      cancelAutoWalk();
-      playBell();
-      showToast('🪷 Dâng hoa sen thơm thanh tịnh cúng dường Chư Phật.');
-      spawnBlessingText('Dâng Hoa Cúng Dường', window.innerWidth * 0.7, window.innerHeight * 0.5);
-    });
-    document.getElementById('act-chant')?.addEventListener('click', () => {
-      if (window.openChant) window.openChant();
-      else showToast('📿 Nam Mô A Di Đà Phật · Niệm Phật an lạc.');
-    });
-
-    // Pin 3D Chánh điện click
-    document.getElementById('pin-chanhdien')?.addEventListener('click', () => {
-      cancelAutoWalk();
-      const s = stationById('hall');
-      if (s) startAutoWalk(s);
-    });
-
     // ---- Khởi tạo ----
     renderPetals();
     if (routeComplete()) document.body.classList.add('free');
     refreshVerb();
-    setTimeout(() => sayAn('Nam mô A Di Đà Phật. Chào mừng bạn đến với Chùa Vĩnh Tràng.'), 900);
+    setTimeout(() => sayAn('Nam mô A Di Đà Phật. An sẽ đi cùng bạn một vòng chùa. Mời bấm nút “Vào cổng”.'), 900);
 
     // Debug/kiem thu (chi doc trang thai + di bo thu cong)
     window.__v6debug = {
-      state: () => ({ pos: [player.pos.x, player.pos.z], inside, journey: V4.journey, lit: V4.lit, bought: V4.bought, verb: ctxBtn.textContent, station: currentStation ? currentStation.id : null, cartQty: cart.reduce((a, c) => a + c.qty, 0), silenceLeft, silenceDone, ritualDim: document.body.classList.contains('ritual-dim') }),
+      state: () => ({ pos: [player.pos.x, player.pos.z], inside, journey: V4.journey, lit: V4.lit, bought: V4.bought, verb: ctxBtn.textContent, station: currentStation ? currentStation.id : null, cartQty: cart.reduce((a, c) => a + c.qty, 0), silenceLeft, silenceDone, ritualDim: document.body.classList.contains('ritual-dim'), cam: [+camera.position.x.toFixed(2), +camera.position.z.toFixed(2)], camYaw: +player.camYaw.toFixed(3) }),
       walkTo: (x, z) => { cancelAutoWalk(); player.target = { x, z }; },
+      // V7.1: đặt góc máy + dịch chuyển tức thời (chỉ dùng để kiểm thử camera trong điện)
+      setCamYaw: y => { player.camYaw = y; },
+      teleport: (x, z) => { cancelAutoWalk(); player.target = null; player.pos.set(x, 0, z); },
       setSpeed: s => { player.speed = s; },
       setAutoSpeed: s => { autoSpeedBase = s; },
       station: st => currentStation === st,

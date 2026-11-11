@@ -80,6 +80,22 @@
       }
       if (!pointBlocked(nx, pz)) player.pos.x = nx;
       if (!pointBlocked(px, nz)) player.pos.z = nz;
+      if (player.pos.x === px && player.pos.z === pz) {
+        // v7.3 (chẩn đoán P12): kẹt CHÉO ở mép collider tròn / góc lõm — cả hai
+        // bước đơn trục đều bị chặn nhưng vị trí chưa lún vào trong (blockDepth
+        // = 0) nên thoát nêm ở trên không kích hoạt; avatar đứng chết tại chỗ
+        // (đo thật: kẹt ở mép collider chậu bonsai (20; 6,2) trên đường từ lư
+        // sân ra Phật nằm). Thử trượt theo các góc xoay quanh hướng đi; mọi
+        // đích đến vẫn qua pointBlocked nên không bao giờ xuyên vật.
+        const dx = nx - px, dz = nz - pz;
+        if (Math.hypot(dx, dz) > 1e-6) {
+          for (const adeg of [35, -35, 70, -70, 110, -110, 150, -150]) { // v7.3: thêm ±150 — trượt ngang mặt vật khi kẹt góc (không sửa được góc lõm khép kín, đường via mới lo phần đó)
+            const a = adeg * Math.PI / 180, ca = Math.cos(a), sa = Math.sin(a);
+            const cx = px + dx * ca - dz * sa, cz = pz + dx * sa + dz * ca;
+            if (!pointBlocked(cx, cz)) { player.pos.x = cx; player.pos.z = cz; break; }
+          }
+        }
+      }
     }
     // Tọa độ trong điện: world (300+x, 300+z) <-> local (x, z)
     function toLocal() { return { x: player.pos.x - 300, z: player.pos.z - 300 }; }
@@ -92,33 +108,6 @@
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(e.code)) e.preventDefault();
     });
     window.addEventListener('keyup', e => { keys[e.code] = false; });
-
-    // D-Pad di chuyển (chuẩn ảnh đề xuất)
-    const dpadButtons = [
-      ['dpad-up', 'KeyW'],
-      ['dpad-down', 'KeyS'],
-      ['dpad-left', 'KeyA'],
-      ['dpad-right', 'KeyD']
-    ];
-    dpadButtons.forEach(([id, code]) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const onDown = (e) => {
-        e.preventDefault();
-        keys[code] = true;
-        el.classList.add('active');
-        if (typeof cancelAutoWalk === 'function') cancelAutoWalk();
-      };
-      const onUp = (e) => {
-        e.preventDefault();
-        keys[code] = false;
-        el.classList.remove('active');
-      };
-      el.addEventListener('pointerdown', onDown);
-      el.addEventListener('pointerup', onUp);
-      el.addEventListener('pointerleave', onUp);
-      el.addEventListener('pointercancel', onUp);
-    });
     const raycaster = new THREE.Raycaster();
     const groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
     const clickPoint = new THREE.Vector3();
