@@ -1,131 +1,27 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chùa Online — Hệ Thống Không Gian & Mô Hình 3D</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: Calibri, 'Segoe UI', sans-serif;
-      font-size: 11pt;
-      line-height: 1.6;
-      background: #f7f5f0;
-      color: #3e3834;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 24px;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Chùa Online | Chùa Vĩnh Tràng — Không Gian Chiêm Bái, Tu Học & Vật Phẩm 3D</title>
+  <meta name="description" content="Trải nghiệm đi chùa Vĩnh Tràng trực tuyến: Lễ Phật, Dâng hương, Dâng hoa, Niệm Phật 108 hạt, Giảng đường Phật pháp 24 bài học, 3 nhân vật 3D (Nam, Nữ, Trẻ em), Chụp ảnh UGC và Cửa hàng lưu niệm 20 vật phẩm 3D." />
+  <meta property="og:title" content="Chùa Online | Chùa Vĩnh Tràng — Không Gian Chiêm Bái, Tu Học & Vật Phẩm 3D" />
+  <meta property="og:description" content="Trải nghiệm đi chùa Vĩnh Tràng trực tuyến: Lễ Phật, Dâng hương, Dâng hoa, Niệm Phật 108 hạt, Giảng đường Phật pháp 24 bài học, 3 nhân vật 3D (Nam, Nữ, Trẻ em), Chụp ảnh UGC và Cửa hàng lưu niệm 20 vật phẩm 3D." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/app/chua-online-app.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "/Mô hình 3D Vĩnh Tràng/v7_parts/vendor/three.module.js",
+        "three/addons/": "/Mô hình 3D Vĩnh Tràng/v7_parts/vendor/"
+      }
     }
-    .hub-card {
-      background: #ffffff;
-      border: 1px solid #ded8ce;
-      border-radius: 12px;
-      max-width: 680px;
-      width: 100%;
-      padding: 32px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-    }
-    h1 {
-      font-size: 18pt;
-      color: #5c3a21;
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
-    .subtitle {
-      font-size: 11pt;
-      color: #7d756d;
-      margin-bottom: 24px;
-    }
-    .link-list {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .link-item {
-      display: block;
-      text-decoration: none;
-      background: #faf8f5;
-      border: 1px solid #e5dfd6;
-      border-radius: 8px;
-      padding: 16px 20px;
-      transition: all 0.2s ease;
-    }
-    .link-item:hover {
-      border-color: #715045;
-      background: #f3eee6;
-      transform: translateY(-1px);
-    }
-    .item-title {
-      font-size: 12.5pt;
-      font-weight: 600;
-      color: #4a362b;
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .item-desc {
-      font-size: 10pt;
-      color: #6e655d;
-    }
-    .badge {
-      font-size: 9pt;
-      background: #2f6844;
-      color: #fff;
-      padding: 3px 8px;
-      border-radius: 12px;
-      font-weight: normal;
-    }
-  </style>
+  </script>
 </head>
 <body>
-  <div class="hub-card">
-    <h1>Chùa Online — Hệ Thống Không Gian & Mô Hình 3D</h1>
-    <div class="subtitle">Mô hình 3D vật phẩm chuẩn Coohom, nhân vật Phật tử và chuyển động sân chùa</div>
-
-    <div class="link-list">
-      <a class="link-item" href="./Mô hình 3D Vĩnh Tràng/trai-nghiem-vinh-trang-v7.html" style="border-left: 4px solid #1c5a34; background: #f6fcf8;">
-        <div class="item-title">
-          <span>🎮 Game 3D Chùa Vĩnh Tràng Real-time (WebGL / Three.js V7)</span>
-          <span class="badge" style="background:#1c5a34">Nâng Cấp Chuẩn Tone Màu Gốc</span>
-        </div>
-        <div class="item-desc">Trải nghiệm 3D thời gian thực toàn diện: Tone màu sáng trong nắng vàng ban mai, sương mù khí quyển hòa quyện, sân gạch sa thạch ấm áp, tượng Phật đá ngọc trắng ngà, cụm D-Pad di chuyển và 4 nút hành động tâm linh (Lễ Phật, Dâng hương, Dâng hoa, Niệm Phật) chuẩn theo thiết kế ban đầu.</div>
-      </a>
-
-      <a class="link-item" href="./Mô hình 3D Vĩnh Tràng/trai-nghiem-chua-vinh-trang-3d.html?v=3d_cartoon" style="border-left: 4px solid #b87a22; background: #fffcf5;">
-        <div class="item-title">
-          <span>Không Gian Chùa Vĩnh Tràng 3D Cartoon — Chiêm Bái & Tu Học</span>
-          <span class="badge" style="background:#b87a22">3D Cartoon Chuẩn Gốc</span>
-        </div>
-        <div class="item-desc">Tái hiện hoàn toàn 100% theo bản thiết kế 3D Cartoon ban đầu: người phụ nữ đi vào Chánh điện Chùa Vĩnh Tràng, 13 cửa vòm La Mã, tháp Angkor; đầy đủ hành trình Lễ Phật, Dâng hương, Dâng hoa, Niệm Phật, Giảng đường Phật pháp và Cửa hàng lưu niệm.</div>
-      </a>
-
-      <a class="link-item" href="./Thiết kế giao diện/Vật phẩm 3D/bo-vat-pham-3d.html">
-        <div class="item-title">
-          <span>Hệ Thống Mô Hình 3D Toàn Bộ Vật Phẩm & Coohom</span>
-          <span class="badge">Mới Nhất</span>
-        </div>
-        <div class="item-desc">20 vật phẩm thuộc 7 bộ, xem 360°, tính năng gắn thử lên nhân vật, tải gói Coohom (.zip OBJ + MTL).</div>
-      </a>
-
-      <a class="link-item" href="./Thiết kế giao diện/Nhân vật 3D/kiem-tra-tao-hinh-3d.html">
-        <div class="item-title">
-          <span>Tạo Hình 3D Ba Nhân Vật Đi Chùa</span>
-          <span class="badge" style="background:#715045">Nhân Vật</span>
-        </div>
-        <div class="item-desc">Kiểm tra tỷ lệ người tự nhiên (Nam 1.74m, Nữ 1.62m, Trẻ em 1.15m), dáng đứng và Gemini Live API.</div>
-      </a>
-
-      <a class="link-item" href="./Thiết kế giao diện/Nhân vật 3D/san-chua-chuyen-dong.html">
-        <div class="item-title">
-          <span>Sân Chùa & Chuyển Động Thiền Hành</span>
-          <span class="badge" style="background:#5c3a21">Không Gian</span>
-        </div>
-        <div class="item-desc">Mô phỏng nhân vật di chuyển và dâng hương tại sân Chùa Vĩnh Tràng.</div>
-      </a>
-    </div>
-  </div>
+  <div id="app-root"></div>
+  <script type="module" src="/src/app/chua-online-app.mjs"></script>
 </body>
 </html>
