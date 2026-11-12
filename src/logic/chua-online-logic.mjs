@@ -1,10 +1,10 @@
 /**
  * Pure domain logic for Chùa Online | Chùa Vĩnh Tràng
  * Covers:
- * 1. 9-Zone Spatial Architecture across 2-hectare Chùa Vĩnh Tràng grounds, D-Pad/WASD movement, collision & radar
+ * 1. 9-Zone Spatial Architecture across 14,000 m² Chùa Vĩnh Tràng grounds, D-Pad/WASD movement, collision & radar
  * 2. 3 Rigged 3D Characters (Phật tử Nữ 1.62m, Phật tử Nam 1.74m, Trẻ em 1.15m) & 3D Equipment fitting
- * 3. Spiritual Action State Machine (Lễ Phật, Dâng hương 4 bước, Dâng hoa, Niệm Phật 108 hạt, Xin xăm, Quét lá)
- *    + Lục Độ Ba La Mật (6 Paramitas) Quest Progression
+ * 3. Spiritual Action State Machine (Lễ Phật, Dâng hương 4 bước, Dâng hoa, Niệm Phật 108 hạt, Thỉnh chuông, Quét lá)
+ *    + Dấu Ấn Hành Trình (9 cánh hoa sen thanh tịnh, phi cạnh tranh)
  * 4. Souvenir & 3D Item Catalog (Quà lưu niệm, Đồ tu học, Vật phẩm 3D including 3D Shop Kiosk Model & Southern specialties)
  * 5. Deeply Researched Buddhist Dharma Curriculum (24 lessons + 10 canonical PDF textbooks from /Giáo trình phật học/)
  * 6. UGC Photo Check-in Studio ("Chụp ảnh Check-in Chùa Vĩnh Tràng như thật") & Community Gallery
@@ -17,7 +17,7 @@ export const CHARACTER_PROFILES = [
     heightLabel: '1.62m',
     heightMeters: 1.62,
     outfitName: 'Áo tràng lam cổ tàu 5 nút (#9A8F99) & Túi vải sen',
-    glb: '/Thiết kế giao diện/Nhân vật 3D/Chuyển động/nu-chuyen-dong.glb',
+    glb: '/Thiết kế giao diện/Nhân vật 3D/Bản chỉnh sửa/nu-phuc-hoi-mau-chuyen-dong.glb',
     previewImg: '/public/assets/aistudio/image_8f6004e3.png',
     fitPreviewImg: '/Thiết kế giao diện/Nhân vật 3D/render-items-nu.jpg',
     description: 'Phật tử nữ mặc áo lam tím khói 5 nút truyền thống, đeo túi tote hoa sen, tóc búi thấp trang nghiêm.'
@@ -53,11 +53,11 @@ export const PILGRIMAGE_STATIONS = [
     name: 'Cổng Tam Quan Ghép Sành Sứ',
     zoneCode: 'Khu 1 · Tiền Đường',
     pinLabel: '⛩️ Cổng Tam Quan',
-    pos: { x: 23, z: 42 },
-    standPos: { x: 23, z: 37.5 },
+    pos: { x: 23, z: 40.7 },
+    standPos: { x: 23, z: 36.5 },
     via: [[23, 35]],
     mapCoord: { x: 50, y: 88 },
-    lookAt: { x: 23, y: 4.2, z: 42 },
+    lookAt: { x: 23, y: 4.2, z: 40.7 },
     audio: 's0_chao.mp3',
     subtitle: 'Nghệ thuật ghép mảnh sành sứ cổ năm 1933. Bước qua cửa Không – Vô Tướng – Vô Tác, buông nhẹ ưu phiền.',
     ritualType: 'welcome'
@@ -68,28 +68,28 @@ export const PILGRIMAGE_STATIONS = [
     name: 'Hồ Sen Tịnh Thủy & Cầu Đá Cá Koi',
     zoneCode: 'Khu 2 · Song Liên Trì',
     pinLabel: '🪷 Hồ Sen & Cá Koi',
-    pos: { x: 8, z: 16 },
-    standPos: { x: 14.5, z: 16 },
-    via: [[20, 22], [16, 16]],
+    pos: { x: 5, z: 16 },
+    standPos: { x: 16.5, z: 16 },
+    via: [[20, 22], [16.5, 16]],
     mapCoord: { x: 34, y: 62 },
     lookAt: { x: 5, y: 0.8, z: 16 },
     audio: 'day_di.mp3',
-    subtitle: 'Hai hồ sen lớn tỏa hương thanh khiết trước sân Chánh điện, đàn cá Koi bơi lượn dưới cầu đá và đài phun nước.',
+    subtitle: 'Hai hồ sen lớn tỏa hương thanh khiết trước sân Chánh điện, đàn cá Koi bơi lượn dưới lan can đá.',
     ritualType: 'dang_hoa'
   },
   {
     id: 2,
     key: 'phat_adida',
-    name: 'Đại Tượng Phật A Di Đà Đứng (Cao 18m)',
+    name: 'Đại Tượng Phật A Di Đà Đứng (Cao 24m)',
     zoneCode: 'Khu 3 · Hoa Viên Tây',
     pinLabel: '🙏 Tượng Phật A Di Đà',
-    pos: { x: -14, z: 27 },
-    standPos: { x: -14, z: 21.5 },
-    via: [[18, 26], [2, 26], [-10, 22]],
+    pos: { x: -14, z: 28 },
+    standPos: { x: -14, z: 14.8 },
+    via: [[18, 22], [2, 18], [-10, 15]],
     mapCoord: { x: 18, y: 56 },
-    lookAt: { x: -14, y: 8.5, z: 27 },
+    lookAt: { x: -14, y: 9.5, z: 28 },
     audio: 's1_adida.mp3',
-    subtitle: 'Đức Phật A Di Đà cao 18m đứng trên đài sen phóng quang tiếp dẫn. Chắp tay niệm danh hiệu Ngài để nhiếp tâm.',
+    subtitle: 'Đức Phật A Di Đà cao 24m đứng trên đài sen xanh dương phóng quang tiếp dẫn. Chắp tay niệm danh hiệu Ngài để nhiếp tâm.',
     ritualType: 'niem_phat'
   },
   {
@@ -98,13 +98,13 @@ export const PILGRIMAGE_STATIONS = [
     name: 'Đại Tượng Phật Di Lặc Ngồi (Cao 20m)',
     zoneCode: 'Khu 4 · Hoa Viên Đông – Tây',
     pinLabel: '😊 Tượng Phật Di Lặc',
-    pos: { x: -24, z: -2 },
-    standPos: { x: -24, z: 5.5 },
-    via: [[15, 14], [-8, 10], [-20, 6]],
+    pos: { x: -24.5, z: -4 },
+    standPos: { x: -24.5, z: 9.8 },
+    via: [[15, 14], [-8, 10], [-20, 9]],
     mapCoord: { x: 16, y: 38 },
-    lookAt: { x: -24, y: 6.5, z: -2 },
+    lookAt: { x: -24.5, y: 7.5, z: -4 },
     audio: 's4_dilac.mp3',
-    subtitle: 'Đại tượng Phật Di Lặc cao 20m, nặng 250 tấn giữa thảm cỏ xanh nhắc ta thực hành hạnh Nhẫn Nhục & Hỷ Xả.',
+    subtitle: 'Đại tượng Phật Di Lặc cao 20m, nặng 250 tấn giữa hoa viên nhắc ta thực hành hạnh Nhẫn Nhục & Hỷ Xả.',
     ritualType: 'le_phat'
   },
   {
@@ -114,10 +114,10 @@ export const PILGRIMAGE_STATIONS = [
     zoneCode: 'Khu 5 · Trung Tâm Sân Lễ',
     pinLabel: '🔥 Lư hương Chánh điện',
     pos: { x: 23, z: 11 },
-    standPos: { x: 23, z: 14.8 },
+    standPos: { x: 23, z: 16.5 },
     via: [[23, 18]],
     mapCoord: { x: 50, y: 54 },
-    lookAt: { x: 23, y: 3.5, z: 2 },
+    lookAt: { x: 23, y: 3.8, z: 2 },
     audio: 's2_thap_nhang.mp3',
     subtitle: 'Dâng ba nén tâm hương: Hương Giới — Hương Định — Hương Tuệ nguyện cầu quốc thái dân an.',
     ritualType: 'dang_huong'
@@ -128,11 +128,11 @@ export const PILGRIMAGE_STATIONS = [
     name: 'Chánh Điện Chùa Vĩnh Tràng & 18 La Hán',
     zoneCode: 'Khu 6 · Nội Điện Tam Bảo',
     pinLabel: '📍 Chánh điện',
-    pos: { x: 23, z: 1.5 },
-    standPos: { x: 23, z: 7.2 },
-    via: [[23, 12], [23, 8]],
+    pos: { x: 23, z: -1 },
+    standPos: { x: 23, z: 7.5 },
+    via: [[23, 18], [23, 7.5]],
     mapCoord: { x: 50, y: 40 },
-    lookAt: { x: 23, y: 4.8, z: -4 },
+    lookAt: { x: 23, y: 5.2, z: -4 },
     audio: 's3_lay_phat.mp3',
     subtitle: 'Kiến trúc giao thoa Á – Âu độc đáo với 13 nhịp vòm, 7 bộ bao lam thếp vàng và thập bát La Hán gỗ mít năm 1907.',
     ritualType: 'le_phat'
@@ -143,11 +143,11 @@ export const PILGRIMAGE_STATIONS = [
     name: 'Quầy Cửa Hàng Lưu Niệm Gỗ & Vật Phẩm 3D',
     zoneCode: 'Khu 7 · Hữu Vu Đông',
     pinLabel: '🏮 Cửa hàng lưu niệm',
-    pos: { x: 40, z: 36 },
-    standPos: { x: 36.5, z: 33.5 },
+    pos: { x: 40, z: 38 },
+    standPos: { x: 36.5, z: 34.5 },
     via: [[28, 25], [35, 32]],
     mapCoord: { x: 78, y: 66 },
-    lookAt: { x: 40, y: 2.4, z: 36 },
+    lookAt: { x: 40, y: 2.4, z: 38 },
     audio: 'merit_box.mp3',
     subtitle: 'Quầy gỗ mái ngói cổ truyền trong sân chùa: chọn quà lưu niệm, pháp khí tu học và gắn vật phẩm 3D lên 3 nhân vật.',
     ritualType: 'shop'
@@ -158,11 +158,11 @@ export const PILGRIMAGE_STATIONS = [
     name: 'Giảng Đường Phật Pháp & Phòng Kinh Sách',
     zoneCode: 'Khu 8 · Giảng Đường Huệ Đăng',
     pinLabel: '📖 Giảng đường',
-    pos: { x: 43, z: -16 },
+    pos: { x: 44, z: -20 },
     standPos: { x: 36, z: -11 },
     via: [[28, 12], [35, 2], [36, -8]],
     mapCoord: { x: 80, y: 28 },
-    lookAt: { x: 43, y: 3.5, z: -18 },
+    lookAt: { x: 44, y: 3.5, z: -20 },
     audio: 's3_giang_duong.mp3',
     subtitle: 'Không gian gỗ lim trầm mặc: lắng nghe pháp âm, đọc 10 bộ giáo trình Phật học và học 24 bài thực hành.',
     ritualType: 'lecture'
@@ -173,11 +173,11 @@ export const PILGRIMAGE_STATIONS = [
     name: 'Đại Tượng Phật Niết Bàn (32m) & Bảo Tháp 7 Tầng',
     zoneCode: 'Khu 9 · Hậu Viên & Bảo Tháp',
     pinLabel: '🌸 Tượng Phật Niết Bàn & Bảo Tháp',
-    pos: { x: 12, z: -42 },
-    standPos: { x: 12, z: -34 },
-    via: [[15, 8], [5, 5], [4, -18], [10, -30]],
+    pos: { x: 12, z: -47 },
+    standPos: { x: 12, z: -32.0 },
+    via: [[15, 8], [5, 5], [4, -18], [10, -31]],
     mapCoord: { x: 42, y: 16 },
-    lookAt: { x: 12, y: 5.5, z: -44 },
+    lookAt: { x: 12, y: 6.5, z: -47 },
     audio: 's5_nirvana.mp3',
     subtitle: 'Chiêm bái tôn tượng Đức Phật nhập Niết Bàn dài 32m và Bảo Tháp Thất Phật cao 35m (7 tầng) nơi hậu viên thanh tịnh.',
     ritualType: 'hoi_huong'
@@ -187,7 +187,7 @@ export const PILGRIMAGE_STATIONS = [
 export const WORLD_BOUNDS = {
   minX: -38,
   maxX: 53,
-  minZ: -42,
+  minZ: -52,
   maxZ: 52
 };
 
@@ -230,9 +230,11 @@ export function findNearestStation(pos, stations = PILGRIMAGE_STATIONS) {
   let best = stations[0];
   let bestDist = Infinity;
   for (const st of stations) {
-    const targetX = st.standPos ? st.standPos.x : st.pos.x;
-    const targetZ = st.standPos ? st.standPos.z : st.pos.z;
-    const d = Math.hypot((pos?.x || 0) - targetX, (pos?.z || 0) - targetZ);
+    const dPos = Math.hypot((pos?.x || 0) - st.pos.x, (pos?.z || 0) - st.pos.z);
+    const dStand = st.standPos
+      ? Math.hypot((pos?.x || 0) - st.standPos.x, (pos?.z || 0) - st.standPos.z)
+      : Infinity;
+    const d = Math.min(dPos, dStand);
     if (d < bestDist) {
       bestDist = d;
       best = st;
@@ -251,7 +253,6 @@ export function createSpiritualState(initial = {}) {
     malaCycles: initial.malaCycles || 0,
     bellRings: initial.bellRings || 0,
     leavesSwept: initial.leavesSwept || 0,
-    oracleDraws: initial.oracleDraws || 0,
     visitedStations: Array.isArray(initial.visitedStations) ? [...initial.visitedStations] : [5],
     completedMilestones: Array.isArray(initial.completedMilestones) ? [...initial.completedMilestones] : [],
     lastUnlockedMilestone: initial.lastUnlockedMilestone || null,
@@ -437,78 +438,26 @@ export function performSpiritualAction(state, actionType, payload = {}) {
 }
 
 /**
- * Lục Độ Ba La Mật (Six Paramitas) Quest Progression for Vast Spatial Gameplay
+ * Dấu Ấn Hành Trình (9 cánh hoa sen thanh tịnh ứng với 9 điểm hành hương trong chùa)
+ * Không dùng thanh EXP, level, điểm số hay danh hiệu cạnh tranh.
  */
-export function calculateLucDoProgress(spiritual, completedLessonsCount = 0, ordersCount = 0, ugcPostsCount = 0) {
+export function calculateJourneyImprint(spiritual) {
   const s = createSpiritualState(spiritual);
-  const quests = [
-    {
-      id: 'bo_thi',
-      name: '1. Bố Thí Ba La Mật',
-      sanskrit: 'Dāna Pāramitā',
-      desc: 'Gieo duyên dâng hoa, chia sẻ ảnh kỷ niệm UGC hoặc thỉnh quà lưu niệm chùa.',
-      done: s.lotusOfferings >= 1 || ordersCount >= 1 || ugcPostsCount >= 1,
-      progressText: `${s.lotusOfferings + ordersCount + ugcPostsCount}/1 hạnh lành`
-    },
-    {
-      id: 'tri_gioi',
-      name: '2. Trì Giới Ba La Mật',
-      sanskrit: 'Śīla Pāramitā',
-      desc: 'Thực hành trọn vẹn nghi thức 4 bước Dâng hương đúng oai nghi và lễ Phật Tam Bái.',
-      done: s.incenseOfferings >= 1 && s.bowCount >= 3,
-      progressText: `${s.incenseOfferings} lần hương · ${s.bowCount} lạy`
-    },
-    {
-      id: 'nhan_nhuc',
-      name: '3. Nhẫn Nhục Ba La Mật',
-      sanskrit: 'Kṣānti Pāramitā',
-      desc: 'Chiêm bái Đại tượng Phật Di Lặc và gửi lời cầu nguyện từ bi hỷ xả.',
-      done: s.visitedStations.includes(1) || s.prayers.length >= 1,
-      progressText: s.visitedStations.includes(1) || s.prayers.length >= 1 ? 'Đã viên mãn' : 'Chưa hoàn thành'
-    },
-    {
-      id: 'tinh_tan',
-      name: '4. Tinh Tấn Ba La Mật',
-      sanskrit: 'Vīrya Pāramitā',
-      desc: 'Đi bộ hành hương qua ít nhất 3 khu vực trong khuôn viên chùa hoặc quét lá sân chùa.',
-      done: s.visitedStations.length >= 3 || s.leavesSwept >= 1,
-      progressText: `${s.visitedStations.length}/9 khu vực · ${s.leavesSwept} đợt quét lá`
-    },
-    {
-      id: 'thien_dinh',
-      name: '5. Thiền Định Ba La Mật',
-      sanskrit: 'Dhyāna Pāramitā',
-      desc: 'Lần chuỗi Niệm Phật Bồ Đề và thỉnh chuông Đại Hồng Chung định tĩnh thân tâm.',
-      done: s.malaCycles * 108 + s.malaBeads >= 10 || s.bellRings >= 1,
-      progressText: `${s.malaCycles * 108 + s.malaBeads} hạt niệm Phật`
-    },
-    {
-      id: 'tri_tue',
-      name: '6. Trí Tuệ Ba La Mật',
-      sanskrit: 'Prajñā Pāramitā',
-      desc: 'Học và trả lời đúng bài học tại Giảng đường Phật pháp.',
-      done: completedLessonsCount >= 2,
-      progressText: `${completedLessonsCount}/24 bài học`
-    }
-  ];
-
-  const completedCount = quests.filter((q) => q.done).length;
-  const ranks = [
-    'Tâm Khởi Từ Bi',
-    'Bước Chân Chánh Niệm',
-    'Phật Tử Thuần Thành',
-    'Hành Giả Tinh Tấn',
-    'Sen Nở Sân Chùa',
-    'Phước Huệ Song Tu',
-    'Lục Độ Viên Mãn'
-  ];
-
+  const visitedSet = new Set(Array.isArray(s.visitedStations) ? s.visitedStations : [5]);
+  const petals = PILGRIMAGE_STATIONS.map((st) => ({
+    id: st.id,
+    key: st.key,
+    name: st.name,
+    pinLabel: st.pinLabel,
+    zoneCode: st.zoneCode,
+    subtitle: st.subtitle,
+    lit: visitedSet.has(st.id)
+  }));
+  const litCount = petals.filter((p) => p.lit).length;
   return {
-    quests,
-    completedCount,
-    totalQuests: 6,
-    percent: Math.round((completedCount / 6) * 100),
-    rankTitle: ranks[Math.min(completedCount, ranks.length - 1)]
+    petals,
+    litCount,
+    totalPetals: PILGRIMAGE_STATIONS.length
   };
 }
 
@@ -1761,26 +1710,26 @@ export const LECTURE_LESSONS = [
     id: 'D6',
     pathId: 'D',
     order: 6,
-    title: 'Ý nghĩa Dâng Hoa, Xin Xăm An Lạc & Lưu Bút UGC Chánh Tín',
+    title: 'Ý nghĩa Dâng Hoa Sen, Chuông Chùa & Lưu Bút Hành Hương Chánh Tín',
     duration: '10 phút',
     audio: 'merit_box.mp3',
     sourceBook: 'Phật Học Phổ Thông & Văn Hóa Đi Chùa Việt Nam',
     summary: [
-      'Dâng hoa sen tượng trưng cho việc tu nhân thiện lành (hoa) để kết thành quả giác ngộ (gương sen).',
-      'Thẻ An Lạc đầu ngày không phải bói toán mê tín mà là lời kệ nhắc nhở tu tâm sửa tính.',
-      'Chụp ảnh kỷ niệm và lưu bút UGC tại chùa với tâm hoan hỷ giúp lan tỏa nét đẹp văn hóa tâm linh Việt Nam đến bạn bè và người thân.'
+      'Dâng hoa sen tượng trưng cho việc tu nhân thiện lành (hoa) để kết thành quả giác ngộ (gương sen) ngay trong hiện tại.',
+      'Thỉnh chuông chùa và dạo bước chánh niệm quanh 9 điểm hành hương giúp buông xả căng thẳng, nuôi dưỡng tâm từ bi.',
+      'Lưu giữ bức ảnh kỷ niệm cùng Chùa Vĩnh Tràng sau khi lễ Phật là cách nhắc nhở bản thân và gia đình giữ gìn nếp sống hướng thiện.'
     ],
-    example: 'Bạn có thể vào mục "📸 Chụp ảnh UGC" để tạo tấm bưu thiếp gia đình 3 nhân vật trước Chùa Vĩnh Tràng kèm lời nguyện cầu bình an.',
-    practice: 'Tạo một bức ảnh kỷ niệm UGC cùng Chùa Vĩnh Tràng và gửi lời chúc lành lên Bức Tường Lưu Bút Phật Tử.',
+    example: 'Bạn có thể vào mục "📸 Chụp ảnh UGC" sau khi hoàn thành một nghi lễ để lưu giữ kỷ niệm gia đình 3 nhân vật trước Chùa Vĩnh Tràng.',
+    practice: 'Dâng hoa sen bên Hồ Sen và lưu giữ một bức ảnh kỷ niệm trang nghiêm cùng Chùa Vĩnh Tràng.',
     quiz: {
-      question: 'Ý nghĩa chánh tín của việc rút "Thẻ An Lạc / Lời Phật dạy" khi đi chùa là gì?',
+      question: 'Trong truyền thống Phật giáo, hoa sen dâng Phật mang biểu trưng đặc biệt nào?',
       options: [
-        'Phó mặc số phận cho may rủi',
-        'Đón nhận một bài kệ nhắc nhở mình soi lại tâm ý và thực hành điều thiện trong ngày',
-        'Để cầu trúng thưởng'
+        'Chỉ có hoa mà không có quả',
+        'Hoa và gương sen (nhân và quả) cùng hiện hữu một lúc, mọc từ bùn nhưng chẳng hôi tanh mùi bùn',
+        'Chỉ nở vào ban đêm'
       ],
       correctIndex: 1,
-      explanation: 'Mỗi thẻ lời Phật dạy là một pháp dược nhắc ta sống tỉnh thức, từ bi và tinh tấn.'
+      explanation: 'Hoa sen là loài hoa duy nhất vừa nở hoa vừa kết gương sen cùng lúc, tượng trưng cho lý Nhân Quả đồng thời và sự thanh tịnh giữa cuộc đời.'
     }
   }
 ];
@@ -1801,34 +1750,6 @@ export function gradeLessonQuiz(lessonId, selectedIndex) {
     correctIndex: lesson.quiz.correctIndex,
     explanation: lesson.quiz.explanation
   };
-}
-
-export const DHARMA_CARDS = [
-  {
-    number: 'Quẻ số 01 · Đại Cát Tâm An (Kinh Pháp Cú Kệ 2)',
-    verse: 'Sen nở trong hồ nước biếc trong,\nBụi trần chẳng nhiễm tấm lòng son.\nThân tâm chánh niệm từng hơi thở,\nPhước huệ tròn đầy vạn sự thông.',
-    advice: 'Tâm thanh tịnh dẫn đầu các pháp. Hãy kiên trì với việc lành bạn đang làm, giữ lời nói hòa ái sẽ mang lại quý nhân trợ duyên.'
-  },
-  {
-    number: 'Quẻ số 08 · Cát Tường Hỷ Xả (Hạnh Phật Di Lặc)',
-    verse: 'Mỉm cười như Phật Di Lặc hiền,\nBuông đi hơn thiệt hết ưu phiền.\nNhẫn nhục một câu trời biển lặng,\nGia đường êm ấm phúc đoàn viên.',
-    advice: 'Nếu có chuyện nhỏ trái ý, hãy lùi một bước và lắng nghe sâu. Sự bao dung mở ra cánh cửa may mắn.'
-  },
-  {
-    number: 'Quẻ số 15 · Thanh Tịnh Trí Tuệ (Thiền Sư Ajahn Brahm)',
-    verse: 'Chuông chùa ngân vọng giữa ban mai,\nThức tỉnh lòng người bớt thở dài.\nGieo hạt từ bi nơi hiện tại,\nHoa lành kết trái ở ngày mai.',
-    advice: 'Đặt hai chiếc túi quá khứ và tương lai xuống. Tập trung làm tốt từng việc trong giây phút hiện tại.'
-  },
-  {
-    number: 'Quẻ số 24 · Viên Mãn Bồ Đề (Kinh Phước Đức)',
-    verse: 'Ba nén tâm hương quyện khói trầm,\nNguyện cầu cha mẹ hưởng phước thâm.\nLòng thành cảm ứng mười phương Phật,\nBình an theo bước suốt tháng năm.',
-    advice: 'Dành thời gian hỏi thăm cha mẹ và người thân hôm nay; hiếu đạo chính là nguồn phước lớn nhất.'
-  }
-];
-
-export function drawDharmaCard(seed = Date.now()) {
-  const idx = Math.abs(Math.floor(Number(seed))) % DHARMA_CARDS.length;
-  return DHARMA_CARDS[idx];
 }
 
 /**
@@ -1929,3 +1850,86 @@ export function createUGCPost(payload = {}) {
     createdAt: 'Vừa xong · Chùa Vĩnh Tràng'
   };
 }
+
+/**
+ * Perceptual OKLab / OKLCH Color Engine (inspired by meodai/skill.color-expert)
+ * Ensures perceptually uniform Lightness (L), Chroma (C), and Hue (H) transformations
+ * with Bezold-Brücke sunlit warmth & cool sky-bounce shadow compensation (zero muddy mid-tones).
+ */
+function srgbToLinear(c) {
+  return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+}
+
+function linearToSrgb(c) {
+  const clamped = Math.max(0, Math.min(1, c));
+  return clamped <= 0.0031308 ? 12.92 * clamped : 1.055 * Math.pow(clamped, 1 / 2.4) - 0.055;
+}
+
+export function hexToOklch(hexStr) {
+  const clean = String(hexStr || '#000000').replace(/^#/, '');
+  const num = parseInt(clean.length === 3 ? clean.replace(/(.)/g, '$1$1') : clean, 16) || 0;
+  const r = srgbToLinear(((num >> 16) & 255) / 255);
+  const g = srgbToLinear(((num >> 8) & 255) / 255);
+  const b = srgbToLinear((num & 255) / 255);
+
+  const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+  const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+  const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+
+  const L = 0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s;
+  const A = 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s;
+  const B = 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s;
+
+  const C = Math.hypot(A, B);
+  let H = (Math.atan2(B, A) * 180) / Math.PI;
+  if (H < 0) H += 360;
+  return { L: Number(L.toFixed(4)), C: Number(C.toFixed(4)), H: Number(H.toFixed(2)) };
+}
+
+export function oklchToHex(L, C, H) {
+  const hRad = ((H || 0) * Math.PI) / 180;
+  const A = C * Math.cos(hRad);
+  const B = C * Math.sin(hRad);
+
+  const l_ = L + 0.3963377774 * A + 0.2158037573 * B;
+  const m_ = L - 0.1055613458 * A - 0.0638541728 * B;
+  const s_ = L - 0.0894841775 * A - 1.291485548 * B;
+
+  const l = l_ * l_ * l_;
+  const m = m_ * m_ * m_;
+  const s = s_ * s_ * s_;
+
+  const r = linearToSrgb(+4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s);
+  const g = linearToSrgb(-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s);
+  const b = linearToSrgb(-0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s);
+
+  const toByte = (v) =>
+    Math.round(Math.max(0, Math.min(255, v * 255)))
+      .toString(16)
+      .padStart(2, '0');
+  return `#${toByte(r)}${toByte(g)}${toByte(b)}`.toUpperCase();
+}
+
+export function shiftOklch(hexStr, dL = 0, scaleC = 1.0, dH = 0) {
+  const { L, C, H } = hexToOklch(hexStr);
+  const nextL = Math.max(0.08, Math.min(0.98, L + dL));
+  // Gamut cusp protection: reduce chroma near extreme lightness (L < 0.2 or L > 0.92)
+  const cuspFactor = nextL > 0.9 ? (1 - nextL) / 0.1 : nextL < 0.18 ? nextL / 0.18 : 1;
+  const nextC = Math.max(0, Math.min(0.32, C * scaleC * Math.max(0.35, cuspFactor)));
+  const nextH = (H + dH + 360) % 360;
+  return oklchToHex(nextL, nextC, nextH);
+}
+
+export const VINH_TRANG_OKLCH_PALETTE = {
+  skyZenith: oklchToHex(0.49, 0.195, 256),       // Cobalt sky zenith (#0155C9 perceptual lock)
+  skyHorizon: oklchToHex(0.68, 0.145, 250),      // Luminous horizon blue (#4F97F9)
+  goldFacadeSun: oklchToHex(0.76, 0.128, 78),    // Warm sunlit Chánh điện ochre-gold (#E0AA42)
+  goldFacadeShade: oklchToHex(0.64, 0.112, 72),  // Perceptually rich warm shade (#B9852F, never gray!)
+  vermilionColumn: oklchToHex(0.42, 0.138, 28),  // Lacquered vermilion red column (#862820)
+  terracottaTile: oklchToHex(0.48, 0.098, 38),   // Southern clay roof tile (#834332)
+  lotusThroneBlue: oklchToHex(0.59, 0.078, 232), // A Di Đà lotus throne azure (#4E86A8)
+  jadeFoliageSun: oklchToHex(0.58, 0.115, 136),  // Sunlit bonsai crown (#5C8A46)
+  jadeFoliageDeep: oklchToHex(0.44, 0.095, 142), // Shaded foliage (#365E2E, shifted cool-green)
+  lotusPink: oklchToHex(0.73, 0.148, 352)        // Sacred lotus petal pink (#EE7FAE)
+};
+

@@ -4,24 +4,32 @@
    ========================================================================== */
 
 :root {
+  /* Perceptual OKLCH & OKLab Heritage Design Tokens (meodai/skill.color-expert) */
+  --oklch-jade-deep: oklch(0.39 0.082 152);      /* #1C5A34 Xanh rêu đậm */
+  --oklch-cream-base: oklch(0.97 0.024 84);      /* #FFF6E5 Nền kem ấm */
+  --oklch-walnut-ink: oklch(0.34 0.048 52);      /* #4A3222 Chữ nâu ấm */
+  --oklch-gold-ochre: oklch(0.71 0.132 78);      /* #C9962E Điểm vàng */
+  --oklch-lotus-pink: oklch(0.73 0.148 352);     /* #EE7FAE Hồng sen */
+  --oklch-terracotta: oklch(0.61 0.128 42);      /* #C96F4A Cam đất */
+
   --green-deep: #1b432c;
-  --green-pill: #1f4d32;
-  --green-btn: #165632;
-  --green-btn-dark: #103e23;
-  --green-dpad-bg: rgba(33, 66, 47, 0.94);
+  --green-pill: color-mix(in oklab, var(--oklch-jade-deep) 88%, #0f291a);
+  --green-btn: #1C5A34;
+  --green-btn-dark: color-mix(in oklab, #1C5A34 78%, #091f12);
+  --green-dpad-bg: rgba(28, 72, 46, 0.94);
   --green-dpad-well: #163020;
-  --brown-action-top: #704928;
-  --brown-action-bot: #54341a;
-  --brown-action-border: rgba(232, 196, 148, 0.42);
-  --cream-sheet: #fdf5e4;
-  --cream-card: #fffaf0;
-  --tan-pill: #f3dec0;
-  --walnut-text: #59381d;
+  --brown-action-top: color-mix(in oklab, #784e2a 92%, var(--oklch-gold-ochre));
+  --brown-action-bot: color-mix(in oklab, #54341a 90%, #241409);
+  --brown-action-border: rgba(232, 196, 148, 0.46);
+  --cream-sheet: #FFF6E5;
+  --cream-card: color-mix(in oklab, #FFF6E5 65%, #ffffff);
+  --tan-pill: color-mix(in oklab, #FFF6E5 78%, #d6ab70);
+  --walnut-text: #4A3222;
   --dark-ink: #241409;
-  --terracotta-top: #dc6f3b;
-  --terracotta-bot: #a43a15;
-  --lecture-bar: rgba(44, 25, 14, 0.86);
-  --gold-pill: #e4ae47;
+  --terracotta-top: color-mix(in oklab, #C96F4A 88%, #f08b58);
+  --terracotta-bot: color-mix(in oklab, #C96F4A 78%, #7e2a10);
+  --lecture-bar: rgba(44, 25, 14, 0.88);
+  --gold-pill: #C9962E;
   --ao-lam: #9a8f99;
 }
 
@@ -897,10 +905,10 @@ select {
   display: none;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #211209;
-  background-image: url('/public/assets/aistudio/image_dc0ddf04.png');
-  background-size: 104% 132%;
-  background-position: center 46%;
+  background-color: #2c180c;
+  background-image: url('/Thiết kế giao diện/giang-duong-khong-gian-chung-v2.png');
+  background-size: cover;
+  background-position: center center;
   background-repeat: no-repeat;
   overflow: hidden;
 }

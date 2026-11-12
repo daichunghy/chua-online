@@ -13,7 +13,7 @@ import {
   findNearestStation,
   createSpiritualState,
   performSpiritualAction,
-  calculateLucDoProgress,
+  calculateJourneyImprint,
   filterShopCatalog,
   addToCart,
   updateCartQuantity,
@@ -21,9 +21,31 @@ import {
   validateOrderForm,
   getLessonsByPath,
   gradeLessonQuiz,
-  drawDharmaCard,
-  createUGCPost
+  createUGCPost,
+  hexToOklch,
+  oklchToHex,
+  shiftOklch,
+  VINH_TRANG_OKLCH_PALETTE
 } from './chua-online-logic.mjs';
+
+test('OKLab/OKLCH perceptual color engine (meodai/skill.color-expert) preserves perceptual lightness and prevents muddy mid-tones', () => {
+  const gold = hexToOklch('#D9A441');
+  assert.ok(gold.L > 0.68 && gold.L < 0.78);
+  assert.ok(gold.C > 0.1);
+
+  const roundTrip = oklchToHex(gold.L, gold.C, gold.H);
+  const rtOklch = hexToOklch(roundTrip);
+  assert.ok(Math.abs(rtOklch.L - gold.L) < 0.01);
+
+  const sunlit = shiftOklch('#D9A441', 0.08, 1.05, 4);
+  const shaded = shiftOklch('#D9A441', -0.12, 0.95, -6);
+  assert.ok(hexToOklch(sunlit).L > gold.L);
+  assert.ok(hexToOklch(shaded).L < gold.L);
+  assert.ok(hexToOklch(shaded).C > 0.08); // Never collapses to muddy gray!
+  assert.ok(VINH_TRANG_OKLCH_PALETTE.goldFacadeSun.startsWith('#'));
+  assert.ok(VINH_TRANG_OKLCH_PALETTE.lotusThroneBlue.startsWith('#'));
+});
+
 
 test('3 rigged 3D character profiles (Nam, Nữ, Trẻ em) are defined with exact heights and GLBs', () => {
   assert.equal(CHARACTER_PROFILES.length, 3);
@@ -50,7 +72,7 @@ test('stepPlayerMovement moves character, updates yaw, and respects world bounds
   assert.equal(blocked.z, 15.3);
 });
 
-test('findNearestStation & Lục Độ Ba La Mật 6-quest progression work across all 9 temple zones (including Hồ Sen & Tượng Phật)', () => {
+test('findNearestStation & Dấu Ấn Hành Trình (9 lotus petals) work across all 9 temple zones without gamified EXP/levels/ranks', () => {
   assert.equal(PILGRIMAGE_STATIONS.length, 9);
   const stationKeys = PILGRIMAGE_STATIONS.map((s) => s.key);
   assert.ok(stationKeys.includes('ho_sen_ca_koi'));
@@ -62,18 +84,19 @@ test('findNearestStation & Lục Độ Ba La Mật 6-quest progression work acro
   const nearest = findNearestStation({ x: 23, z: 7.2 });
   assert.equal(nearest.station.key, 'chanh_dien');
 
-  let state = createSpiritualState({
+  const state = createSpiritualState({
     bowCount: 3,
     incenseOfferings: 1,
     lotusOfferings: 1,
     malaCycles: 1,
-    visitedStations: [0, 1, 3, 5]
+    visitedStations: [0, 1, 2, 3, 4, 5, 6, 7, 8]
   });
-  const lucDo = calculateLucDoProgress(state, 3, 1, 1);
-  assert.equal(lucDo.totalQuests, 6);
-  assert.equal(lucDo.completedCount, 6);
-  assert.equal(lucDo.percent, 100);
-  assert.equal(lucDo.rankTitle, 'Lục Độ Viên Mãn');
+  const imprint = calculateJourneyImprint(state);
+  assert.equal(imprint.totalPetals, 9);
+  assert.equal(imprint.litCount, 9);
+  assert.equal(imprint.petals.every((p) => p.lit), true);
+  assert.equal('percent' in imprint, false);
+  assert.equal('rankTitle' in imprint, false);
 });
 
 test('Spiritual Action State Machine handles Lễ Phật, Dâng hương 4 steps, Dâng hoa, Niệm Phật 108 beads, and unlocks UGC milestone', () => {
@@ -150,7 +173,7 @@ test('Deeply researched Buddhist Dharma has 10 canonical PDF textbooks, 4 paths,
   }
 
   assert.equal(gradeLessonQuiz('A1', 1).correct, true);
-  assert.ok(drawDharmaCard(0).verse.includes('Sen nở'));
+  assert.equal(gradeLessonQuiz('D6', 1).correct, true);
 
   assert.ok(UGC_BACKDROPS.length >= 4);
   assert.ok(INITIAL_UGC_GALLERY.length >= 3);
