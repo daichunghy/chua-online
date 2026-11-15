@@ -25,7 +25,26 @@ import {
   hexToOklch,
   oklchToHex,
   shiftOklch,
-  VINH_TRANG_OKLCH_PALETTE
+  VINH_TRANG_OKLCH_PALETTE,
+  DAILY_DHARMA_FALLBACK,
+  getLocalDateKey,
+  shouldShowDailyDharmaToday,
+  pickDailyDharmaQuote,
+  fetchDailyDharmaService,
+  STORE_CATEGORIES,
+  STORE_ITEMS_CATALOG,
+  createStoreProfileState,
+  filterStoreItems,
+  tryOnStoreItem,
+  purchaseStoreItem,
+  MARKETPLACE_STALL_CATEGORIES,
+  MARKETPLACE_STALL_CATALOG,
+  filterMarketplaceItems,
+  purchaseMarketplaceItem,
+  calculateMeritSummary,
+  DISCOVERY_ZONES,
+  WORLD_BOUNDS,
+  findAnyTempleDestination
 } from './chua-online-logic.mjs';
 
 test('OKLab/OKLCH perceptual color engine (meodai/skill.color-expert) preserves perceptual lightness and prevents muddy mid-tones', () => {
@@ -81,7 +100,7 @@ test('findNearestStation & Dấu Ấn Hành Trình (9 lotus petals) work across 
   assert.ok(stationKeys.includes('phat_niet_ban'));
   assert.ok(stationKeys.includes('chanh_dien'));
 
-  const nearest = findNearestStation({ x: 23, z: 7.2 });
+  const nearest = findNearestStation({ x: 23, z: 3.0 });
   assert.equal(nearest.station.key, 'chanh_dien');
 
   const state = createSpiritualState({
@@ -126,6 +145,12 @@ test('Spiritual Action State Machine handles Lễ Phật, Dâng hương 4 steps,
   const equipRes = performSpiritualAction(state, 'EQUIP_ITEM', { slot: 'hat', itemKey: 'non_la_theu_sen' });
   state = equipRes.state;
   assert.equal(state.equippedItems.hat, 'non_la_theu_sen');
+
+  const merit = calculateMeritSummary(state);
+  assert.equal(merit.bowActs, 1);
+  assert.equal(merit.incenseActs, 1);
+  assert.equal(merit.flowerActs, 1);
+  assert.equal(merit.totalActs, 3);
 });
 
 test('Shop catalog has 3D Shop Kiosk model, exact top 3 souvenir items from Reference Image 2, and cart/order validation', () => {
@@ -191,3 +216,139 @@ test('Deeply researched Buddhist Dharma has 10 canonical PDF textbooks, 4 paths,
   assert.equal(post.milestoneBadge, 'Đảnh lễ Tam Bảo trước Chánh Điện');
   assert.equal(post.likes, 1);
 });
+
+test('Daily Dharma service picks a canonical Buddhist quote, gates first visit of the day, and handles JSON + fallback cleanly', async () => {
+  const sampleDate = new Date(2026, 4, 15, 8, 30, 0);
+  const todayKey = getLocalDateKey(sampleDate);
+  assert.equal(todayKey, '2026-05-15');
+
+  assert.equal(shouldShowDailyDharmaToday(null, todayKey), true);
+  assert.equal(shouldShowDailyDharmaToday('2026-05-14', todayKey), true);
+  assert.equal(shouldShowDailyDharmaToday('2026-05-15', todayKey), false);
+
+  const picked1 = pickDailyDharmaQuote(DAILY_DHARMA_FALLBACK, null, () => 0);
+  assert.equal(picked1.id, DAILY_DHARMA_FALLBACK[0].id);
+
+  const picked2 = pickDailyDharmaQuote(DAILY_DHARMA_FALLBACK, DAILY_DHARMA_FALLBACK[0].id, () => 0);
+  assert.notEqual(picked2.id, DAILY_DHARMA_FALLBACK[0].id);
+
+  const mockQuotes = [
+    {
+      id: 'd1',
+      quote: 'Tâm bình thế giới bình.',
+      source: 'Kinh Pháp Cú',
+      book: 'Tích Truyện Pháp Cú',
+      reflection: 'Giữ lòng an ổn trước mọi việc.'
+    },
+    {
+      id: 'd2',
+      quote: 'Hận thù không thể diệt hận thù, chỉ có tình thương mới hóa giải được hận thù.',
+      source: 'Kinh Pháp Cú · Kệ 5',
+      book: 'Phật Học Phổ Thông',
+      reflection: 'Lấy hiền hòa đáp lại nóng giận.'
+    }
+  ];
+
+  const jsonRes = await fetchDailyDharmaService({
+    fetcher: async () => ({ ok: true, json: async () => mockQuotes }),
+    excludeId: 'd1',
+    randomFn: () => 0,
+    date: sampleDate
+  });
+  assert.equal(jsonRes.source, 'json');
+  assert.equal(jsonRes.quotesCount, 2);
+  assert.equal(jsonRes.quote.id, 'd2');
+  assert.equal(jsonRes.dateKey, '2026-05-15');
+
+  const fallbackRes = await fetchDailyDharmaService({
+    fetcher: async () => {
+      throw new Error('network error');
+    },
+    excludeId: DAILY_DHARMA_FALLBACK[0].id,
+    randomFn: () => 0,
+    date: sampleDate
+  });
+  assert.equal(fallbackRes.source, 'fallback');
+  assert.ok(fallbackRes.quote.quote.length > 10);
+  assert.notEqual(fallbackRes.quote.id, DAILY_DHARMA_FALLBACK[0].id);
+});
+
+test('9-category Store catalog, live try-on, level gating, and Tam Quan / side-door entrance layout', () => {
+  const tamQuan = PILGRIMAGE_STATIONS.find((s) => s.key === 'cong_tam_quan');
+  const chanhDien = PILGRIMAGE_STATIONS.find((s) => s.key === 'chanh_dien');
+  const phatAdida = PILGRIMAGE_STATIONS.find((s) => s.key === 'phat_adida');
+  assert.ok(tamQuan.standPos.z > tamQuan.pos.z); // Spawns outside Tam Quan gate
+  assert.ok(chanhDien.standPos.x > chanhDien.pos.x); // Right side-door entry (cửa hông phải)
+  assert.ok(phatAdida.pos.z < 0); // North avenue standing A Di Đà in front of Bảo Tháp
+
+  assert.equal(STORE_CATEGORIES.length, 9);
+  assert.deepEqual(
+    STORE_CATEGORIES.map((c) => c.label),
+    ['Lễ vật', 'Cây Phật', 'Áo tràng', 'Tràng hạt', 'Bồ đoàn', 'Mũ', 'Pháp khí', 'Mây', 'Linh thú']
+  );
+
+  const treeItems = filterStoreItems('cay_phat');
+  assert.equal(treeItems.length, 3);
+  assert.equal(treeItems[0].name, 'Chậu sen');
+  assert.equal(treeItems[0].price, 50);
+
+  const robeItems = filterStoreItems('ao_trang');
+  assert.equal(robeItems.length, 6);
+  assert.equal(robeItems.find((r) => r.id === 'ao_vu_lan_hong')?.rare, true);
+  assert.equal(robeItems.find((r) => r.id === 'ao_vang_nghe')?.requiredLevel, 10);
+
+  let st = createStoreProfileState({ level: 1, gems: 180, lotusPoints: 250 });
+  const tryRes = tryOnStoreItem(st, 'ao_hoa_sen');
+  st = tryRes.state;
+  assert.equal(tryRes.previewing, true);
+  assert.equal(st.tryingItemId, 'ao_hoa_sen');
+
+  const lockedBuy = purchaseStoreItem(st, 'ao_vang_nghe');
+  assert.equal(lockedBuy.ok, false);
+  assert.equal(lockedBuy.reason, 'level_locked');
+
+  const buyGem = purchaseStoreItem(st, 'ao_hoa_sen');
+  assert.equal(buyGem.ok, true);
+  assert.equal(buyGem.state.gems, 120);
+  assert.equal(buyGem.state.equipped.robe, 'ao_hoa_sen');
+  assert.ok(STORE_ITEMS_CATALOG.length >= 20);
+});
+
+test('Temple Entrance Grocery House & Cổng Phụ side-pathway routing work cleanly', () => {
+  assert.equal(MARKETPLACE_STALL_CATEGORIES.length, 3);
+  assert.ok(MARKETPLACE_STALL_CATALOG.length >= 18);
+  assert.ok(filterMarketplaceItems('huong_hoa').length >= 5);
+  assert.ok(filterMarketplaceItems('thu_cong').length >= 6);
+  assert.ok(filterMarketplaceItems('am_thuc_chay').length >= 7);
+
+  const profile = createStoreProfileState({ lotusPoints: 250 });
+  const spiritual = createSpiritualState();
+  const useRes = purchaseMarketplaceItem(profile, spiritual, [], 'sap_hoa_sen_tuoi', 'use_now');
+  assert.equal(useRes.ok, true);
+  assert.equal(useRes.storeProfile.lotusPoints, 220);
+  assert.equal(useRes.spiritual.lotusOfferings, 1);
+
+  const cartRes = purchaseMarketplaceItem(useRes.storeProfile, useRes.spiritual, [], 'sap_quat_nan_gio_may', 'cart');
+  assert.equal(cartRes.ok, true);
+  assert.equal(cartRes.cart.length, 1);
+  assert.equal(cartRes.cart[0].id, 'quat_nan_gio_may');
+
+  const chanhDien = PILGRIMAGE_STATIONS.find((s) => s.key === 'chanh_dien');
+  assert.ok(chanhDien.via.some(([vx, vz]) => vx >= 40 && Math.abs(vz - 41.5) < 1)); // Routes via open Cổng Phụ
+  assert.ok(chanhDien.via.some(([vx]) => vx >= 30 && vx < 40)); // Then along right side bougainvillea pathway
+});
+
+test('Expanded pagoda exploration zones & bounds cover Lâm Tỳ Ni, Non Bộ, Hồ Phóng Sinh, Nhà Tổ, Lầu Trà Thiền', () => {
+  assert.ok(WORLD_BOUNDS.maxX - WORLD_BOUNDS.minX >= 130);
+  assert.ok(WORLD_BOUNDS.maxZ - WORLD_BOUNDS.minZ >= 120);
+  assert.ok(DISCOVERY_ZONES.length >= 7);
+  assert.ok(findAnyTempleDestination('vuon_lam_ty_ni'));
+  assert.ok(findAnyTempleDestination('non_bo_quan_am'));
+  assert.ok(findAnyTempleDestination('ho_phong_sinh'));
+  assert.ok(findAnyTempleDestination('hau_to_nha_to'));
+  assert.ok(findAnyTempleDestination('lau_tra_thien'));
+});
+
+
+
+

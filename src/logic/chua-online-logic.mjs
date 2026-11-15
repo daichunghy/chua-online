@@ -50,145 +50,268 @@ export const PILGRIMAGE_STATIONS = [
   {
     id: 0,
     key: 'cong_tam_quan',
-    name: 'Cổng Tam Quan Ghép Sành Sứ',
-    zoneCode: 'Khu 1 · Tiền Đường',
-    pinLabel: '⛩️ Cổng Tam Quan',
-    pos: { x: 23, z: 40.7 },
-    standPos: { x: 23, z: 36.5 },
-    via: [[23, 35]],
-    mapCoord: { x: 50, y: 88 },
-    lookAt: { x: 23, y: 4.2, z: 40.7 },
+    name: 'Cổng Tam Quan & Cổng Phụ',
+    zoneCode: 'Lối vào chùa',
+    pinLabel: 'Cổng Chùa Vĩnh Tràng',
+    pos: { x: 40.5, z: 41.5 },
+    standPos: { x: 36.5, z: 50.5 },
+    via: [[36.5, 50.5]],
+    mapCoord: { x: 78, y: 88 },
+    lookAt: { x: 35.0, y: 3.5, z: 41.5 },
     audio: 's0_chao.mp3',
-    subtitle: 'Nghệ thuật ghép mảnh sành sứ cổ năm 1933. Bước qua cửa Không – Vô Tướng – Vô Tác, buông nhẹ ưu phiền.',
+    subtitle: 'Cổng Chính Tam Quan đóng nghi lễ giữ nét cổ kính; khách thập phương đi qua Cổng Phụ Tịnh Độ Huyền Môn bên phải đang mở rộng.',
     ritualType: 'welcome'
   },
   {
     id: 1,
     key: 'ho_sen_ca_koi',
-    name: 'Hồ Sen Tịnh Thủy & Cầu Đá Cá Koi',
-    zoneCode: 'Khu 2 · Song Liên Trì',
-    pinLabel: '🪷 Hồ Sen & Cá Koi',
-    pos: { x: 5, z: 16 },
-    standPos: { x: 16.5, z: 16 },
-    via: [[20, 22], [16.5, 16]],
-    mapCoord: { x: 34, y: 62 },
-    lookAt: { x: 5, y: 0.8, z: 16 },
+    name: 'Hồ Sen & Cá Koi',
+    zoneCode: 'Sân trước trung tâm',
+    pinLabel: 'Hồ Sen & Cá Koi',
+    pos: { x: 3.5, z: 33.0 },
+    standPos: { x: 11.8, z: 33.0 },
+    via: [[39.0, 35.0], [28.0, 36.0], [14.5, 36.0], [11.8, 33.0]],
+    mapCoord: { x: 42, y: 76 },
+    lookAt: { x: 3.5, y: 0.8, z: 33.0 },
     audio: 'day_di.mp3',
-    subtitle: 'Hai hồ sen lớn tỏa hương thanh khiết trước sân Chánh điện, đàn cá Koi bơi lượn dưới lan can đá.',
+    subtitle: 'Hồ sen lớn trước trục trung tâm với dây cờ ngũ sắc, hàng dừa xanh và đàn cá Koi bơi lượn quanh hoa sen.',
     ritualType: 'dang_hoa'
   },
   {
     id: 2,
     key: 'phat_adida',
-    name: 'Đại Tượng Phật A Di Đà Đứng (Cao 24m)',
-    zoneCode: 'Khu 3 · Hoa Viên Tây',
-    pinLabel: '🙏 Tượng Phật A Di Đà',
-    pos: { x: -14, z: 28 },
-    standPos: { x: -14, z: 14.8 },
-    via: [[18, 22], [2, 18], [-10, 15]],
-    mapCoord: { x: 18, y: 56 },
-    lookAt: { x: -14, y: 9.5, z: 28 },
+    name: 'Tượng Phật A Di Đà',
+    zoneCode: 'Cuối trục chính phía Bắc',
+    pinLabel: 'Tượng Phật A Di Đà',
+    pos: { x: -8.0, z: -25.0 },
+    standPos: { x: -8.0, z: -8.5 },
+    via: [[20.0, 35.0], [10.0, 22.0], [0.0, 6.0], [-8.0, -8.5]],
+    mapCoord: { x: 34, y: 24 },
+    lookAt: { x: -8.0, y: 11.5, z: -25.0 },
     audio: 's1_adida.mp3',
-    subtitle: 'Đức Phật A Di Đà cao 24m đứng trên đài sen xanh dương phóng quang tiếp dẫn. Chắp tay niệm danh hiệu Ngài để nhiếp tâm.',
+    subtitle: 'Pho đại tượng cao 24m đứng uy nghiêm phía trước Bảo Tháp 7 tầng, hướng mặt về Nam dọc đại lộ trung tâm.',
     ritualType: 'niem_phat'
   },
   {
     id: 3,
     key: 'phat_di_lac',
-    name: 'Đại Tượng Phật Di Lặc Ngồi (Cao 20m)',
-    zoneCode: 'Khu 4 · Hoa Viên Đông – Tây',
-    pinLabel: '😊 Tượng Phật Di Lặc',
-    pos: { x: -24.5, z: -4 },
-    standPos: { x: -24.5, z: 9.8 },
-    via: [[15, 14], [-8, 10], [-20, 9]],
-    mapCoord: { x: 16, y: 38 },
-    lookAt: { x: -24.5, y: 7.5, z: -4 },
+    name: 'Tượng Phật Di Lặc',
+    zoneCode: 'Hoa viên phía Tây',
+    pinLabel: 'Tượng Phật Di Lặc',
+    pos: { x: -24.5, z: 4.0 },
+    standPos: { x: -24.5, z: 22.0 },
+    via: [[20.0, 36.0], [8.0, 36.0], [-14.0, 32.0], [-24.5, 22.0]],
+    mapCoord: { x: 18, y: 48 },
+    lookAt: { x: -24.5, y: 8.5, z: 4.0 },
     audio: 's4_dilac.mp3',
-    subtitle: 'Đại tượng Phật Di Lặc cao 20m, nặng 250 tấn giữa hoa viên nhắc ta thực hành hạnh Nhẫn Nhục & Hỷ Xả.',
+    subtitle: 'Đại tượng Phật Di Lặc an tọa phía sau quảng trường La Hán rộng lớn, trước bệ đá bậc thang khắc chữ vàng.',
     ritualType: 'le_phat'
   },
   {
     id: 4,
     key: 'lu_huong_san',
-    name: 'Lư Hương Đồng & Sân Chánh Điện',
-    zoneCode: 'Khu 5 · Trung Tâm Sân Lễ',
-    pinLabel: '🔥 Lư hương Chánh điện',
-    pos: { x: 23, z: 11 },
-    standPos: { x: 23, z: 16.5 },
-    via: [[23, 18]],
-    mapCoord: { x: 50, y: 54 },
-    lookAt: { x: 23, y: 3.8, z: 2 },
+    name: 'Lư hương sân cờ',
+    zoneCode: 'Sân cờ Chánh điện',
+    pinLabel: 'Lư hương',
+    pos: { x: 23, z: 12.0 },
+    standPos: { x: 23, z: 17.5 },
+    via: [[37.5, 33.0], [27.0, 23.0], [23, 17.5]],
+    mapCoord: { x: 64, y: 54 },
+    lookAt: { x: 23, y: 3.8, z: 1.0 },
     audio: 's2_thap_nhang.mp3',
-    subtitle: 'Dâng ba nén tâm hương: Hương Giới — Hương Định — Hương Tuệ nguyện cầu quốc thái dân an.',
+    subtitle: 'Nơi thắp ba nén tâm hương giữa sân cờ Tổ quốc và cờ Phật giáo trước khi rẽ sang lối hông phải.',
     ritualType: 'dang_huong'
   },
   {
     id: 5,
     key: 'chanh_dien',
-    name: 'Chánh Điện Chùa Vĩnh Tràng & 18 La Hán',
-    zoneCode: 'Khu 6 · Nội Điện Tam Bảo',
-    pinLabel: '📍 Chánh điện',
-    pos: { x: 23, z: -1 },
-    standPos: { x: 23, z: 7.5 },
-    via: [[23, 18], [23, 7.5]],
-    mapCoord: { x: 50, y: 40 },
-    lookAt: { x: 23, y: 5.2, z: -4 },
+    name: 'Chánh điện',
+    zoneCode: 'Đường bên hông phải → Cửa hông',
+    pinLabel: 'Chánh điện (Lối hông phải)',
+    pos: { x: 23, z: 1.0 },
+    standPos: { x: 30.2, z: 11.2 },
+    via: [[40.5, 45.5], [40.5, 41.5], [39.0, 33.5], [36.2, 20.5], [35.4, 11.8], [30.2, 11.2]],
+    mapCoord: { x: 64, y: 40 },
+    lookAt: { x: 23, y: 4.8, z: 1.0 },
     audio: 's3_lay_phat.mp3',
-    subtitle: 'Kiến trúc giao thoa Á – Âu độc đáo với 13 nhịp vòm, 7 bộ bao lam thếp vàng và thập bát La Hán gỗ mít năm 1907.',
+    subtitle: 'Đi qua Cổng Phụ Tịnh Độ Huyền Môn, theo lối bên hông phải rợp hoa giấy qua Đài Quán Thế Âm, bước qua Cửa Hông Phải vào lễ Tam Bảo.',
     ritualType: 'le_phat'
   },
   {
     id: 6,
     key: 'cua_hang_luu_niem',
-    name: 'Quầy Cửa Hàng Lưu Niệm Gỗ & Vật Phẩm 3D',
-    zoneCode: 'Khu 7 · Hữu Vu Đông',
-    pinLabel: '🏮 Cửa hàng lưu niệm',
-    pos: { x: 40, z: 38 },
-    standPos: { x: 36.5, z: 34.5 },
-    via: [[28, 25], [35, 32]],
-    mapCoord: { x: 78, y: 66 },
-    lookAt: { x: 40, y: 2.4, z: 38 },
+    name: 'Nhà Tạp Hóa Cổng Chùa',
+    zoneCode: 'Ngay sau Cổng Phụ bên phải',
+    pinLabel: 'Nhà Tạp Hóa',
+    pos: { x: 48.2, z: 36.0 },
+    standPos: { x: 43.2, z: 36.0 },
+    via: [[40.5, 45.5], [40.5, 41.5], [43.2, 36.0]],
+    mapCoord: { x: 88, y: 76 },
+    lookAt: { x: 48.2, y: 2.2, z: 36.0 },
     audio: 'merit_box.mp3',
-    subtitle: 'Quầy gỗ mái ngói cổ truyền trong sân chùa: chọn quà lưu niệm, pháp khí tu học và gắn vật phẩm 3D lên 3 nhân vật.',
+    subtitle: 'Nhà tạp hóa & nước giải khát truyền thống ngay cạnh Cổng Phụ: đầy đủ nhang đèn, hoa sen, nón lá, dừa xiêm ướp lạnh và bánh chay Mỹ Tho.',
     ritualType: 'shop'
   },
   {
     id: 7,
     key: 'giang_duong',
-    name: 'Giảng Đường Phật Pháp & Phòng Kinh Sách',
-    zoneCode: 'Khu 8 · Giảng Đường Huệ Đăng',
-    pinLabel: '📖 Giảng đường',
-    pos: { x: 44, z: -20 },
-    standPos: { x: 36, z: -11 },
-    via: [[28, 12], [35, 2], [36, -8]],
-    mapCoord: { x: 80, y: 28 },
-    lookAt: { x: 44, y: 3.5, z: -20 },
+    name: 'Giảng đường',
+    zoneCode: 'Phía sau bên phải',
+    pinLabel: 'Giảng đường',
+    pos: { x: 44, z: -18 },
+    standPos: { x: 37.5, z: -8.0 },
+    via: [[36.8, 22.0], [37.5, 6.0], [37.5, -8.0]],
+    mapCoord: { x: 84, y: 28 },
+    lookAt: { x: 44, y: 3.5, z: -18 },
     audio: 's3_giang_duong.mp3',
-    subtitle: 'Không gian gỗ lim trầm mặc: lắng nghe pháp âm, đọc 10 bộ giáo trình Phật học và học 24 bài thực hành.',
+    subtitle: 'Gian nhà gỗ yên tĩnh phía sau bên phải để nghe giảng pháp, đọc kinh sách và học từng bài ngắn.',
     ritualType: 'lecture'
   },
   {
     id: 8,
     key: 'phat_niet_ban',
-    name: 'Đại Tượng Phật Niết Bàn (32m) & Bảo Tháp 7 Tầng',
-    zoneCode: 'Khu 9 · Hậu Viên & Bảo Tháp',
-    pinLabel: '🌸 Tượng Phật Niết Bàn & Bảo Tháp',
-    pos: { x: 12, z: -47 },
-    standPos: { x: 12, z: -32.0 },
-    via: [[15, 8], [5, 5], [4, -18], [10, -31]],
-    mapCoord: { x: 42, y: 16 },
-    lookAt: { x: 12, y: 6.5, z: -47 },
+    name: 'Tượng Phật Niết Bàn & Bảo Tháp',
+    zoneCode: 'Vườn sau phía Bắc',
+    pinLabel: 'Phật Niết Bàn & Bảo Tháp',
+    pos: { x: 12, z: -38 },
+    standPos: { x: 12, z: -22.5 },
+    via: [[10.0, 26.0], [-1.0, 8.0], [4.0, -14.0], [11.0, -22.5]],
+    mapCoord: { x: 52, y: 16 },
+    lookAt: { x: 12, y: 6.5, z: -38 },
     audio: 's5_nirvana.mp3',
-    subtitle: 'Chiêm bái tôn tượng Đức Phật nhập Niết Bàn dài 32m và Bảo Tháp Thất Phật cao 35m (7 tầng) nơi hậu viên thanh tịnh.',
+    subtitle: 'Tượng Đức Phật nhập Niết Bàn dài 32m kế bên Bảo Tháp Xá Lợi 7 tầng nơi vườn sau thanh vắng.',
     ritualType: 'hoi_huong'
   }
 ];
 
+export const DISCOVERY_ZONES = [
+  {
+    id: 100,
+    key: 'vuon_lam_ty_ni',
+    name: 'Vườn Lâm Tỳ Ni & Bồ Đề',
+    zoneCode: 'Vườn Tây Nam mở rộng',
+    pinLabel: 'Vườn Lâm Tỳ Ni',
+    pos: { x: -53.5, z: 22.0 },
+    standPos: { x: -46.5, z: 25.0 },
+    via: [[20.0, 35.0], [-14.0, 32.0], [-38.0, 30.0], [-46.5, 25.0]],
+    lookAt: { x: -53.5, y: 2.8, z: 22.0 },
+    audio: 'day_di.mp3',
+    subtitle: 'Tái hiện vườn Lâm Tỳ Ni thanh tịnh dưới tán Cây Bồ Đề cổ thụ rợp dải lụa ước nguyện bình an.',
+    ritualType: 'dang_hoa'
+  },
+  {
+    id: 101,
+    key: 'non_bo_quan_am',
+    name: 'Hòn Non Bộ & Động Quán Thế Âm',
+    zoneCode: 'Hoa viên phía Tây',
+    pinLabel: 'Động Quán Thế Âm',
+    pos: { x: -54.0, z: -4.0 },
+    standPos: { x: -45.5, z: -2.0 },
+    via: [[-39.0, 26.0], [-42.0, 8.0], [-45.5, -2.0]],
+    lookAt: { x: -54.0, y: 4.5, z: -4.0 },
+    audio: 's4_dilac.mp3',
+    subtitle: 'Núi đá non bộ trầm mặc với thác nước đổ xuống hồ sen xanh mát và tôn tượng Quán Thế Âm từ bi.',
+    ritualType: 'niem_phat'
+  },
+  {
+    id: 102,
+    key: 'vuon_la_han_ngoai',
+    name: 'Hành Lang La Hán Ngoài Trời',
+    zoneCode: 'Dải vườn Tây Bắc',
+    pinLabel: 'Vườn La Hán',
+    pos: { x: -44.0, z: -26.0 },
+    standPos: { x: -41.5, z: -18.0 },
+    via: [[-41.5, 16.0], [-41.5, -6.0], [-41.5, -18.0]],
+    lookAt: { x: -44.0, y: 2.2, z: -26.0 },
+    audio: 'day_di.mp3',
+    subtitle: 'Lối dạo thiền dưới rặng sa-la và mai chiếu thủy, nơi an vị hàng tượng La Hán đá trắng cổ kính.',
+    ritualType: 'le_phat'
+  },
+  {
+    id: 103,
+    key: 'ho_phong_sinh',
+    name: 'Hồ Phóng Sinh Lớn & Cầu Gỗ Chữ Z',
+    zoneCode: 'Vườn sau phía Tây Bắc',
+    pinLabel: 'Hồ Phóng Sinh',
+    pos: { x: -16.0, z: -56.0 },
+    standPos: { x: -16.0, z: -46.0 },
+    via: [[4.0, -14.0], [-18.0, -32.0], [-22.0, -44.0], [-16.0, -46.0]],
+    lookAt: { x: -16.0, y: 1.5, z: -56.0 },
+    audio: 'day_di.mp3',
+    subtitle: 'Mặt hồ rộng lững lờ hoa súng tím và cầu gỗ chữ Z mộc mạc phía sau Bảo Tháp 7 tầng.',
+    ritualType: 'dang_hoa'
+  },
+  {
+    id: 104,
+    key: 'thap_chuong_dai_hong',
+    name: 'Lầu Chuông Đại Hồng Chung',
+    zoneCode: 'Góc Tây Bắc khuôn viên',
+    pinLabel: 'Lầu Chuông',
+    pos: { x: -44.0, z: -56.0 },
+    standPos: { x: -37.5, z: -52.0 },
+    via: [[-22.0, -36.0], [-36.0, -46.0], [-37.5, -52.0]],
+    lookAt: { x: -44.0, y: 6.0, z: -56.0 },
+    audio: 's6_hoi_huong.mp3',
+    subtitle: 'Gác chuông mái ngói âm dương hai tầng uy nghiêm; bấm vào lầu chuông để thỉnh một hồi Đại Hồng Chung.',
+    ritualType: 'hoi_huong'
+  },
+  {
+    id: 105,
+    key: 'hau_to_nha_to',
+    name: 'Hậu Tổ · Nhà Thờ Tổ Miền Nam',
+    zoneCode: 'Phía Bắc sau Chánh điện',
+    pinLabel: 'Nhà Thờ Tổ',
+    pos: { x: 22.0, z: -58.0 },
+    standPos: { x: 22.0, z: -48.5 },
+    via: [[36.0, -12.0], [36.0, -38.0], [22.0, -48.5]],
+    lookAt: { x: 22.0, y: 3.8, z: -58.0 },
+    audio: 's5_nirvana.mp3',
+    subtitle: 'Ngôi Tổ Đường gỗ lim ba gian lợp ngói âm dương nơi thờ chư vị Tổ sư khai sơn tạo tự Vĩnh Tràng.',
+    ritualType: 'dang_huong'
+  },
+  {
+    id: 106,
+    key: 'lau_tra_thien',
+    name: 'Lầu Trà Thiền & Vườn Lan Cổ Tự',
+    zoneCode: 'Hoa viên phía Đông',
+    pinLabel: 'Lầu Trà Thiền',
+    pos: { x: 58.0, z: -12.0 },
+    standPos: { x: 52.0, z: -8.0 },
+    via: [[38.0, 26.0], [50.0, 14.5], [52.0, -8.0]],
+    lookAt: { x: 58.0, y: 3.0, z: -12.0 },
+    audio: 'day_di.mp3',
+    subtitle: 'Trà thất lục giác bên giàn phong lan hồ điệp tím và lối thiền trải sỏi mát rượi phía Đông Giảng Đường.',
+    ritualType: 'welcome'
+  },
+  {
+    id: 107,
+    key: 'nha_san_trai_duong',
+    name: 'Nhà Sàn Gỗ Trai Đường Miền Tây',
+    zoneCode: 'Sân vườn phía Đông',
+    pinLabel: 'Nhà Sàn Trai Đường',
+    pos: { x: 59.5, z: 14.5 },
+    standPos: { x: 52.2, z: 14.5 },
+    via: [[38.0, 26.0], [49.0, 16.0], [52.2, 14.5]],
+    lookAt: { x: 59.5, y: 2.8, z: 14.5 },
+    audio: 'day_di.mp3',
+    subtitle: 'Khu ẩm thực chay Phật tử dựng bằng gỗ căm xe trên hệ sàn cọc bắc qua hồ sen theo kiến trúc nhà sàn Nam Bộ.',
+    ritualType: 'welcome'
+  }
+];
+
+export function findAnyTempleDestination(keyOrId) {
+  return (
+    PILGRIMAGE_STATIONS.find((s) => s.key === keyOrId || s.id === Number(keyOrId)) ||
+    DISCOVERY_ZONES.find((s) => s.key === keyOrId || s.id === Number(keyOrId)) ||
+    null
+  );
+}
+
 export const WORLD_BOUNDS = {
-  minX: -38,
-  maxX: 53,
-  minZ: -52,
-  maxZ: 52
+  minX: -66.5,
+  maxX: 66.5,
+  minZ: -70.5,
+  maxZ: 55.0
 };
 
 export function stepPlayerMovement(state, input, speed = 0.22, obstacles = []) {
@@ -253,7 +376,7 @@ export function createSpiritualState(initial = {}) {
     malaCycles: initial.malaCycles || 0,
     bellRings: initial.bellRings || 0,
     leavesSwept: initial.leavesSwept || 0,
-    visitedStations: Array.isArray(initial.visitedStations) ? [...initial.visitedStations] : [5],
+    visitedStations: Array.isArray(initial.visitedStations) ? [...initial.visitedStations] : [0],
     completedMilestones: Array.isArray(initial.completedMilestones) ? [...initial.completedMilestones] : [],
     lastUnlockedMilestone: initial.lastUnlockedMilestone || null,
     prayers: Array.isArray(initial.prayers) ? [...initial.prayers] : [],
@@ -284,7 +407,7 @@ export function checkUGCMilestoneUnlock(spiritual, completedLessonsCount = 0) {
   const latest =
     s.lastUnlockedMilestone ||
     uniqueReasons[uniqueReasons.length - 1] ||
-    'Hoàn thành 1 nghi lễ (Lễ Phật / Dâng hương / Dâng hoa / Khám phá Hồ sen & Tượng Phật) để mở khóa chụp ảnh Check-in';
+    'Lễ Phật, dâng hương, dâng hoa hoặc ghé thăm khuôn viên chùa để lưu ảnh kỷ niệm';
   return {
     unlocked: uniqueReasons.length > 0,
     milestoneCount: uniqueReasons.length,
@@ -313,65 +436,65 @@ export function performSpiritualAction(state, actionType, payload = {}) {
   switch (actionType) {
     case 'LE_PHAT': {
       next.bowCount += 3;
-      next = recordSpiritualMilestone(next, 'Đảnh lễ Tam Bảo trước Chánh Điện');
+      next = recordSpiritualMilestone(next, 'Lễ Phật tại Chánh điện');
       return {
         state: next,
         animation: 'Vái',
         audioFile: 's3_lay_phat.mp3',
         milestoneUnlocked: true,
-        milestoneTitle: 'Đảnh lễ Tam Bảo trước Chánh Điện',
-        title: 'Đảnh lễ Tam Bảo (Tam Bái)',
-        message: 'Chí tâm đảnh lễ: Nhất bái Phật Bảo — Nhị bái Pháp Bảo — Tam bái Tăng Bảo. Tâm thành kính lễ, thân tâm thanh tịnh.'
+        milestoneTitle: 'Lễ Phật tại Chánh điện',
+        title: 'Lễ Phật (Tam Bái)',
+        message: 'Thành tâm đảnh lễ ba lạy trước Tam Bảo: Phật, Pháp, Tăng.'
       };
     }
     case 'DANG_HUONG_STEP': {
       next.incenseStep = next.incenseStep >= 4 ? 1 : next.incenseStep + 1;
       const stepMessages = {
-        1: 'Bước 1/4 — Xin ba nén tâm hương: Hương Giới, Hương Định, Hương Tuệ.',
-        2: 'Bước 2/4 — Châm lửa thắp hương và phẩy nhẹ bằng tay (không thổi bằng miệng).',
-        3: 'Bước 3/4 — Nâng hương ngang trán, thành tâm khấn nguyện bình an cho gia đạo và chúng sanh.',
-        4: 'Bước 4/4 — Cắm hương ngay ngắn vào lư đồng. Khói trầm quyện tỏa trước Chánh điện.'
+        1: 'Bước 1/4 — Xin ba nén nhang thơm vừa đủ.',
+        2: 'Bước 2/4 — Châm lửa và phẩy nhẹ bằng tay cho tắt ngọn lửa (không thổi bằng miệng).',
+        3: 'Bước 3/4 — Nâng nhang ngang trán, thành tâm cầu bình an cho gia đình.',
+        4: 'Bước 4/4 — Cắm nhang ngay ngắn vào lư hương đồng trước sân Chánh điện.'
       };
       if (next.incenseStep === 4) {
         next.incenseOfferings += 1;
-        next = recordSpiritualMilestone(next, 'Dâng ba nén tâm hương tại Lư đồng Chánh Điện');
+        next = recordSpiritualMilestone(next, 'Dâng hương tại sân Chánh điện');
       }
       return {
         state: next,
         animation: next.incenseStep === 4 ? 'Thắp nhang' : 'Chắp tay',
         audioFile: 's2_thap_nhang.mp3',
         milestoneUnlocked: next.incenseStep === 4,
-        milestoneTitle: 'Dâng ba nén tâm hương tại Lư đồng Chánh Điện',
-        title: `Dâng hương (Bước ${next.incenseStep}/4)`,
+        milestoneTitle: 'Dâng hương tại sân Chánh điện',
+        title: `Dâng hương (${next.incenseStep}/4)`,
         message: stepMessages[next.incenseStep]
       };
     }
     case 'DANG_HUONG_COMPLETE': {
       next.incenseStep = 4;
       next.incenseOfferings += 1;
-      next = recordSpiritualMilestone(next, 'Dâng ba nén tâm hương tại Lư đồng Chánh Điện');
+      next = recordSpiritualMilestone(next, 'Dâng hương tại sân Chánh điện');
       return {
         state: next,
         animation: 'Thắp nhang',
         audioFile: 's2_thap_nhang.mp3',
         milestoneUnlocked: true,
-        milestoneTitle: 'Dâng ba nén tâm hương tại Lư đồng Chánh Điện',
-        title: 'Dâng tâm hương hoàn mãn',
-        message: 'Ba nén hương trầm đã được cắm trang nghiêm vào lư hương đồng trước Chánh điện.'
+        milestoneTitle: 'Dâng hương tại sân Chánh điện',
+        title: 'Đã dâng ba nén hương',
+        message: 'Ba nén nhang đã được cắm ngay ngắn vào lư hương đồng trước Chánh điện.'
       };
     }
     case 'DANG_HOA': {
       next.lotusOfferings += 1;
       next.equippedItems.hand = 'hoa_sen_trang_nghiem';
-      next = recordSpiritualMilestone(next, 'Dâng hoa sen thanh tịnh bên Hồ Sen Vĩnh Tràng');
+      next = recordSpiritualMilestone(next, 'Dâng hoa sen trước Phật đài');
       return {
         state: next,
         animation: 'Chắp tay',
         audioFile: 'merit_box.mp3',
         milestoneUnlocked: true,
-        milestoneTitle: 'Dâng hoa sen thanh tịnh bên Hồ Sen Vĩnh Tràng',
-        title: 'Dâng Hoa Sen Thanh Tịnh',
-        message: 'Đạo hữu vừa dâng đóa sen hồng thơm ngát lên Phật đài — biểu trưng cho tâm Bồ Đề trong sáng giữa bụi trần.'
+        milestoneTitle: 'Dâng hoa sen trước Phật đài',
+        title: 'Dâng hoa sen',
+        message: 'Một cành sen hồng vừa được đặt trang nghiêm trước Phật đài.'
       };
     }
     case 'NIEM_PHAT_BEAD': {
@@ -380,44 +503,44 @@ export function performSpiritualAction(state, actionType, payload = {}) {
       next.malaCycles += Math.floor(total / 108);
       next.malaBeads = total % 108;
       if (payload.chant) next.activeChant = payload.chant;
-      next = recordSpiritualMilestone(next, `Niệm Phật định tâm (${next.activeChant})`);
+      next = recordSpiritualMilestone(next, `Niệm Phật (${next.activeChant})`);
       return {
         state: next,
         animation: 'Chắp tay',
         audioFile: 'niem_phat_xa.mp3',
         milestoneUnlocked: true,
-        milestoneTitle: `Niệm Phật định tâm (${next.activeChant})`,
+        milestoneTitle: `Niệm Phật (${next.activeChant})`,
         title: `${next.activeChant} (${next.malaBeads}/108)`,
         message:
           total >= 108
-            ? `Viên mãn ${next.malaCycles} tràng hạt 108 biến! Tâm niệm lắng trong, phước huệ song tu.`
-            : `Từng hạt Bồ Đề lăn nhẹ theo hơi thở chánh niệm (${next.malaBeads}/108 hạt).`
+            ? `Đã trọn ${next.malaCycles} vòng chuỗi 108 hạt.`
+            : `Lần nhẹ từng hạt chuỗi theo nhịp thở (${next.malaBeads}/108 hạt).`
       };
     }
     case 'RING_BELL': {
       next.bellRings += 1;
-      next = recordSpiritualMilestone(next, 'Thỉnh chuông Đại Hồng Chung tỉnh thức');
+      next = recordSpiritualMilestone(next, 'Thỉnh chuông chùa');
       return {
         state: next,
         animation: 'Chắp tay',
         audioFile: 's6_dan.mp3',
         milestoneUnlocked: true,
-        milestoneTitle: 'Thỉnh chuông Đại Hồng Chung tỉnh thức',
-        title: 'Thỉnh Chuông Đại Hồng Chung',
-        message: 'Nghe tiếng chuông phiền não nhẹ — Trí tuệ lớn, Bồ đề sanh.'
+        milestoneTitle: 'Thỉnh chuông chùa',
+        title: 'Thỉnh chuông',
+        message: 'Tiếng chuông ngân vang chậm rãi giúp lòng lắng dịu.'
       };
     }
     case 'SWEEP_LEAVES': {
       next.leavesSwept += 1;
-      next = recordSpiritualMilestone(next, 'Quét lá sân chùa — Công quả tịnh tâm');
+      next = recordSpiritualMilestone(next, 'Quét lá sân chùa');
       return {
         state: next,
         animation: 'Di bo',
         audioFile: 'day_di.mp3',
         milestoneUnlocked: true,
-        milestoneTitle: 'Quét lá sân chùa — Công quả tịnh tâm',
-        title: 'Quét Lá Sân Chùa — Quét Bụi Tâm',
-        message: 'Sân chùa sạch bóng lá vàng rơi, lòng người cũng nhẹ bớt tạp niệm.'
+        milestoneTitle: 'Quét lá sân chùa',
+        title: 'Quét lá sân chùa',
+        message: 'Sân gạch sạch lá vàng, lòng cũng thấy thảnh thơi hơn.'
       };
     }
     case 'EQUIP_ITEM': {
@@ -428,8 +551,8 @@ export function performSpiritualAction(state, actionType, payload = {}) {
       return {
         state: next,
         animation: 'Dung',
-        title: 'Cập nhật trang phục & pháp khí 3D',
-        message: 'Đã cập nhật vật phẩm trên nhân vật Phật tử.'
+        title: 'Đã thay trang phục',
+        message: 'Trang phục của nhân vật đã được cập nhật.'
       };
     }
     default:
@@ -458,6 +581,23 @@ export function calculateJourneyImprint(spiritual) {
     petals,
     litCount,
     totalPetals: PILGRIMAGE_STATIONS.length
+  };
+}
+
+/**
+ * Tổng hợp Công đức thực hành (số lần Lễ Phật, Dâng hương, Dâng hoa)
+ */
+export function calculateMeritSummary(spiritual) {
+  const s = createSpiritualState(spiritual);
+  const bowActs = Math.floor(s.bowCount / 3);
+  const incenseActs = s.incenseOfferings;
+  const flowerActs = s.lotusOfferings;
+  return {
+    bowActs,
+    bowCount: s.bowCount,
+    incenseActs,
+    flowerActs,
+    totalActs: bowActs + incenseActs + flowerActs
   };
 }
 
@@ -726,40 +866,40 @@ export const SHOP_CATALOG = [
     meaning: 'Thưởng trà trong chánh niệm — nâng chén trà thơm cảm nhận đất trời và tình thân.'
   },
 
-  // === TAB 3: VẬT PHẨM 3D (Includes 3D Shop Kiosk Model + Full 20-item 3D Collection) ===
+  // === TAB 3: VẬT PHẨM 3D (Includes 3D Shop Kiosk Model + Full 3D Collection) ===
   {
     id: 'mo_hinh_cua_hang_3d',
     tab: '3d',
-    name: 'Mô Hình 3D Quầy Cửa Hàng Lưu Niệm Chùa Vĩnh Tràng',
-    subtitle: 'Kiến trúc gỗ mái ngói âm dương, đèn lồng hồng, tượng Phật & kệ vật phẩm 3D',
+    name: 'Mô hình Quầy lưu niệm Chùa Vĩnh Tràng',
+    subtitle: 'Quầy gỗ mái ngói âm dương, đèn lồng hồng và tượng Phật trưng bày',
     price: 680000,
-    badge: 'Model Kiến Trúc 3D',
-    deliveryText: 'Xem 3D & Tải gói Coohom',
+    badge: 'Xem 3D',
+    deliveryText: 'Xem mẫu 3D',
     image: '/public/assets/aistudio/image_43ca3fb3.png',
     procedural3dId: 'kiosk_cua_hang_3d',
     glb: '/Mô hình 3D Vĩnh Tràng/Bản dựng mới/mat-tien-vinh-trang.glb',
     zip: '/Thiết kế giao diện/Vật phẩm 3D/coohom_all_vat_pham_chua_online.zip',
     equipSlot: 'altarItem',
-    dimensions: '380 × 240 × 310 cm (Tỷ lệ 1:1 WebGL & Coohom)',
-    material: 'Gỗ lim chạm khắc, mái ngói đất nung, đèn lồng lụa hồng & chậu hoa sen gốm men ngọc',
-    meaning: 'Tái hiện trọn vẹn không gian Cửa hàng lưu niệm truyền thống bên hiên phải sân Chánh điện Chùa Vĩnh Tràng.'
+    dimensions: '380 × 240 × 310 cm',
+    material: 'Gỗ lim chạm khắc, mái ngói đất nung, đèn lồng lụa hồng & chậu hoa sen gốm',
+    meaning: 'Tái hiện gian quầy gỗ mộc mạc bên hiên sân Chánh điện Chùa Vĩnh Tràng.'
   },
   {
     id: 'tuong_phat_di_lac_3d',
     tab: '3d',
-    name: 'Tượng Phật Di Lặc Cát Tường (3D)',
-    subtitle: 'Mô hình 3D GLB chuẩn PBR + gói Coohom & vật phẩm thỉnh về nhà',
+    name: 'Tượng Phật Di Lặc (3D)',
+    subtitle: 'Mẫu tượng trưng bày xoay 360° & thỉnh về thờ tại gia',
     price: 480000,
-    badge: '3D + Giao tận nhà',
-    deliveryText: 'Thử 3D & Giao tận nhà',
+    badge: 'Giao tận nhà',
+    deliveryText: 'Xem 3D & Giao tận nhà',
     image: '/Mô hình 3D Vĩnh Tràng/Tượng/di-lac.png',
     procedural3dId: 'tuong_phat_di_lac_3d',
     glb: '/Mô hình 3D Vĩnh Tràng/Tượng/di-lac.glb',
     zip: '/Thiết kế giao diện/Vật phẩm 3D/coohom_all_vat_pham_chua_online.zip',
     equipSlot: 'altarItem',
     dimensions: '24 × 20 × 18 cm',
-    material: 'Composite phủ nhũ vàng & gỗ hương chạm khắc dựa theo đại tượng Vĩnh Tràng',
-    meaning: 'Biểu tượng của niềm vui hoan hỷ, buông bỏ sân giận và chiêu cảm bình an.'
+    material: 'Composite phủ nhũ vàng & gỗ hương chạm khắc theo nguyên mẫu Vĩnh Tràng',
+    meaning: 'Gợi nhắc niềm vui hiền hòa, bao dung và bình an trong gia đình.'
   },
   {
     id: 'tuong_phat_adida_3d',
@@ -1753,87 +1893,87 @@ export function gradeLessonQuiz(lessonId, selectedIndex) {
 }
 
 /**
- * UGC Photo Check-in Studio ("Chụp ảnh Check-in với Chùa Vĩnh Tràng như ở đó thật")
+ * Photo Memory Framing at Chùa Vĩnh Tràng
  */
 export const UGC_BACKDROPS = [
   {
     id: 'chanh_dien_mat_tien',
-    name: 'Mặt tiền Chánh điện Á – Âu rực rỡ',
+    name: 'Mặt tiền Chánh điện Vĩnh Tràng',
     src: '/public/assets/aistudio/image_dbddfac8.png',
-    captionTag: '📍 Chánh điện Chùa Vĩnh Tràng · Mỹ Tho, Tiền Giang'
+    captionTag: 'Chánh điện Chùa Vĩnh Tràng · Mỹ Tho, Tiền Giang'
   },
   {
     id: 'cua_hang_luu_niem_go',
-    name: 'Quầy gỗ Cửa hàng lưu niệm & Đèn lồng sen',
+    name: 'Quầy gỗ Cửa hàng lưu niệm',
     src: '/public/assets/aistudio/image_43ca3fb3.png',
-    captionTag: '🪷 Cửa hàng lưu niệm Chùa Vĩnh Tràng'
+    captionTag: 'Quầy lưu niệm Chùa Vĩnh Tràng'
   },
   {
     id: 'giang_duong_phat_phap',
-    name: 'Nội điện Giảng đường Phật pháp trầm mặc',
+    name: 'Gian gỗ Giảng đường',
     src: '/public/assets/aistudio/image_dc0ddf04.png',
-    captionTag: '📖 Giảng đường Phật pháp Chùa Vĩnh Tràng'
+    captionTag: 'Giảng đường Chùa Vĩnh Tràng'
   },
   {
     id: 'khuon_vien_3_nhan_vat',
-    name: 'Sân chùa & Gia đình 3 nhân vật Phật tử',
+    name: 'Sân chùa & Gia đình đi lễ',
     src: '/Thiết kế giao diện/Nhân vật 3D/anh-xem-truoc-3d-all-nguoi-that.png',
-    captionTag: '🙏 Gia đình Phật tử hành hương Chùa Vĩnh Tràng'
+    captionTag: 'Kỷ niệm đi chùa Vĩnh Tràng'
   }
 ];
 
 export const UGC_POSES = [
-  { id: 'chap_tay_le_phat', label: '🙏 Chắp tay lễ Phật Tam Bảo', propLabel: 'Tràng hạt Bồ Đề 108 hạt' },
-  { id: 'dang_hoa_sen', label: '🪷 Dâng búp sen hồng thanh tịnh', propLabel: 'Hoa sen tươi Mỹ Tho' },
-  { id: 'doi_non_deo_tui', label: '👒 Đội nón lá thêu sen & Túi vải', propLabel: 'Nón lá lụa + Túi tote sen' },
-  { id: 'cam_den_hoa_dang', label: '🕯️ Nâng đèn hoa đăng cầu quốc thái dân an', propLabel: 'Đèn hoa sen pha lê' }
+  { id: 'chap_tay_le_phat', label: 'Chắp tay lễ Phật', propLabel: 'Tràng hạt gỗ' },
+  { id: 'dang_hoa_sen', label: 'Dâng hoa sen', propLabel: 'Sen hồng Mỹ Tho' },
+  { id: 'doi_non_deo_tui', label: 'Đội nón lá & Túi sen', propLabel: 'Nón lá lụa' },
+  { id: 'cam_den_hoa_dang', label: 'Nâng đèn hoa đăng', propLabel: 'Đèn hoa sen' }
 ];
 
 export const INITIAL_UGC_GALLERY = [
   {
     id: 'ugc_seed_1',
-    author: 'Gia đình Phật tử Minh Đức – Diệu Tâm – Bé An',
+    author: 'Gia đình cô Tư – Mỹ Tho',
     charMode: 'family_3',
     backdropId: 'chanh_dien_mat_tien',
     poseId: 'chap_tay_le_phat',
-    wishText: 'Gia đình 3 thế hệ chúng con thành tâm kính lễ Phật tại Chùa Vĩnh Tràng. Nguyện cầu ông bà cha mẹ trường thọ, con cháu hiếu thảo!',
-    likes: 108,
+    wishText: 'Cuối tuần cả nhà ghé Chùa Vĩnh Tràng lễ Phật, cầu ông bà mạnh khỏe, con cháu học hành chăm ngoan.',
+    likes: 42,
     createdAt: 'Hôm nay · Mỹ Tho, Tiền Giang'
   },
   {
     id: 'ugc_seed_2',
-    author: 'Phật tử Diệu Liên (TP.HCM)',
+    author: 'Chị Ngọc Liên',
     charMode: 'nu',
     backdropId: 'cua_hang_luu_niem_go',
     poseId: 'doi_non_deo_tui',
-    wishText: 'Đã thỉnh Sổ tay hoa sen, Tràng hạt gỗ và Nón lá thêu sen tại Cửa hàng lưu niệm. Đẹp và trang nghiêm như đang đứng giữa sân chùa thật!',
-    likes: 84,
+    wishText: 'Thỉnh được cuốn Sổ tay hoa sen và Tràng hạt gỗ Bồ Đề làm quà biếu mẹ.',
+    likes: 31,
     createdAt: 'Hôm nay · Chùa Vĩnh Tràng'
   },
   {
     id: 'ugc_seed_3',
-    author: 'Đạo hữu Tâm Minh (Cần Thơ)',
+    author: 'Chú Minh Hải (Cần Thơ)',
     charMode: 'nam',
     backdropId: 'giang_duong_phat_phap',
     poseId: 'dang_hoa_sen',
-    wishText: 'Nghe giảng Phật Học Phổ Thông và Phương Pháp Thiền Căn Bản của Thiền sư Ajahn Brahm trong Giảng đường gỗ thật an lạc.',
-    likes: 69,
-    createdAt: 'Hôm qua · Giảng đường Phật pháp'
+    wishText: 'Sáng mở trang đọc lời Phật dạy và nghe một đoạn pháp âm thấy lòng dịu hẳn.',
+    likes: 27,
+    createdAt: 'Hôm qua · Giảng đường'
   }
 ];
 
 export function createUGCPost(payload = {}) {
-  const author = String(payload.author || 'Phật tử Tâm An').trim() || 'Phật tử Tâm An';
-  const charMode = payload.charMode || 'family_3'; // 'nu' | 'nam' | 'tre_em' | 'family_3'
+  const author = String(payload.author || 'Khách viếng chùa').trim() || 'Khách viếng chùa';
+  const charMode = payload.charMode || 'family_3';
   const backdropId = payload.backdropId || 'chanh_dien_mat_tien';
   const poseId = payload.poseId || 'chap_tay_le_phat';
   const milestoneBadge =
-    String(payload.milestoneBadge || 'Hoàn thành nghi lễ Chiêm bái Chùa Vĩnh Tràng').trim();
+    String(payload.milestoneBadge || 'Kỷ niệm viếng Chùa Vĩnh Tràng').trim();
   const userPhotoUploaded = Boolean(payload.userPhotoUploaded);
   const frameStyle = payload.frameStyle || 'lotus_arch';
   const wishText =
     String(payload.wishText || '').trim() ||
-    'Thành tâm kính lễ Tam Bảo tại Chùa Vĩnh Tràng — Nguyện cầu gia đạo bình an, tâm từ rộng mở.';
+    'Kính lễ Tam Bảo tại Chùa Vĩnh Tràng — Cầu gia đình bình an, mạnh khỏe.';
 
   return {
     id: `ugc_${Date.now()}`,
@@ -1932,4 +2072,1067 @@ export const VINH_TRANG_OKLCH_PALETTE = {
   jadeFoliageDeep: oklchToHex(0.44, 0.095, 142), // Shaded foliage (#365E2E, shifted cool-green)
   lotusPink: oklchToHex(0.73, 0.148, 352)        // Sacred lotus petal pink (#EE7FAE)
 };
+
+/**
+ * Daily Dharma Feature ("Lời Phật dạy hôm nay")
+ * Shows a random inspirational canonical Buddhist quote upon the user's first visit of the day.
+ * Stored in /data/daily-dharma.json with canonical fallback.
+ */
+export const DAILY_DHARMA_FALLBACK = [
+  {
+    id: 'dharma_01',
+    quote:
+      'Ý dẫn đầu các pháp, ý làm chủ, ý tạo. Nếu nói hay làm với tâm thanh tịnh, an lạc sẽ theo ta như bóng không rời hình.',
+    source: 'Kinh Pháp Cú · Phẩm Song Yếu (Kệ số 2)',
+    book: 'Tích Truyện Pháp Cú',
+    reflection:
+      'Khởi một ý nghĩ hiền hòa vào đầu ngày giúp lòng mình nhẹ nhàng suốt cả ngày dài.'
+  },
+  {
+    id: 'dharma_06',
+    quote:
+      'Quá khứ đã qua rồi, tương lai thì chưa tới. Chỉ có giây phút hiện tại là nơi ta thực sự đang sống.',
+    source: 'Phương Pháp Thiền Căn Bản',
+    book: 'Thiền sư Ajahn Brahm',
+    reflection:
+      'Thở một hơi thật chậm, đặt nhẹ gánh lo xuống để cảm nhận sự có mặt trọn vẹn ngay lúc này.'
+  },
+  {
+    id: 'dharma_05',
+    quote:
+      'Người biết đủ, tuy nằm trên đất vẫn thấy an vui; người không biết đủ, dù ở chốn giàu sang vẫn thấy thiếu thốn.',
+    source: 'Kinh Di Giáo',
+    book: 'Phật Học Phổ Thông · Quyển 1',
+    reflection:
+      'Biết trân trọng những điều bình dị đang có trong tay là cội nguồn của sự thanh thản.'
+  }
+];
+
+export function getLocalDateKey(date = new Date()) {
+  const d = date instanceof Date ? date : new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+export function shouldShowDailyDharmaToday(lastSeenDateKey, todayKey = getLocalDateKey()) {
+  if (!lastSeenDateKey) return true;
+  return String(lastSeenDateKey).trim() !== String(todayKey).trim();
+}
+
+export function pickDailyDharmaQuote(quotes = DAILY_DHARMA_FALLBACK, excludeId = null, randomFn = Math.random) {
+  const list = Array.isArray(quotes) ? quotes.filter((q) => q && q.quote) : [];
+  if (list.length === 0) return null;
+  const pool =
+    excludeId && list.length > 1 ? list.filter((q) => q.id !== excludeId) : list;
+  const r = Math.max(0, Math.min(0.999999, Number(randomFn()) || 0));
+  const idx = Math.floor(r * pool.length);
+  return pool[idx] || pool[0];
+}
+
+export async function fetchDailyDharmaService({
+  fetcher = typeof globalThis.fetch === 'function' ? globalThis.fetch.bind(globalThis) : null,
+  url = '/data/daily-dharma.json',
+  simulatedDelayMs = 0,
+  excludeId = null,
+  randomFn = Math.random,
+  date = new Date()
+} = {}) {
+  if (simulatedDelayMs > 0) {
+    await new Promise((resolve) => setTimeout(resolve, simulatedDelayMs));
+  }
+  let quotes = DAILY_DHARMA_FALLBACK;
+  let source = 'fallback';
+  if (typeof fetcher === 'function') {
+    try {
+      const resp = await fetcher(url, { cache: 'no-store' });
+      if (resp && resp.ok) {
+        const parsed = await resp.json();
+        if (Array.isArray(parsed) && parsed.length > 0 && parsed[0]?.quote) {
+          quotes = parsed;
+          source = 'json';
+        }
+      }
+    } catch {
+      // Fall back gracefully to canonical DAILY_DHARMA_FALLBACK
+    }
+  }
+  const quote = pickDailyDharmaQuote(quotes, excludeId, randomFn);
+  return {
+    quote,
+    quotes,
+    quotesCount: quotes.length,
+    source,
+    dateKey: getLocalDateKey(date)
+  };
+}
+
+/**
+ * 9-Category In-Temple Store ("Cửa hàng" matching visual reference attachments)
+ * Categories: Lễ vật, Cây Phật, Áo tràng, Tràng hạt, Bồ đoàn, Mũ, Pháp khí, Mây, Linh thú
+ * Includes roadside specialties (Dừa xiêm, Bánh bò, Bánh da lợn), live 3D protagonist preview ("Xem thử"),
+ * and unlock/purchase logic.
+ */
+export const STORE_CATEGORIES = [
+  { id: 'le_vat', label: 'Lễ vật' },
+  { id: 'cay_phat', label: 'Cây Phật' },
+  { id: 'ao_trang', label: 'Áo tràng' },
+  { id: 'trang_hat', label: 'Tràng hạt' },
+  { id: 'bo_doan', label: 'Bồ đoàn' },
+  { id: 'mu', label: 'Mũ' },
+  { id: 'phap_khi', label: 'Pháp khí' },
+  { id: 'may', label: 'Mây' },
+  { id: 'linh_thu', label: 'Linh thú' }
+];
+
+export const STORE_ITEMS_CATALOG = [
+  // === 1. LỄ VẬT (bao gồm thức quà & nước giải khát hàng quán ven chùa) ===
+  {
+    id: 'trai_dua_xiem_store',
+    category: 'le_vat',
+    slot: 'handItem',
+    prop3d: 'trai_dua_xiem',
+    name: 'Trái dừa xiêm ống hút tre',
+    description: 'Nước dừa xiêm Mỹ Tho mát lành từ hàng quán ven cổng chùa.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_trai_dua_xiem.png',
+    currency: 'lotus',
+    price: 30,
+    requiredLevel: 1,
+    rare: false,
+    tryable: true
+  },
+  {
+    id: 'dia_banh_bo_store',
+    category: 'le_vat',
+    slot: 'offering',
+    prop3d: 'dia_banh_bo',
+    name: 'Đĩa bánh bò thốt nốt',
+    description: 'Bánh bò thốt nốt vàng ươm thơm dịu bày tại sạp hàng dọc lối vào chùa.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_dia_banh_bo.png',
+    currency: 'lotus',
+    price: 45,
+    requiredLevel: 1,
+    rare: false,
+    tryable: false
+  },
+  {
+    id: 'dia_banh_da_lon_store',
+    category: 'le_vat',
+    slot: 'offering',
+    prop3d: 'dia_banh_da_lon',
+    name: 'Đĩa bánh da lợn ngũ sắc',
+    description: 'Thức quà chay lá dứa đậu xanh truyền thống Nam Bộ.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_dia_banh_da_lon.png',
+    currency: 'lotus',
+    price: 45,
+    requiredLevel: 1,
+    rare: false,
+    tryable: false
+  },
+  {
+    id: 'mam_ngu_qua_store',
+    category: 'le_vat',
+    slot: 'offering',
+    prop3d: 'mam_ngu_qua',
+    name: 'Mâm ngũ quả dâng Phật',
+    description: 'Mâm gỗ bày mãng cầu, dừa, đu đủ, xoài, sung dâng lên Tam Bảo.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_mam_ngu_qua.png',
+    currency: 'gem',
+    price: 40,
+    requiredLevel: 1,
+    rare: false,
+    tryable: false
+  },
+  {
+    id: 'bat_nhang_tram_store',
+    category: 'le_vat',
+    slot: 'offering',
+    prop3d: 'bat_nhang_tram',
+    name: 'Bát nhang hương trầm',
+    description: 'Bát nhang đồng cổ chạm nổi kèm ba nén tâm hương Giới – Định – Tuệ.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_bat_nhang_tram.png',
+    currency: 'lotus',
+    price: 60,
+    requiredLevel: 1,
+    rare: false,
+    tryable: true
+  },
+  {
+    id: 'nen_hoa_sen_store',
+    category: 'le_vat',
+    slot: 'handItem',
+    prop3d: 'nen_hoa_sen',
+    name: 'Nến hoa sen phát sáng',
+    description: 'Đài sen sáp hồng ấm áp nâng niu khi lễ Phật buổi chiều.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_nen_hoa_sen.png',
+    currency: 'lotus',
+    price: 55,
+    requiredLevel: 1,
+    rare: false,
+    tryable: true
+  },
+  {
+    id: 'trai_dua_xiem_store',
+    category: 'le_vat',
+    slot: 'offering',
+    prop3d: 'trai_dua_xiem',
+    name: 'Trái dừa xiêm dâng cúng',
+    description: 'Dừa xiêm Bến Tre – Mỹ Tho tươi ngọt dâng lên bàn thờ hoặc thưởng thức.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_trai_dua_xiem.png',
+    currency: 'lotus',
+    price: 30,
+    requiredLevel: 1,
+    rare: false,
+    tryable: true
+  },
+  {
+    id: 'chum_sen_dang_phat_store',
+    category: 'le_vat',
+    slot: 'offering',
+    prop3d: 'chum_sanh_hoa_sen',
+    name: 'Chum sành cắm hoa sen',
+    description: 'Bình gốm Nam Bộ men trầm cắm đoá sen hồng tinh khiết đặt trước điện Phật.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_chum_sanh_hoa_sen.png',
+    currency: 'lotus',
+    price: 75,
+    requiredLevel: 1,
+    rare: false,
+    tryable: true
+  },
+
+  // === 2. CÂY PHẬT (đúng nội dung & giá ngọc theo ảnh tham chiếu 1) ===
+  {
+    id: 'chau_sen_phat',
+    category: 'cay_phat',
+    slot: 'tree',
+    prop3d: 'chum_sanh_hoa_sen',
+    name: 'Chậu sen',
+    description:
+      'Sen không phải cây thân gỗ nên được trồng trong chậu đá. Tương truyền Đức Phật đản sinh bước bảy bước, mỗi bước nở một đoá sen. Mỗi 7 ngày cho 5 quả quý, tối đa 5 lần.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_chum_sanh_hoa_sen.png',
+    currency: 'gem',
+    price: 50,
+    requiredLevel: 1,
+    rare: false,
+    stackable: true,
+    tryable: true
+  },
+  {
+    id: 'cay_bo_de_phat',
+    category: 'cay_phat',
+    slot: 'tree',
+    prop3d: null,
+    name: 'Cây bồ đề',
+    description:
+      'Đức Phật thành đạo dưới cội bồ đề (Ficus religiosa) ở Bodh Gaya. Mỗi 7 ngày cho 10 quả quý, tối đa 5 lần.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_chum_sanh_hoa_sen.png',
+    thumbIcon: '🌳',
+    currency: 'gem',
+    price: 100,
+    requiredLevel: 1,
+    rare: false,
+    stackable: true,
+    tryable: false
+  },
+  {
+    id: 'cay_sala_phat',
+    category: 'cay_phat',
+    slot: 'tree',
+    prop3d: null,
+    name: 'Cây sala',
+    description:
+      'Sala (Shorea robusta) hoa nhỏ vàng trắng. Đức Phật đản sinh trong rừng sala ở Lâm Tỳ Ni và nhập Niết bàn giữa đôi cây sala ở Câu Thi Na. Mỗi 7 ngày cho 15 quả quý, tối đa 5 lần.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_chum_sanh_hoa_sen.png',
+    thumbIcon: '🌺',
+    currency: 'gem',
+    price: 150,
+    requiredLevel: 1,
+    rare: false,
+    stackable: true,
+    tryable: false
+  },
+
+  // === 3. ÁO TRÀNG (đúng 6 mẫu, cấp, badge Hiếm & giá theo ảnh tham chiếu 2) ===
+  {
+    id: 'ao_trang_nau',
+    category: 'ao_trang',
+    slot: 'robe',
+    name: 'Áo tràng nâu',
+    description: 'Màu nâu đất mộc mạc.',
+    image: '/public/assets/aistudio/image_8f6004e3.png',
+    swatchHex: '#7A5438',
+    robeTint: [0.54, 0.37, 0.25],
+    currency: 'lotus',
+    price: 120,
+    requiredLevel: 3,
+    rare: false,
+    tryable: true
+  },
+  {
+    id: 'ao_trang_trang',
+    category: 'ao_trang',
+    slot: 'robe',
+    name: 'Áo tràng trắng',
+    description: 'Trắng tinh khôi như mùa Vu Lan.',
+    image: '/public/assets/aistudio/image_8f6004e3.png',
+    swatchHex: '#EBE8DF',
+    robeTint: [0.92, 0.90, 0.87],
+    currency: 'lotus',
+    price: 200,
+    requiredLevel: 5,
+    rare: false,
+    tryable: true
+  },
+  {
+    id: 'ao_vang_nghe',
+    category: 'ao_trang',
+    slot: 'robe',
+    name: 'Áo vàng nghệ',
+    description: 'Dành cho người đã tinh tấn đến cấp 10.',
+    image: '/public/assets/aistudio/image_8f6004e3.png',
+    swatchHex: '#D89F2B',
+    robeTint: [0.88, 0.65, 0.22],
+    currency: 'lotus',
+    price: 500,
+    requiredLevel: 10,
+    rare: false,
+    tryable: true
+  },
+  {
+    id: 'ao_hoa_sen',
+    category: 'ao_trang',
+    slot: 'robe',
+    name: 'Áo hoa sen',
+    description: 'Áo hồng phấn thêu sen.',
+    image: '/public/assets/aistudio/image_8f6004e3.png',
+    swatchHex: '#E08DAA',
+    robeTint: [0.88, 0.56, 0.67],
+    currency: 'gem',
+    price: 60,
+    requiredLevel: 1,
+    rare: false,
+    tryable: true
+  },
+  {
+    id: 'ao_vu_lan_hong',
+    category: 'ao_trang',
+    slot: 'robe',
+    name: 'Áo Vu Lan hồng',
+    description: 'Hồng phấn thêu sen trắng ngà, mặc mùa báo hiếu.',
+    image: '/public/assets/aistudio/image_8f6004e3.png',
+    swatchHex: '#EA9AB7',
+    robeTint: [0.93, 0.64, 0.74],
+    currency: 'gem',
+    price: 100,
+    requiredLevel: 1,
+    rare: true,
+    tryable: true
+  },
+  {
+    id: 'ao_may_bac',
+    category: 'ao_trang',
+    slot: 'robe',
+    name: 'Áo mây bạc',
+    description: 'Xám bạc dệt vân mây trắng, nhẹ như sương sớm.',
+    image: '/public/assets/aistudio/image_8f6004e3.png',
+    swatchHex: '#B6C2CE',
+    robeTint: [0.74, 0.79, 0.85],
+    currency: 'gem',
+    price: 100,
+    requiredLevel: 1,
+    rare: true,
+    tryable: true
+  },
+
+  // === 4. TRÀNG HẠT ===
+  {
+    id: 'trang_hat_bo_de_108_store',
+    category: 'trang_hat',
+    slot: 'mala',
+    name: 'Tràng hạt Bồ Đề 108 hạt',
+    description: 'Chuỗi gỗ Bồ Đề tiện tròn kết tua đỏ giúp tĩnh tâm niệm Phật.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_bo_doan_tron.png',
+    thumbIcon: '📿',
+    currency: 'lotus',
+    price: 90,
+    requiredLevel: 1,
+    rare: false,
+    tryable: true
+  },
+  {
+    id: 'trang_hat_tram_store',
+    category: 'trang_hat',
+    slot: 'mala',
+    name: 'Tràng hạt Trầm Hương',
+    description: 'Gỗ trầm tự nhiên thoảng hương dịu nhẹ suốt buổi hành hương.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_bo_doan_tron.png',
+    thumbIcon: '🟤',
+    currency: 'gem',
+    price: 80,
+    requiredLevel: 1,
+    rare: true,
+    tryable: true
+  },
+
+  // === 5. BỒ ĐOÀN ===
+  {
+    id: 'bo_doan_dai_sen_store',
+    category: 'bo_doan',
+    slot: 'mat',
+    prop3d: 'bo_doan_dai_sen',
+    name: 'Bồ đoàn đài sen 8 cánh',
+    description: 'Đệm gấm lam thêu 8 cánh sen trang nghiêm đặt dưới chân khi ngồi thiền.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_bo_doan_dai_sen.png',
+    currency: 'gem',
+    price: 75,
+    requiredLevel: 1,
+    rare: true,
+    tryable: true
+  },
+  {
+    id: 'bo_doan_tron_store',
+    category: 'bo_doan',
+    slot: 'mat',
+    prop3d: 'bo_doan_tron',
+    name: 'Bồ đoàn tròn vải bố mộc',
+    description: 'Đệm ngồi thiền vỏ đậu xanh thoáng mát, đường may viền chắc chắn.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_bo_doan_tron.png',
+    currency: 'lotus',
+    price: 80,
+    requiredLevel: 1,
+    rare: false,
+    tryable: true
+  },
+  {
+    id: 'chieu_coi_thien_store',
+    category: 'bo_doan',
+    slot: 'mat',
+    prop3d: 'chieu_coi_thien',
+    name: 'Chiếu cói thiền tọa Nam Bộ',
+    description: 'Chiếu cói dệt thủ công viền nâu gụ mang hơi thở đồng quê Tiền Giang.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_chieu_coi_thien.png',
+    currency: 'lotus',
+    price: 110,
+    requiredLevel: 1,
+    rare: false,
+    tryable: true
+  },
+
+  // === 6. MŨ ===
+  {
+    id: 'non_la_theu_sen_store',
+    category: 'mu',
+    slot: 'hat',
+    prop3d: 'non_la',
+    name: 'Nón lá thêu sen',
+    description: 'Nón lá lụa vành tre đội vừa vặn trên cả 3 nhân vật 3D khi đi sân chùa.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/blender-render-non-la.png',
+    currency: 'lotus',
+    price: 70,
+    requiredLevel: 1,
+    rare: false,
+    tryable: true
+  },
+
+  // === 7. PHÁP KHÍ ===
+  {
+    id: 'mo_go_tung_kinh_store',
+    category: 'phap_khi',
+    slot: 'instrument',
+    prop3d: 'mo_go_tung_kinh',
+    name: 'Mõ gỗ mít tụng kinh',
+    description: 'Mõ gỗ mít già chạm khắc kèm dùi gõ vang nhịp đều trầm ấm.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_mo_go_tung_kinh.png',
+    currency: 'gem',
+    price: 65,
+    requiredLevel: 1,
+    rare: false,
+    tryable: true
+  },
+  {
+    id: 'den_hoa_dang_store',
+    category: 'phap_khi',
+    slot: 'handItem',
+    prop3d: 'den_hoa_dang',
+    name: 'Đèn hoa đăng thả nước',
+    description: 'Hoa đăng cánh sen hồng đặt trên lá sen xanh tỏa sáng dịu dàng.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_den_hoa_dang.png',
+    currency: 'lotus',
+    price: 60,
+    requiredLevel: 1,
+    rare: false,
+    tryable: true
+  },
+  {
+    id: 'quat_nan_la_dua_store',
+    category: 'phap_khi',
+    slot: 'handItem',
+    prop3d: 'quat_nan_la_dua',
+    name: 'Quạt nan lá dừa che nắng',
+    description: 'Quạt đan thủ công từ lá dừa nước mang nét mộc mạc miền Tây.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_quat_nan_la_dua.png',
+    currency: 'lotus',
+    price: 45,
+    requiredLevel: 1,
+    rare: false,
+    tryable: true
+  },
+  {
+    id: 'den_long_luc_giac_store',
+    category: 'phap_khi',
+    slot: 'handItem',
+    prop3d: 'den_long_luc_giac',
+    name: 'Đèn lồng lục giác cổ tự',
+    description: 'Đèn lồng gỗ viền vàng vẽ hoa sen treo dọc hành lang Chánh điện.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_den_long_luc_giac.png',
+    currency: 'lotus',
+    price: 85,
+    requiredLevel: 1,
+    rare: true,
+    tryable: true
+  },
+  {
+    id: 'gio_may_tre_store',
+    category: 'phap_khi',
+    slot: 'handItem',
+    prop3d: 'gio_may_tre',
+    name: 'Giỏ mây tre đựng lễ phẩm',
+    description: 'Giỏ mây đan tay gọn nhẹ mang theo hương, hoa và nước uống khi đi chùa.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_gio_may_tre.png',
+    currency: 'lotus',
+    price: 55,
+    requiredLevel: 1,
+    rare: false,
+    tryable: true
+  },
+
+  // === 8. MÂY ===
+  {
+    id: 'may_lanh_ngu_sac',
+    category: 'may',
+    slot: 'cloud',
+    name: 'Mây lành ngũ sắc',
+    description: 'Vầng hào quang dịu nhẹ nâng gót bước hành hương quanh Chánh điện.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_nen_hoa_sen.png',
+    thumbIcon: '☁️',
+    cloudColor: '#FFF3C4',
+    currency: 'gem',
+    price: 120,
+    requiredLevel: 1,
+    rare: true,
+    tryable: true
+  },
+  {
+    id: 'may_trang_tinh_tan',
+    category: 'may',
+    slot: 'cloud',
+    name: 'Vầng mây trắng thanh tịnh',
+    description: 'Đám mây trắng bồng bềnh dưới chân tựa cảnh giới an lạc.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_nen_hoa_sen.png',
+    thumbIcon: '🌥️',
+    cloudColor: '#F2F7FF',
+    currency: 'lotus',
+    price: 160,
+    requiredLevel: 2,
+    rare: false,
+    tryable: true
+  },
+
+  // === 9. LINH THÚ ===
+  {
+    id: 'bo_cau_hien_hoa',
+    category: 'linh_thu',
+    slot: 'pet',
+    name: 'Chim bồ câu hiền hòa',
+    description: 'Chú bồ câu trắng bay lượn bình yên theo bước chân Phật tử.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_gio_may_tre.png',
+    thumbIcon: '🕊️',
+    petType: 'dove',
+    currency: 'gem',
+    price: 110,
+    requiredLevel: 1,
+    rare: true,
+    tryable: true
+  },
+  {
+    id: 'ca_koi_an_lac',
+    category: 'linh_thu',
+    slot: 'pet',
+    name: 'Cá Koi an lạc',
+    description: 'Chú cá Koi vàng cam bơi vòng quanh biểu trưng cho sự kiên trì hướng thiện.',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_chum_sanh_hoa_sen.png',
+    thumbIcon: '🐟',
+    petType: 'koi',
+    currency: 'lotus',
+    price: 140,
+    requiredLevel: 1,
+    rare: false,
+    tryable: true
+  }
+];
+
+export function createStoreProfileState(initial = {}) {
+  const eq = initial.equipped || {};
+  return {
+    level: Math.max(1, Number(initial.level || 1)),
+    gems: Number.isFinite(initial.gems) ? Number(initial.gems) : 180,
+    lotusPoints: Number.isFinite(initial.lotusPoints) ? Number(initial.lotusPoints) : 250,
+    ownedCounts: { ...(initial.ownedCounts || {}) },
+    tryingItemId: initial.tryingItemId || null,
+    equipped: {
+      robe: eq.robe || null,
+      hat: eq.hat || null,
+      handItem: eq.handItem || null,
+      mat: eq.mat || null,
+      instrument: eq.instrument || null,
+      mala: eq.mala || null,
+      cloud: eq.cloud || null,
+      pet: eq.pet || null,
+      tree: eq.tree || null,
+      offering: eq.offering || null
+    }
+  };
+}
+
+export function filterStoreItems(categoryId = 'cay_phat') {
+  return STORE_ITEMS_CATALOG.filter((item) => item.category === categoryId);
+}
+
+export function tryOnStoreItem(storeState, itemId) {
+  const next = createStoreProfileState(storeState);
+  const item = STORE_ITEMS_CATALOG.find((x) => x.id === itemId);
+  if (!item) return { state: next, item: null, previewing: false };
+  if (next.tryingItemId === itemId) {
+    next.tryingItemId = null;
+    return { state: next, item, previewing: false };
+  }
+  next.tryingItemId = itemId;
+  return { state: next, item, previewing: true };
+}
+
+export function purchaseStoreItem(storeState, itemId) {
+  const next = createStoreProfileState(storeState);
+  const item = STORE_ITEMS_CATALOG.find((x) => x.id === itemId);
+  if (!item) return { ok: false, reason: 'not_found', message: 'Không tìm thấy vật phẩm.', state: next };
+  if (next.level < (item.requiredLevel || 1)) {
+    return {
+      ok: false,
+      reason: 'level_locked',
+      message: `Cần đạt cấp ${item.requiredLevel} để thỉnh ${item.name}.`,
+      state: next
+    };
+  }
+  const alreadyOwned = (next.ownedCounts[item.id] || 0) > 0;
+  if (alreadyOwned && !item.stackable) {
+    // Toggle equip if already owned
+    const curEquipped = next.equipped[item.slot];
+    next.equipped[item.slot] = curEquipped === item.id ? null : item.id;
+    next.tryingItemId = null;
+    return {
+      ok: true,
+      equippedNow: next.equipped[item.slot] === item.id,
+      message:
+        next.equipped[item.slot] === item.id
+          ? `Đã mặc/dùng ${item.name}.`
+          : `Đã cất ${item.name}.`,
+      state: next,
+      item
+    };
+  }
+  if (item.currency === 'gem') {
+    if (next.gems < item.price) {
+      return {
+        ok: false,
+        reason: 'insufficient_gems',
+        message: `Cần ${item.price} ngọc quý để thỉnh ${item.name}.`,
+        state: next
+      };
+    }
+    next.gems -= item.price;
+  } else {
+    if (next.lotusPoints < item.price) {
+      return {
+        ok: false,
+        reason: 'insufficient_lotus',
+        message: `Cần ${item.price} điểm công đức sen để thỉnh ${item.name}.`,
+        state: next
+      };
+    }
+    next.lotusPoints -= item.price;
+  }
+  next.ownedCounts[item.id] = (next.ownedCounts[item.id] || 0) + 1;
+  next.equipped[item.slot] = item.id;
+  next.tryingItemId = null;
+  return {
+    ok: true,
+    purchased: true,
+    equippedNow: true,
+    message: `Đã thỉnh ${item.name} và trang bị cho nhân vật.`,
+    state: next,
+    item
+  };
+}
+
+// ============================================================================
+// TEMPLE ENTRANCE GROCERY HOUSE (NHÀ TẠP HÓA & QUÁN GIẢI KHÁT CỔNG CHÙA)
+// ============================================================================
+export const MARKETPLACE_STALL_CATEGORIES = [
+  { id: 'huong_hoa', icon: '🪷', label: 'Hương, Đèn & Hoa lễ' },
+  { id: 'thu_cong', icon: '🧺', label: 'Tạp hóa & Lưu niệm' },
+  { id: 'am_thuc_chay', icon: '🥤', label: 'Nước giải khát & Bánh chay' }
+];
+
+export const MARKETPLACE_STALL_CATALOG = [
+  // === 1. HƯƠNG, ĐÈN & HOA LỄ ===
+  {
+    id: 'sap_nhang_tram',
+    category: 'huong_hoa',
+    icon: '🪔',
+    name: 'Bó nhang trầm sạch (3 nén tâm hương)',
+    subtitle: 'Hương trầm mộc ít khói dùng thắp tại lư hương sân chùa và bàn thờ Tam Bảo.',
+    desc: 'Hương trầm mộc ít khói dùng thắp tại lư hương sân chùa và bàn thờ Tam Bảo.',
+    priceVnd: 25000,
+    lotusCost: 20,
+    actionType: 'ritual_incense',
+    offeringType: 'incense',
+    cartProductId: 'lu_huong_dong_3d',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_bat_nhang_tram.png'
+  },
+  {
+    id: 'sap_hoa_sen_tuoi',
+    category: 'huong_hoa',
+    icon: '🪷',
+    name: 'Bó hoa sen hồng tươi dâng Phật',
+    subtitle: 'Sen đồng tháp hái sớm còn đọng sương, dùng dâng hoa tại Đài Quán Thế Âm & Tam Bảo.',
+    desc: 'Sen đồng tháp hái sớm còn đọng sương, dùng dâng hoa tại Đài Quán Thế Âm & Tam Bảo.',
+    priceVnd: 45000,
+    lotusCost: 30,
+    actionType: 'ritual_lotus',
+    offeringType: 'lotus',
+    cartProductId: 'binh_gom_hoa_sen_3d',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_chum_sanh_hoa_sen.png'
+  },
+  {
+    id: 'sap_mam_ngu_qua',
+    category: 'huong_hoa',
+    icon: '🥭',
+    name: 'Mâm ngũ quả miền Tây',
+    subtitle: 'Mãng cầu, dừa, đu đủ, xoài, sung bày sẵn trang nghiêm dâng lên bàn thờ Chánh điện.',
+    desc: 'Mãng cầu, dừa, đu đủ, xoài, sung bày sẵn trang nghiêm dâng lên bàn thờ Chánh điện.',
+    priceVnd: 95000,
+    lotusCost: 50,
+    actionType: 'ritual_lotus',
+    offeringType: 'lotus',
+    cartProductId: 'mam_ngu_qua_3d',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_mam_ngu_qua.png'
+  },
+  {
+    id: 'sap_nhang_vong_khuynh_diep',
+    category: 'huong_hoa',
+    icon: '🌀',
+    name: 'Hộp nhang vòng khuynh diệp không khói',
+    subtitle: 'Hương lá khuynh diệp dịu nhẹ cháy bền 4 giờ, thích hợp thắp khấn tại gia và sân chùa.',
+    desc: 'Hương lá khuynh diệp dịu nhẹ cháy bền 4 giờ, thích hợp thắp khấn tại gia và sân chùa.',
+    priceVnd: 35000,
+    lotusCost: 22,
+    actionType: 'ritual_incense',
+    offeringType: 'incense',
+    cartProductId: 'lu_huong_dong_3d',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_bat_nhang_tram.png'
+  },
+  {
+    id: 'sap_cap_den_cay_sen',
+    category: 'huong_hoa',
+    icon: '🕯️',
+    name: 'Cặp nến hoa sen sáp bơ thực vật',
+    subtitle: 'Đôi đèn cầy hình đoá sen hồng cháy không khói đen, tỏa ánh ấm áp nơi Phật đài.',
+    desc: 'Đôi đèn cầy hình đoá sen hồng cháy không khói đen, tỏa ánh ấm áp nơi Phật đài.',
+    priceVnd: 40000,
+    lotusCost: 25,
+    actionType: 'ritual_lotus',
+    offeringType: 'lotus',
+    cartProductId: 'nen_hoa_sen_3d',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_nen_hoa_sen.png'
+  },
+
+  // === 2. TẠP HÓA & LƯU NIỆM ===
+  {
+    id: 'sap_quat_nan_gio_may',
+    category: 'thu_cong',
+    icon: '🪭',
+    name: 'Quạt nan lá dừa Tiền Giang',
+    subtitle: 'Quạt thủ công làng nghề Tiền Giang nhẹ mát khi dạo quanh sân chùa.',
+    desc: 'Quạt thủ công làng nghề Tiền Giang nhẹ mát khi dạo quanh sân chùa.',
+    priceVnd: 55000,
+    lotusCost: 30,
+    actionType: 'handicraft',
+    offeringType: null,
+    cartProductId: 'quat_nan_gio_may',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_quat_nan_la_dua.png'
+  },
+  {
+    id: 'sap_non_la_theu_sen',
+    category: 'thu_cong',
+    icon: '👒',
+    name: 'Nón lá lụa thêu hoa sen Mỹ Tho',
+    subtitle: 'Nón lá truyền thống vẽ/thêu sen hồng che nắng nhẹ trên đường vào bên hông chùa.',
+    desc: 'Nón lá truyền thống vẽ/thêu sen hồng che nắng nhẹ trên đường vào bên hông chùa.',
+    priceVnd: 135000,
+    lotusCost: 65,
+    actionType: 'handicraft',
+    offeringType: null,
+    cartProductId: 'non_la_theu_sen',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/blender-render-non-la.png'
+  },
+  {
+    id: 'sap_trang_hat_go',
+    category: 'thu_cong',
+    icon: '📿',
+    name: 'Tràng hạt gỗ bồ đề thủ công 108 hạt',
+    subtitle: 'Chuỗi hạt tiện tròn mộc mạc giúp an tâm niệm Phật và mang về làm kỷ niệm.',
+    desc: 'Chuỗi hạt tiện tròn mộc mạc giúp an tâm niệm Phật và mang về làm kỷ niệm.',
+    priceVnd: 160000,
+    lotusCost: 75,
+    actionType: 'handicraft',
+    offeringType: null,
+    cartProductId: 'trang_hat_go',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_bo_doan_tron.png'
+  },
+  {
+    id: 'sap_gio_may_tre_sen',
+    category: 'thu_cong',
+    icon: '🧺',
+    name: 'Giỏ mây tre đan đựng lễ vật',
+    subtitle: 'Chiếc giỏ mây nhỏ nhắn đựng hoa sen, kinh sách và nước uống khi đi lễ chùa.',
+    desc: 'Chiếc giỏ mây nhỏ nhắn đựng hoa sen, kinh sách và nước uống khi đi lễ chùa.',
+    priceVnd: 145000,
+    lotusCost: 60,
+    actionType: 'handicraft',
+    offeringType: null,
+    cartProductId: 'gio_may_tre_3d',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_gio_may_tre.png'
+  },
+  {
+    id: 'sap_khan_ran_nam_bo',
+    category: 'thu_cong',
+    icon: '🧣',
+    name: 'Khăn rằn Nam Bộ thêu sen hồng',
+    subtitle: 'Khăn bông thấm mồ hôi dệt sọc truyền thống, tiện quàng cổ khi đi nắng.',
+    desc: 'Khăn bông thấm mồ hôi dệt sọc truyền thống, tiện quàng cổ khi đi nắng.',
+    priceVnd: 95000,
+    lotusCost: 42,
+    actionType: 'handicraft',
+    offeringType: null,
+    cartProductId: 'khan_ran_nam_bo',
+    image: '/Thiết kế giao diện/Nhân vật 3D/render-items-nam-v2.jpg'
+  },
+  {
+    id: 'sap_tui_vai_di_chua',
+    category: 'thu_cong',
+    icon: '👜',
+    name: 'Túi vải bố thêu hoa sen đi chùa',
+    subtitle: 'Túi vải mộc dày dặn đựng vật dụng cá nhân, tràng hạt và quyển sổ tay.',
+    desc: 'Túi vải mộc dày dặn đựng vật dụng cá nhân, tràng hạt và quyển sổ tay.',
+    priceVnd: 145000,
+    lotusCost: 60,
+    actionType: 'handicraft',
+    offeringType: null,
+    cartProductId: 'tui_vai_theu_sen',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/render-tui-vai-theu-sen-34.png'
+  },
+
+  // === 3. NƯỚC GIẢI KHÁT & BÁNH CHAY (NHÀ TẠP HÓA) ===
+  {
+    id: 'sap_dua_xiem_my_tho',
+    category: 'am_thuc_chay',
+    icon: '🥥',
+    name: 'Trái dừa xiêm xanh Mỹ Tho ướp lạnh',
+    subtitle: 'Nước dừa ngọt thanh từ thùng đá mát lạnh ngay cạnh Cổng Phụ Chùa Vĩnh Tràng.',
+    desc: 'Nước dừa ngọt thanh từ thùng đá mát lạnh ngay cạnh Cổng Phụ Chùa Vĩnh Tràng.',
+    priceVnd: 25000,
+    lotusCost: 15,
+    actionType: 'refreshment',
+    offeringType: null,
+    cartProductId: 'trai_dua_xiem_3d',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_trai_dua_xiem.png'
+  },
+  {
+    id: 'sap_nuoc_suoi_khan_lanh',
+    category: 'am_thuc_chay',
+    icon: '🧴',
+    name: 'Nước suối ướp lạnh & Khăn lạnh',
+    subtitle: 'Chai nước tinh khiết 500ml lấy trực tiếp từ tủ mát của Nhà Tạp Hóa.',
+    desc: 'Chai nước tinh khiết 500ml lấy trực tiếp từ tủ mát của Nhà Tạp Hóa.',
+    priceVnd: 10000,
+    lotusCost: 8,
+    actionType: 'refreshment',
+    offeringType: null,
+    cartProductId: 'trai_dua_xiem_3d',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_trai_dua_xiem.png'
+  },
+  {
+    id: 'sap_tra_tac_mat_ong',
+    category: 'am_thuc_chay',
+    icon: '🧋',
+    name: 'Ly trà tắc mật ong giải nhiệt',
+    subtitle: 'Trà xanh thanh mát pha tắc tươi thơm lừng, uống ngay dưới mái hiên quán.',
+    desc: 'Trà xanh thanh mát pha tắc tươi thơm lừng, uống ngay dưới mái hiên quán.',
+    priceVnd: 15000,
+    lotusCost: 12,
+    actionType: 'refreshment',
+    offeringType: null,
+    cartProductId: 'trai_dua_xiem_3d',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_trai_dua_xiem.png'
+  },
+  {
+    id: 'sap_sam_bo_luong_bi_dao',
+    category: 'am_thuc_chay',
+    icon: '🥤',
+    name: 'Nước sâm bí đao & Mía lau mát lạnh',
+    subtitle: 'Nấu từ mía lau, rễ tranh và la hán quả giúp thanh nhiệt suốt buổi đi chùa.',
+    desc: 'Nấu từ mía lau, rễ tranh và la hán quả giúp thanh nhiệt suốt buổi đi chùa.',
+    priceVnd: 18000,
+    lotusCost: 14,
+    actionType: 'refreshment',
+    offeringType: null,
+    cartProductId: 'trai_dua_xiem_3d',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_trai_dua_xiem.png'
+  },
+  {
+    id: 'sap_banh_bo_thot_not',
+    category: 'am_thuc_chay',
+    icon: '🍰',
+    name: 'Đĩa bánh bò thốt nốt & bánh da lợn chay',
+    subtitle: 'Món bánh dân gian Nam Bộ dẻo thơm hương lá dứa và đường thốt nốt.',
+    desc: 'Món bánh dân gian Nam Bộ dẻo thơm hương lá dứa và đường thốt nốt.',
+    priceVnd: 45000,
+    lotusCost: 25,
+    actionType: 'refreshment',
+    offeringType: null,
+    cartProductId: 'combo_qua_que_mien_tay',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_dia_banh_bo.png'
+  },
+  {
+    id: 'sap_banh_pia_chay',
+    category: 'am_thuc_chay',
+    icon: '🥮',
+    name: 'Hộp bánh pía chay đậu xanh sầu riêng',
+    subtitle: 'Đặc sản miền Tây vỏ mỏng ngàn lớp, nhân đậu xanh thuần chay thơm bùi.',
+    desc: 'Đặc sản miền Tây vỏ mỏng ngàn lớp, nhân đậu xanh thuần chay thơm bùi.',
+    priceVnd: 65000,
+    lotusCost: 35,
+    actionType: 'refreshment',
+    offeringType: null,
+    cartProductId: 'combo_qua_que_mien_tay',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_dia_banh_da_lon.png'
+  },
+  {
+    id: 'sap_hat_sen_say_gion',
+    category: 'am_thuc_chay',
+    icon: '🪷',
+    name: 'Hũ hạt sen sấy giòn & Mứt dừa non',
+    subtitle: 'Quà vặt thuần chay đóng hũ gọn nhẹ mang về biếu ông bà cha mẹ.',
+    desc: 'Quà vặt thuần chay đóng hũ gọn nhẹ mang về biếu ông bà cha mẹ.',
+    priceVnd: 75000,
+    lotusCost: 40,
+    actionType: 'refreshment',
+    offeringType: null,
+    cartProductId: 'combo_qua_que_mien_tay',
+    image: '/Thiết kế giao diện/Vật phẩm 3D/fixed/fixed_dia_banh_bo.png'
+  }
+];
+
+export function filterMarketplaceItems(categoryId = 'huong_hoa') {
+  if (!categoryId || categoryId === 'all') return MARKETPLACE_STALL_CATALOG;
+  return MARKETPLACE_STALL_CATALOG.filter((item) => item.category === categoryId);
+}
+
+export function purchaseMarketplaceItem(
+  storeProfile,
+  spiritualState,
+  cart = [],
+  itemId,
+  mode = 'use_now'
+) {
+  const nextProfile = createStoreProfileState(storeProfile);
+  const nextSpiritual = createSpiritualState(spiritualState);
+  let nextCart = Array.isArray(cart) ? cart.map((entry) => ({ ...entry })) : [];
+  const item = MARKETPLACE_STALL_CATALOG.find((x) => x.id === itemId);
+  if (!item) {
+    return {
+      ok: false,
+      message: 'Không tìm thấy món hàng tại sạp.',
+      storeProfile: nextProfile,
+      spiritual: nextSpiritual,
+      cart: nextCart
+    };
+  }
+
+  if (mode === 'cart') {
+    const beforeQty = nextCart.reduce((s, e) => s + (e.qty || 1), 0);
+    const triedCatalog = addToCart(nextCart, item.cartProductId, 1);
+    const afterQty = triedCatalog.reduce((s, e) => s + (e.qty || 1), 0);
+    if (afterQty > beforeQty) {
+      nextCart = triedCatalog;
+    } else {
+      const targetId = item.cartProductId || item.id;
+      const existing = nextCart.find((e) => e.id === targetId);
+      if (existing) {
+        existing.qty = Math.min(99, (existing.qty || 1) + 1);
+      } else {
+        nextCart.push({
+          id: targetId,
+          name: item.name,
+          price: item.priceVnd,
+          image: item.image,
+          tab: 'marketplace',
+          qty: 1
+        });
+      }
+    }
+    return {
+      ok: true,
+      mode: 'cart',
+      item,
+      message: `Đã thêm "${item.name}" vào giỏ quà giao tận nhà.`,
+      storeProfile: nextProfile,
+      spiritual: nextSpiritual,
+      cart: nextCart
+    };
+  }
+
+  if (nextProfile.lotusPoints < item.lotusCost) {
+    return {
+      ok: false,
+      reason: 'insufficient_lotus',
+      message: `Cần ${item.lotusCost} 🪷 để thỉnh ${item.name} tại sạp.`,
+      storeProfile: nextProfile,
+      spiritual: nextSpiritual,
+      cart: nextCart
+    };
+  }
+
+  nextProfile.lotusPoints -= item.lotusCost;
+  nextProfile.ownedCounts[item.id] = (nextProfile.ownedCounts[item.id] || 0) + 1;
+
+  if (item.actionType === 'ritual_incense') {
+    nextSpiritual.incenseOfferings += 1;
+  } else if (item.actionType === 'ritual_lotus') {
+    nextSpiritual.lotusOfferings += 1;
+  }
+
+  return {
+    ok: true,
+    mode: 'use_now',
+    item,
+    message: `Đã thỉnh ${item.name} tại sạp cổng chùa!`,
+    storeProfile: nextProfile,
+    spiritual: nextSpiritual,
+    cart: nextCart
+  };
+}
+
+
+
 
