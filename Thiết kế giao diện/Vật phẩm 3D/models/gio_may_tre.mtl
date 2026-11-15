@@ -1,9 +1,0 @@
-# Coohom & WebGL Material Library for gio_may_tre
-newmtl MayTreDanNauVang
-Kd 0.7600 0.6000 0.3800
-Ka 0.1 0.1 0.1
-Ks 0.15 0.15 0.15
-Ns 9
-d 1.0
-illum 2
-
